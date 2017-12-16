@@ -4,7 +4,7 @@ package com.tn.tnparty.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+public class LoginResult {
 
     @SerializedName("userId")
     @Expose

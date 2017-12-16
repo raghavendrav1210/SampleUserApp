@@ -1,12 +1,10 @@
 
 package com.tn.tnparty.model;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login {
-
+public class AssemblyResult {
     @SerializedName("statusId")
     @Expose
     private Integer statusId;
@@ -15,7 +13,7 @@ public class Login {
     private String message;
     @SerializedName("result")
     @Expose
-    private List<LoginResult> loginResult = null;
+    private AssemblyMainResult result;
     @SerializedName("totalPage")
     @Expose
     private Integer totalPage;
@@ -36,12 +34,12 @@ public class Login {
         this.message = message;
     }
 
-    public List<LoginResult> getLoginResult() {
-        return loginResult;
+    public AssemblyMainResult getAssemblyMainResult() {
+        return result;
     }
 
-    public void setLoginResult(List<LoginResult> loginResult) {
-        this.loginResult = loginResult;
+    public void setResult(AssemblyMainResult result) {
+        this.result = result;
     }
 
     public Integer getTotalPage() {

@@ -3,9 +3,11 @@ package com.tn.tnparty.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.tn.tnparty.R;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppUtils;
+import com.tn.tnparty.utils.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
     private ApiInterface loginInterface;
+    private Integer loginUserId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +68,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -113,17 +119,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
 
-        return password!=null && !password.trim().equals("") ? true:false;
+        return password != null && !password.trim().equals("") ? true : false;
     }
 
-    private void loginToSystem(String userName, String pwd){
+    private void loginToSystem(String userName, String pwd) {
 
         loginInterface.login(userName, pwd).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 
                 showProgress(false);
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     showResponse(response);
 //                    Log.i(TAG, "post submitted to API." + response.body().toString());
                 }
@@ -139,10 +145,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showResponse(Response<Login> response) {
 
-        if(response != null) {
-            if(response.body() != null){
-                if(response.body().getResult() != null) {
-                    Toast.makeText(LoginActivity.this, "Success" + response, Toast.LENGTH_SHORT).show();
+        if (response != null) {
+            if (response.body() != null) {
+                if (response.body().getLoginResult() != null) {
+                    loginUserId = response.body().getLoginResult().get(0).getUserId();
+                    Toast.makeText(LoginActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
                     navigateToHome();
                 } else {
                     Toast.makeText(LoginActivity.this, "Authentication Failed - " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -188,10 +195,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void navigateToHome(){
+    private void navigateToHome() {
 
         Intent i = new Intent(this, HomeActivity.class);
+        i.putExtra(Constants.CURRENT_USER, mEmailView.getText().toString());
+        i.putExtra(Constants.CURRENT_USER_ID, loginUserId);
         startActivity(i);
+        finish();
+    }
+
+    public void showDialog(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
     }
 }
 

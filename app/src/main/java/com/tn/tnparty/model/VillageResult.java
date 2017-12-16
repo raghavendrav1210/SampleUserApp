@@ -1,11 +1,13 @@
-
 package com.tn.tnparty.model;
 
-import java.util.List;
+/**
+ * Created by raghav on 12/7/2017.
+ */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login {
+public class VillageResult {
 
     @SerializedName("statusId")
     @Expose
@@ -15,7 +17,7 @@ public class Login {
     private String message;
     @SerializedName("result")
     @Expose
-    private List<LoginResult> loginResult = null;
+    private VillageOtherResult  result;
     @SerializedName("totalPage")
     @Expose
     private Integer totalPage;
@@ -36,12 +38,12 @@ public class Login {
         this.message = message;
     }
 
-    public List<LoginResult> getLoginResult() {
-        return loginResult;
+    public VillageOtherResult getVillageOtherResult() {
+        return result;
     }
 
-    public void setLoginResult(List<LoginResult> loginResult) {
-        this.loginResult = loginResult;
+    public void setResult(VillageOtherResult result) {
+        this.result = result;
     }
 
     public Integer getTotalPage() {
