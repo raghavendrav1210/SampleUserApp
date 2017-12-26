@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            loginToSystem(email, password);
+            loginToSystem(email.trim(), password);
 
         }
     }
@@ -123,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginToSystem(String userName, String pwd) {
+
+//        navigateToHome();
 
         loginInterface.login(userName, pwd).enqueue(new Callback<Login>() {
             @Override

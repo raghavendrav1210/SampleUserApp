@@ -21,6 +21,12 @@ public class Union {
     @SerializedName("unionCode")
     @Expose
     private String unionCode;
+    @SerializedName("districtName")
+    @Expose
+    private String districtName;
+    @SerializedName("assemblyName")
+    @Expose
+    private String assemblyName;
     @SerializedName("created")
     @Expose
     private String created;
@@ -78,6 +84,22 @@ public class Union {
 
     public void setUnionCode(String unionCode) {
         this.unionCode = unionCode;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getAssemblyName() {
+        return assemblyName;
+    }
+
+    public void setAssemblyName(String assemblyName) {
+        this.assemblyName = assemblyName;
     }
 
     public String getCreated() {

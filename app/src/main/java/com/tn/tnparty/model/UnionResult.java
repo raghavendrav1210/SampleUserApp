@@ -39,7 +39,7 @@ public class UnionResult {
         this.message = message;
     }
 
-    public List<Union> getResult() {
+    public List<Union> getUnion() {
         return result;
     }
 

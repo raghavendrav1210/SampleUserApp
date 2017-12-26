@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -23,9 +24,11 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +39,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adobe.creativesdk.aviary.AdobeImageIntent;
+import com.adobe.creativesdk.aviary.internal.filters.ToolLoaderFactory;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Member;
 import com.tn.tnparty.network.ApiInterface;
@@ -48,6 +53,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -95,6 +101,9 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private final int SELECT_FILE = 500;
     private final int REQUEST_CAMERA = 400;
     private String imageBe64 = null;
+    private String mCameraImgPath;
+    private final int LOAD_IMAGE_EDIT = 210;
+    private ProgressDialog pDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,8 +229,49 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+            Log.e("mylog", "Exception while creating file: " + ex.toString());
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null && photoFile.exists()) {
+            Log.e("mylog", "Photofile not null");
+            Uri photoURI = FileProvider.getUriForFile(AdduserDetails.this,
+                    "com.tn.tnparty.fileprovider",
+                    photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File exStorageDir = Environment.getExternalStorageDirectory();
+
+        File storageDir = new File(exStorageDir, "MyAppImgs");
+
+        if(!storageDir.exists() || !storageDir.isDirectory())
+            storageDir.mkdir();
+
+
+
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCameraImgPath = image.getAbsolutePath();
+        Log.e("img path", "Path: " + mCameraImgPath);
+        return image;
     }
 
     private void galleryIntent() {
@@ -273,8 +323,6 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         if (doValidation())
             new CreateMemberAsyntask().execute();
     }
-
-    private ProgressDialog pDialog = null;
 
     private class CreateMemberAsyntask extends AsyncTask<Void, Boolean, Boolean> {
 
@@ -427,70 +475,6 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         return valid;
     }
 
-    public Intent getPickImageChooserIntent() {
-
-        // Determine Uri of camera image to save.
-        Uri outputFileUri = getCaptureImageOutputUri();
-
-        List<Intent> allIntents = new ArrayList();
-        PackageManager packageManager = getPackageManager();
-
-        // collect all camera intents
-        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            if (outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
-            allIntents.add(intent);
-        }
-
-        // collect all gallery intents
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("image/*");
-        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
-        for (ResolveInfo res : listGallery) {
-            Intent intent = new Intent(galleryIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            allIntents.add(intent);
-        }
-
-        // the main intent is the last in the list (fucking android) so pickup the useless one
-        Intent mainIntent = allIntents.get(allIntents.size() - 1);
-        for (Intent intent : allIntents) {
-            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
-                mainIntent = intent;
-                break;
-            }
-        }
-        allIntents.remove(mainIntent);
-
-        // Create a chooser from the main intent
-        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
-
-        // Add all other intents
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
-
-        return chooserIntent;
-    }
-
-
-    /**
-     * Get URI to image received from capture by camera.
-     */
-    private Uri getCaptureImageOutputUri() {
-        Uri outputFileUri = null;
-        File getImage = getExternalCacheDir();
-        if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "profile.png"));
-        }
-        return outputFileUri;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -499,98 +483,16 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-
-/*        Bitmap bitmap;
-        if (resultCode == Activity.RESULT_OK) {
-
-
-            if (getPickImageResultUri(data) != null) {
-                picUri = getPickImageResultUri(data);
-
-                try {
-                    myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), picUri);
-//                    myBitmap = rotateImageIfRequired(myBitmap, picUri);
-//                    myBitmap = getResizedBitmap(myBitmap, 500);
-
-                    userPhoto.setImageBitmap(myBitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+//                onCaptureImageResult(data);
+                loadImageCropScreen(mCameraImgPath);
+            else if (requestCode == LOAD_IMAGE_EDIT) {
+                if (data != null) {
+                    Uri editedImageUri = data.getData();
+                    setImgAfterEdit(editedImageUri.getPath());
                 }
-
-
-            } else {
-
-
-                bitmap = (Bitmap) data.getExtras().get("data");
-
-                myBitmap = bitmap;
-                userPhoto.setImageBitmap(myBitmap);
             }
-        }*/
-    }
-
-    private static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
-
-        ExifInterface ei = new ExifInterface(selectedImage.getPath());
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotateImage(img, 90);
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotateImage(img, 180);
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotateImage(img, 270);
-            default:
-                return img;
         }
     }
-
-    private static Bitmap rotateImage(Bitmap img, int degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-        img.recycle();
-        return rotatedImg;
-    }
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
-
-
-    /**
-     * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.
-     * <p>
-     * Will return the correct URI for camera and gallery image.
-     *
-     * @param data the returned data of the activity result
-     */
-    public Uri getPickImageResultUri(Intent data) {
-        boolean isCamera = true;
-        if (data != null) {
-            String action = data.getAction();
-            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-        }
-
-
-        return isCamera ? getCaptureImageOutputUri() : data.getData();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -642,50 +544,6 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
-/*    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        switch (requestCode) {
-
-            case ALL_PERMISSIONS_RESULT:
-                for (String perms : permissionsToRequest) {
-                    if (hasPermission(perms)) {
-
-                    } else {
-
-                        permissionsRejected.add(perms);
-                    }
-                }
-
-                if (permissionsRejected.size() > 0) {
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                                                //Log.d("API123", "permisionrejected " + permissionsRejected.size());
-
-                                                requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
-                                        }
-                                    });
-                            return;
-                        }
-                    }
-
-                }
-
-                break;
-        }
-
-    }*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -705,25 +563,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private Bitmap userBitmap = null;
 
     private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        userBitmap = thumbnail;
-        ImageViewCompat.setImageTintList(userPhoto, ColorStateList.valueOf(ContextCompat.getColor(AdduserDetails.this, R.color.transparent)));
-        userPhoto.setImageBitmap(thumbnail);
+        loadImageCropScreen(mCameraImgPath);//destination.getAbsolutePath());
     }
 
     private void onSelectFromGalleryResult(Intent data) {
@@ -735,8 +575,68 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         }
-        userBitmap = bm;
-        ImageViewCompat.setImageTintList(userPhoto, ColorStateList.valueOf(ContextCompat.getColor(AdduserDetails.this, R.color.transparent)));
-        userPhoto.setImageBitmap(bm);
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+            Log.e("mylog", "Exception while creating file: " + ex.toString());
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null && photoFile.exists()) {
+        }
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(photoFile);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        loadImageCropScreen(photoFile.getAbsolutePath());
     }
+
+    private void loadImageCropScreen(String imgPath) {
+
+        File file = new File(imgPath);
+
+        if (!file.exists()) {
+
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Intent imageEditorIntent = new AdobeImageIntent.Builder(this)
+                .setData(Uri.parse(imgPath))
+                .withOutput(file)
+                .build();
+
+        startActivityForResult(imageEditorIntent, LOAD_IMAGE_EDIT);
+
+    }
+
+    private void setImgAfterEdit(String uriPath) {
+       File file = new File(uriPath);
+
+        ImageViewCompat.setImageTintList(userPhoto, ColorStateList.valueOf(ContextCompat.getColor(AdduserDetails.this, R.color.transparent)));
+
+        if(file.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            userPhoto.setImageBitmap(myBitmap);
+        }
+
+    }
+
+
 }

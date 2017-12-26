@@ -9,4 +9,7 @@
     <color name="black">#000000</color>
 
     <color name="transparent">#00F0F8FF</color>
+
+    <color name="hint_foreground_material_light">#00000000</color>
+    <color name="hint_foreground_material_dark">#00000000</color>
 </resources>

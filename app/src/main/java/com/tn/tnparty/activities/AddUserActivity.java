@@ -104,6 +104,13 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             pDialog.show();
     }
 
+    private void hideProgresDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
+
     private void initDistrctSpinner() {
 
         final ArrayAdapter<District> districtArrayAdapter = new ArrayAdapter<District>(this, R.layout.spinner_item, distrct);
@@ -116,7 +123,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                 selectedDistrict = districtArrayAdapter.getItem(pos).getDistrictId();
 
                 showProgresDialog();
-                
+
                 loadAssembly();
             }
 
@@ -137,11 +144,13 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     distrct = new ArrayList<>();
                     distrct = response.body().getDistricts();
                     initDistrctSpinner();
-                }
+                } else
+                    hideProgresDialog();
             }
 
             @Override
             public void onFailure(Call<DistrictResult> call, Throwable t) {
+                hideProgresDialog();
                 Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -159,13 +168,16 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     AssemblyMainResult mainResp = response.body().getAssemblyMainResult();
                     if (response.body() != null && mainResp != null && mainResp.getAssemblyMaster() != null)
                         assemblyResults = mainResp.getAssemblyMaster();
-
-                    initAsseblySpinner();
+                    if (assemblyResults != null && !assemblyResults.isEmpty()) {
+                        initAsseblySpinner();
+                    } else
+                        hideProgresDialog();
                 }
             }
 
             @Override
             public void onFailure(Call<AssemblyResult> call, Throwable t) {
+                hideProgresDialog();
                 Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -181,7 +193,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, assemblyArrayAdapter.getItem(pos).getAssemblyName() + "-" + assemblyArrayAdapter.getItem(pos).getAssemblyId(), Toast.LENGTH_SHORT).show();
                 selectedAssembly = assemblyArrayAdapter.getItem(pos).getAssemblyId();
-
+                showProgresDialog();
                 loadUnion();
             }
 
@@ -194,20 +206,28 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadUnion() {
 
-        retrofitInterface.getUnions(selectedDistrict, selectedAssembly).enqueue(new Callback<UnionResult>() {
+        retrofitInterface.getUnions(userId, selectedDistrict, selectedAssembly).enqueue(new Callback<UnionResult>() {
             @Override
             public void onResponse(Call<UnionResult> call, Response<UnionResult> response) {
 
                 if (response.isSuccessful()) {
                     unionResults = new ArrayList<>();
-                    unionResults = response.body().getResult();
-                    if (unionResults != null && !unionResults.isEmpty())
-                        initUnionSpinner();
-                }
+                    if (response.body() != null) {
+                        unionResults = response.body().getUnion();
+                        if (unionResults != null && !unionResults.isEmpty())
+                            initUnionSpinner();
+                        else
+                            hideProgresDialog();
+                    } else
+                        hideProgresDialog();
+
+                } else
+                    hideProgresDialog();
             }
 
             @Override
             public void onFailure(Call<UnionResult> call, Throwable t) {
+                hideProgresDialog();
                 Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -223,7 +243,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, unionArrayAdapter.getItem(pos).getUnionId() + "-" + unionArrayAdapter.getItem(pos).getUnionName(), Toast.LENGTH_SHORT).show();
                 selectedUnion = unionArrayAdapter.getItem(pos).getAssemblyId();
-
+                showProgresDialog();
                 loadPanchayath();
             }
 
@@ -236,20 +256,27 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadPanchayath() {
 
-        retrofitInterface.getPanchayaths(selectedDistrict, selectedAssembly, selectedUnion).enqueue(new Callback<PanchayathResult>() {
+        retrofitInterface.getPanchayaths(userId, selectedDistrict, selectedAssembly, selectedUnion).enqueue(new Callback<PanchayathResult>() {
             @Override
             public void onResponse(Call<PanchayathResult> call, Response<PanchayathResult> response) {
 
                 if (response.isSuccessful()) {
                     panchayatResults = new ArrayList<>();
-                    panchayatResults = response.body().getPanchayaths();
-                    if (panchayatResults != null && !panchayatResults.isEmpty())
-                        initPanchayathSpinner();
-                }
+                    if (response.body() != null) {
+                        panchayatResults = response.body().getPanchayaths();
+                        if (panchayatResults != null && !panchayatResults.isEmpty())
+                            initPanchayathSpinner();
+                        else
+                            hideProgresDialog();
+                    } else
+                        hideProgresDialog();
+                } else
+                    hideProgresDialog();
             }
 
             @Override
             public void onFailure(Call<PanchayathResult> call, Throwable t) {
+                hideProgresDialog();
                 Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -265,6 +292,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, panchayathArrayAdapter.getItem(pos).getPanchayatId() + "-" + panchayathArrayAdapter.getItem(pos).getPanchayatName(), Toast.LENGTH_SHORT).show();
                 selectedPanchayat = panchayathArrayAdapter.getItem(pos).getPanchayatId();
+                showProgresDialog();
                 loadVillages();
             }
 
@@ -283,16 +311,24 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (response.isSuccessful()) {
                     villageResults = new ArrayList<>();
-                    VillageOtherResult villageOtherResults = response.body().getVillageOtherResult();
-                    if (villageOtherResults != null) {
-                        villageResults = villageOtherResults.getVillages();
-                    }
-                    initVillageSpinner();
-                }
+                    if (response.body() != null) {
+                        VillageOtherResult villageOtherResults = response.body().getVillageOtherResult();
+                        if (villageOtherResults != null) {
+                            villageResults = villageOtherResults.getVillages();
+                        }
+                        if (villageResults != null && !villageResults.isEmpty())
+                            initVillageSpinner();
+                        else
+                            hideProgresDialog();
+                    } else
+                        hideProgresDialog();
+                } else
+                    hideProgresDialog();
             }
 
             @Override
             public void onFailure(Call<VillageResult> call, Throwable t) {
+                hideProgresDialog();
                 Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -334,6 +370,12 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 //        }
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        hideProgresDialog();
+        finish();
     }
 
     private void gotoDetails() {
