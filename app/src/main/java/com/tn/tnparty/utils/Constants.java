@@ -12,11 +12,11 @@ public class Constants {
     public static final String MEMBER = "Member/CreateUpdate";
 
 
-    public static final String DISTRICT = "/APIMaster/Districts";
-    public static final String ASSEMBLY = "/APIMaster/AssemblyMasters";
-    public static final String UNION = "/APIMaster/UnionMasters";
-    public static final String PANCHAYATH = "/APIMaster/PanchayatMasters";
-    public static final String VILLAGE = "/APIMaster/VillageMasters";
+    public static final String DISTRICT = "/APIMaster/DistrictList";
+    public static final String ASSEMBLY = "/APIMaster/AssemblyList";
+    public static final String UNION = "/APIMaster/GetUnionListIds";
+    public static final String PANCHAYATH = "/APIMaster/GetPanchayatListByIds";
+    public static final String VILLAGE = "/APIMaster/GetVillageListIds";
 
 //    public static final String USERS = "Users/Users";
 

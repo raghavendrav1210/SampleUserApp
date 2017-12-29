@@ -51,18 +51,17 @@ public interface ApiInterface {
                               @Field("absoluteIndicator") boolean absoluteIndicator);
 
     @GET(Constants.DISTRICT)
-    Call<DistrictResult> getDistrict(@Query("UserId") int userId);
+    Call<DistrictResult> getDistrict();
 
     @GET(Constants.ASSEMBLY)
-    Call<AssemblyResult> getAssembly(@Query("UserId") int userId, @Query("DistrictId") int districtId);
+    Call<AssemblyResult> getAssembly(@Query("DistrictId") int districtId);
 
     @GET(Constants.UNION)
-    Call<UnionResult> getUnions(@Query("UserId") int userId,@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId);
+    Call<UnionResult> getUnions(@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId);
 
     @GET(Constants.PANCHAYATH)
-    Call<PanchayathResult> getPanchayaths(@Query("UserId") int userId,@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId);
+    Call<PanchayathResult> getPanchayaths(@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId);
 
     @GET(Constants.VILLAGE)
-    Call<VillageResult> getVillage(@Query("UserId") int userId, @Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId);
+    Call<VillageResult> getVillage(@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId);
 }
-

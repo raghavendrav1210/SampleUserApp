@@ -7,6 +7,8 @@ package com.tn.tnparty.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class VillageResult {
 
     @SerializedName("statusId")
@@ -17,7 +19,7 @@ public class VillageResult {
     private String message;
     @SerializedName("result")
     @Expose
-    private VillageOtherResult  result;
+    private List<Village> result = null;
     @SerializedName("totalPage")
     @Expose
     private Integer totalPage;
@@ -38,11 +40,11 @@ public class VillageResult {
         this.message = message;
     }
 
-    public VillageOtherResult getVillageOtherResult() {
+    public List<Village> getResult() {
         return result;
     }
 
-    public void setResult(VillageOtherResult result) {
+    public void setResult(List<Village> result) {
         this.result = result;
     }
 
@@ -53,5 +55,4 @@ public class VillageResult {
     public void setTotalPage(Integer totalPage) {
         this.totalPage = totalPage;
     }
-
 }

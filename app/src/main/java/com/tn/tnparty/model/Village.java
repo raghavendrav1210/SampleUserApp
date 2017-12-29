@@ -12,42 +12,27 @@ public class Village {
     @SerializedName("villageId")
     @Expose
     private Integer villageId;
-    @SerializedName("districtId")
-    @Expose
-    private Integer districtId;
-    @SerializedName("assemblyId")
-    @Expose
-    private Integer assemblyId;
-    @SerializedName("unionId")
-    @Expose
-    private Integer unionId;
-    @SerializedName("panchayatId")
-    @Expose
-    private Integer panchayatId;
-    @SerializedName("villageName")
-    @Expose
-    private String villageName;
     @SerializedName("villageCode")
     @Expose
     private String villageCode;
-    @SerializedName("created")
+    @SerializedName("villageName")
     @Expose
-    private String created;
-    @SerializedName("createdBy")
+    private String villageName;
+    @SerializedName("panchayatId")
     @Expose
-    private Object createdBy;
-    @SerializedName("lastUpdated")
+    private Integer panchayatId;
+    @SerializedName("unionId")
     @Expose
-    private String lastUpdated;
-    @SerializedName("lastUpdatedBy")
+    private Integer unionId;
+    @SerializedName("assemblyId")
     @Expose
-    private Object lastUpdatedBy;
+    private Integer assemblyId;
+    @SerializedName("districtId")
+    @Expose
+    private Integer districtId;
     @SerializedName("isActive")
     @Expose
     private Boolean isActive;
-    @SerializedName("userId")
-    @Expose
-    private Integer userId;
 
     public Integer getVillageId() {
         return villageId;
@@ -55,46 +40,6 @@ public class Village {
 
     public void setVillageId(Integer villageId) {
         this.villageId = villageId;
-    }
-
-    public Integer getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(Integer districtId) {
-        this.districtId = districtId;
-    }
-
-    public Integer getAssemblyId() {
-        return assemblyId;
-    }
-
-    public void setAssemblyId(Integer assemblyId) {
-        this.assemblyId = assemblyId;
-    }
-
-    public Integer getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(Integer unionId) {
-        this.unionId = unionId;
-    }
-
-    public Integer getPanchayatId() {
-        return panchayatId;
-    }
-
-    public void setPanchayatId(Integer panchayatId) {
-        this.panchayatId = panchayatId;
-    }
-
-    public String getVillageName() {
-        return villageName;
-    }
-
-    public void setVillageName(String villageName) {
-        this.villageName = villageName;
     }
 
     public String getVillageCode() {
@@ -105,36 +50,44 @@ public class Village {
         this.villageCode = villageCode;
     }
 
-    public String getCreated() {
-        return created;
+    public String getVillageName() {
+        return villageName;
     }
 
-    public void setCreated(String created) {
-        this.created = created;
+    public void setVillageName(String villageName) {
+        this.villageName = villageName;
     }
 
-    public Object getCreatedBy() {
-        return createdBy;
+    public Integer getPanchayatId() {
+        return panchayatId;
     }
 
-    public void setCreatedBy(Object createdBy) {
-        this.createdBy = createdBy;
+    public void setPanchayatId(Integer panchayatId) {
+        this.panchayatId = panchayatId;
     }
 
-    public String getLastUpdated() {
-        return lastUpdated;
+    public Integer getUnionId() {
+        return unionId;
     }
 
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setUnionId(Integer unionId) {
+        this.unionId = unionId;
     }
 
-    public Object getLastUpdatedBy() {
-        return lastUpdatedBy;
+    public Integer getAssemblyId() {
+        return assemblyId;
     }
 
-    public void setLastUpdatedBy(Object lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
+    public void setAssemblyId(Integer assemblyId) {
+        this.assemblyId = assemblyId;
+    }
+
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
     }
 
     public Boolean getIsActive() {
@@ -143,14 +96,6 @@ public class Village {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     @Override

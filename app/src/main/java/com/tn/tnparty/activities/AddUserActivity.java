@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Assembly;
-import com.tn.tnparty.model.AssemblyMainResult;
 import com.tn.tnparty.model.AssemblyResult;
 import com.tn.tnparty.model.District;
 import com.tn.tnparty.model.DistrictResult;
@@ -22,7 +21,6 @@ import com.tn.tnparty.model.PanchayathResult;
 import com.tn.tnparty.model.Union;
 import com.tn.tnparty.model.UnionResult;
 import com.tn.tnparty.model.Village;
-import com.tn.tnparty.model.VillageOtherResult;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
@@ -136,7 +134,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private void loadDistrict() {
 
-        retrofitInterface.getDistrict(userId).enqueue(new Callback<DistrictResult>() {
+        retrofitInterface.getDistrict().enqueue(new Callback<DistrictResult>() {
             @Override
             public void onResponse(Call<DistrictResult> call, Response<DistrictResult> response) {
 
@@ -159,15 +157,13 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadAssembly() {
 
-        retrofitInterface.getAssembly(userId, selectedDistrict).enqueue(new Callback<AssemblyResult>() {
+        retrofitInterface.getAssembly(selectedDistrict).enqueue(new Callback<AssemblyResult>() {
             @Override
             public void onResponse(Call<AssemblyResult> call, Response<AssemblyResult> response) {
 
                 if (response.isSuccessful()) {
                     assemblyResults = new ArrayList<>();
-                    AssemblyMainResult mainResp = response.body().getAssemblyMainResult();
-                    if (response.body() != null && mainResp != null && mainResp.getAssemblyMaster() != null)
-                        assemblyResults = mainResp.getAssemblyMaster();
+                    assemblyResults = response.body().getResult();
                     if (assemblyResults != null && !assemblyResults.isEmpty()) {
                         initAsseblySpinner();
                     } else
@@ -206,7 +202,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadUnion() {
 
-        retrofitInterface.getUnions(userId, selectedDistrict, selectedAssembly).enqueue(new Callback<UnionResult>() {
+        retrofitInterface.getUnions(selectedDistrict, selectedAssembly).enqueue(new Callback<UnionResult>() {
             @Override
             public void onResponse(Call<UnionResult> call, Response<UnionResult> response) {
 
@@ -256,7 +252,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadPanchayath() {
 
-        retrofitInterface.getPanchayaths(userId, selectedDistrict, selectedAssembly, selectedUnion).enqueue(new Callback<PanchayathResult>() {
+        retrofitInterface.getPanchayaths(selectedDistrict, selectedAssembly, selectedUnion).enqueue(new Callback<PanchayathResult>() {
             @Override
             public void onResponse(Call<PanchayathResult> call, Response<PanchayathResult> response) {
 
@@ -305,17 +301,14 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadVillages() {
 
-        retrofitInterface.getVillage(userId, selectedDistrict, selectedAssembly, selectedUnion, selectedPanchayat).enqueue(new Callback<VillageResult>() {
+        retrofitInterface.getVillage(selectedDistrict, selectedAssembly, selectedUnion, selectedPanchayat).enqueue(new Callback<VillageResult>() {
             @Override
             public void onResponse(Call<VillageResult> call, Response<VillageResult> response) {
 
                 if (response.isSuccessful()) {
                     villageResults = new ArrayList<>();
                     if (response.body() != null) {
-                        VillageOtherResult villageOtherResults = response.body().getVillageOtherResult();
-                        if (villageOtherResults != null) {
-                            villageResults = villageOtherResults.getVillages();
-                        }
+                        villageResults = response.body().getResult();
                         if (villageResults != null && !villageResults.isEmpty())
                             initVillageSpinner();
                         else

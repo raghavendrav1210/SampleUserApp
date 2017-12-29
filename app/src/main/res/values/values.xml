@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="feather_edit_your_photo">Photo Editor: Tap on Draw or Text to edit</string>
+   <!-- <bool name="com_adobe_image_is_tablet">true</bool>
+    <dimen name="com_adobe_image_bottombar_height">80dip</dimen>-->
+</resources>
