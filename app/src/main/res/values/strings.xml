@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TNParty</string>
+    <string name="app_name">Mission 2021</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">UserName</string>
@@ -15,4 +15,10 @@
     </string>
 
     <string name="add_user">Add User</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
