@@ -33,8 +33,8 @@
                         android:layout_height="300dp"
                         android:layout_gravity="center"
                         android:padding="8dp"
-                        android:tint="@color/colorAccent"
-                        android:src="@drawable/ic_person_add" />
+                        android:src="@drawable/ic_person_add"
+                        android:tint="@color/colorAccent" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -137,6 +137,23 @@
                             android:minLines="5"
                             android:scrollHorizontally="false"
                             android:scrollbars="vertical" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp">
+
+                        <EditText
+                            android:id="@+id/voterId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Voter Id"
+                            android:inputType="textCapCharacters"
+                            android:maxLines="1"
+                            android:maxLength="10"
+                            android:singleLine="true" />
 
                     </android.support.design.widget.TextInputLayout>
 

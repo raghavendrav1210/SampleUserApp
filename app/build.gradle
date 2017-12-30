@@ -68,4 +68,5 @@ dependencies {
     }
     compile 'com.adobe.creativesdk.foundation:auth:0.9.7'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.code.gson:gson:2.8.2'
 }

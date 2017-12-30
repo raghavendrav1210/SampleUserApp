@@ -10,6 +10,7 @@ import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.utils.Constants;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -25,7 +26,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<Login> login(@Field("userName") String userName, @Field("password") String password);
 
-    @POST(Constants.MEMBER)
+   /* @POST(Constants.MEMBER)
     @FormUrlEncoded
     Call<Member> createMember(@Field("districtId") Integer districtId,
                               @Field("assemblyId") Integer assemblyId,
@@ -47,8 +48,12 @@ public interface ApiInterface {
                               @Field("lastUpdatedBy") String lastUpdatedBy,
 
                               @Field("live") boolean live,
+                              @Field("isActive") boolean isActive,
                               @Field("status") int status,
-                              @Field("absoluteIndicator") boolean absoluteIndicator);
+                              @Field("absoluteIndicator") boolean absoluteIndicator);*/
+
+    @POST(Constants.MEMBER)
+    Call<Member> createMember(@Body Member member);
 
     @GET(Constants.DISTRICT)
     Call<DistrictResult> getDistrict();

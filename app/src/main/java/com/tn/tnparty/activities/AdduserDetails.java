@@ -48,8 +48,10 @@ import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,7 +67,7 @@ import retrofit2.Response;
 
 public class AdduserDetails extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText userName, fatherName, address, phone;
+    private EditText userName, fatherName, address, phone, voterId;
     private TextView dob;
     private Spinner gender;
     private FloatingActionButton addUser;
@@ -77,7 +79,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private List<String> genderList;
     private ImageView dobIcon;
 
-    private int currentUser;
+    private long currentUser;
     private String currentUserName;
     private int selectedDistrict;
     private int selectedAssembly;
@@ -104,6 +106,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private String mCameraImgPath;
     private final int LOAD_IMAGE_EDIT = 210;
     private ProgressDialog pDialog = null;
+    private String editedImgPath = null;
+    private Bitmap userBitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +130,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         fatherName = (EditText) findViewById(R.id.fatherName);
         address = (EditText) findViewById(R.id.address);
         phone = (EditText) findViewById(R.id.phone);
-
+        voterId = (EditText) findViewById(R.id.voterId);
         dob = (TextView) findViewById(R.id.dob);
 
         gender = (Spinner) findViewById(R.id.gender);
@@ -257,9 +261,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
         File storageDir = new File(exStorageDir, "MyAppImgs");
 
-        if(!storageDir.exists() || !storageDir.isDirectory())
+        if (!storageDir.exists() || !storageDir.isDirectory())
             storageDir.mkdir();
-
 
 
         File image = File.createTempFile(
@@ -309,10 +312,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     };
 
     private String getImageAsBase64() {
-
-        if (userBitmap != null) {
+        Bitmap bitmap = BitmapFactory.decodeFile(editedImgPath);
+        if (bitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            userBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
             byte[] b = baos.toByteArray();
             return Base64.encodeToString(b, Base64.DEFAULT);
         }
@@ -350,31 +353,32 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             m.setAddress(address.getText().toString());
             m.setPhoneNumber(Long.valueOf(phone.getText().toString()));
             m.setDob(dob.getText().toString());
-            m.setImage(getImageAsBase64());
+            m.setImage(getImageAsBase64());//getImageAsBase64()
 
 
             m.setCreated(AppUtils.getFormattedDate(new Date(), Constants.DATE_FORMAT));
-            m.setCreatedBy(currentUser + "");
+            m.setCreatedBy(currentUser);
 
             m.setLastUpdated(AppUtils.getFormattedDate(new Date(), Constants.DATE_FORMAT));
-            m.setLastUpdatedBy(currentUser + "");
-
+            m.setLastUpdatedBy(currentUser);
+            m.setUserId(currentUser);
+            m.setVoterId(voterId.getText().toString());
+            m.setIsActive(true);
             m.setLive(true);
             m.setStatus(1);
             m.setAbsoluteIndicator(false);
 
-            retrofitInterface.createMember(m.getDistrictId(), m.getAssemblyId(), m.getUnionId(), m.getPanchayatId(), m.getVillageId(),
-                    m.getName(), m.getFatherName(), m.getGender(), m.getAddress(), m.getPhoneNumber(), m.getDob(), m.getImage(),
-                    m.getCreated(), m.getCreatedBy(), m.getLastUpdated(), m.getLastUpdatedBy(),
-                    m.getLive(), m.getStatus(), m.getAbsoluteIndicator()).enqueue(new Callback<Member>() {
+            retrofitInterface.createMember(m).enqueue(new Callback<Member>() {
                 @Override
                 public void onResponse(Call<Member> call, Response<Member> response) {
-
+                    String msg = response.message();
                     if (response.isSuccessful()) {
+                        msg = "Member created Successfully";
                         Toast.makeText(AdduserDetails.this, "Member creation Successful.", Toast.LENGTH_SHORT).show();
                         success = true;
+                        deletTempImgs();
                     }
-                    showResponse(success, "Member created Successfully");
+                    showResponse(success, msg);
 //                    publishProgress(success);
                 }
 
@@ -413,6 +417,13 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             if (!isFinishing())
                 pDialog.show();
         }
+    }
+
+    private void deletTempImgs() {
+
+        File file = new File(mCameraImgPath);
+        if (file.exists())
+            file.delete();
     }
 
     private void showResponse(boolean success, String msg) {
@@ -462,9 +473,14 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             address.setError(getString(R.string.error_field_required));
         }
 
-        if (phone.getText() == null || phone.getText().toString().trim().equals("")) {
+        /*if (phone.getText() == null || phone.getText().toString().trim().equals("")) {
             valid = false;
             phone.setError(getString(R.string.error_field_required));
+        }*/
+
+        if (voterId.getText() == null || voterId.getText().toString().trim().equals("")) {
+            valid = false;
+            voterId.setError(getString(R.string.error_field_required));
         }
 
         if (dob.getText() == null || dob.getText().toString().trim().equals("")) {
@@ -493,6 +509,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -560,7 +577,6 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private Bitmap userBitmap = null;
 
     private void onCaptureImageResult(Intent data) {
         loadImageCropScreen(mCameraImgPath);//destination.getAbsolutePath());
@@ -627,15 +643,34 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setImgAfterEdit(String uriPath) {
-       File file = new File(uriPath);
+
+
+        File file = AppUtils.saveBitmapToFile(new File(uriPath));
 
         ImageViewCompat.setImageTintList(userPhoto, ColorStateList.valueOf(ContextCompat.getColor(AdduserDetails.this, R.color.transparent)));
 
-        if(file.exists()){
+        if (file.exists()) {
+            editedImgPath = uriPath;
             Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            userBitmap = myBitmap;
             userPhoto.setImageBitmap(myBitmap);
         }
+    }
 
+    private byte[] generateByteArrFromImg() {
+        File file = new File(editedImgPath);
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) { // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) { // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return bytes;
     }
 
 

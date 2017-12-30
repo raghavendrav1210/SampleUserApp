@@ -45,19 +45,19 @@ public class Member {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("father_Name")
+    @SerializedName("fatherName")
     @Expose
     private String fatherName;
     @SerializedName("dob")
     @Expose
     private String dob;
-    @SerializedName("address")
+    @SerializedName("address1")
     @Expose
     private String address;
     @SerializedName("qualification")
     @Expose
     private Object qualification;
-    @SerializedName("phone_Number")
+    @SerializedName("phoneNumber")
     @Expose
     private Long phoneNumber;
     @SerializedName("gender")
@@ -66,7 +66,7 @@ public class Member {
     @SerializedName("image")
     @Expose
     private String image;
-    @SerializedName("member_Code")
+    @SerializedName("memberCode")
     @Expose
     private Object memberCode;
     @SerializedName("roleId")
@@ -78,7 +78,7 @@ public class Member {
     @SerializedName("live")
     @Expose
     private Boolean live;
-    @SerializedName("bar_Code")
+    @SerializedName("barCode")
     @Expose
     private String barCode;
     @SerializedName("status")
@@ -95,13 +95,20 @@ public class Member {
     private String created;
     @SerializedName("createdBy")
     @Expose
-    private String createdBy;
+    private Long createdBy;
     @SerializedName("lastUpdated")
     @Expose
     private String lastUpdated;
     @SerializedName("lastUpdatedBy")
     @Expose
-    private String lastUpdatedBy;
+    private Long lastUpdatedBy;
+    @SerializedName("userId")
+    @Expose
+    private Long userId;
+    @SerializedName("voterId")
+    @Expose
+    private String voterId;
+
 
     public Object getAssemblyMaster() {
         return assemblyMaster;
@@ -335,11 +342,11 @@ public class Member {
         this.created = created;
     }
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -351,12 +358,28 @@ public class Member {
         this.lastUpdated = lastUpdated;
     }
 
-    public String getLastUpdatedBy() {
+    public Long getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
-    public void setLastUpdatedBy(String lastUpdatedBy) {
+    public void setLastUpdatedBy(Long lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getVoterId() {
+        return voterId;
+    }
+
+    public void setVoterId(String voterId) {
+        this.voterId = voterId;
     }
 
 }

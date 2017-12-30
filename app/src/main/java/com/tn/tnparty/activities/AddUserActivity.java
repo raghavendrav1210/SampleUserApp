@@ -44,11 +44,11 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private int year, day, month;
 
     private ApiInterface retrofitInterface;
-    private List<District> distrct = null;
-    private List<Assembly> assemblyResults = null;
-    private List<Union> unionResults = null;
-    private List<Panchayath> panchayatResults = null;
-    private List<Village> villageResults = null;
+    private List<District> distrctResults = new ArrayList<>();
+    private List<Assembly> assemblyResults = new ArrayList<>();
+    private List<Union> unionResults = new ArrayList<>();
+    private List<Panchayath> panchayatResults = new ArrayList<>();
+    private List<Village> villageResults = new ArrayList<>();
 
     private int userId;
     private String userName;
@@ -109,10 +109,48 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void loadDistrict() {
+
+        retrofitInterface.getDistrict().enqueue(new Callback<DistrictResult>() {
+            @Override
+            public void onResponse(Call<DistrictResult> call, Response<DistrictResult> response) {
+
+                if (response.isSuccessful()) {
+                    distrctResults.clear();
+                    distrctResults = response.body().getDistricts();
+                } else
+                    hideProgresDialog();
+
+                initDistrctSpinner();
+            }
+
+            @Override
+            public void onFailure(Call<DistrictResult> call, Throwable t) {
+                hideProgresDialog();
+                Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void initDistrctSpinner() {
 
-        final ArrayAdapter<District> districtArrayAdapter = new ArrayAdapter<District>(this, R.layout.spinner_item, distrct);
+        final ArrayAdapter<District> districtArrayAdapter = new ArrayAdapter<District>(this, R.layout.spinner_item, distrctResults);
         district.setAdapter(districtArrayAdapter);
+        districtArrayAdapter.notifyDataSetChanged();
+
+        if(null == distrctResults || distrctResults.isEmpty()) {
+            assemblyResults.clear();;
+            unionResults.clear();;
+            panchayatResults.clear();;
+            villageResults.clear();;
+
+            initAsseblySpinner();
+            initUnionSpinner();
+            initPanchayathSpinner();
+            initVillageSpinner();
+
+        }
 
         district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -132,30 +170,9 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void loadDistrict() {
-
-        retrofitInterface.getDistrict().enqueue(new Callback<DistrictResult>() {
-            @Override
-            public void onResponse(Call<DistrictResult> call, Response<DistrictResult> response) {
-
-                if (response.isSuccessful()) {
-                    distrct = new ArrayList<>();
-                    distrct = response.body().getDistricts();
-                    initDistrctSpinner();
-                } else
-                    hideProgresDialog();
-            }
-
-            @Override
-            public void onFailure(Call<DistrictResult> call, Throwable t) {
-                hideProgresDialog();
-                Toast.makeText(AddUserActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
     public void loadAssembly() {
+
+        assemblyResults.clear();;
 
         retrofitInterface.getAssembly(selectedDistrict).enqueue(new Callback<AssemblyResult>() {
             @Override
@@ -164,11 +181,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                 if (response.isSuccessful()) {
                     assemblyResults = new ArrayList<>();
                     assemblyResults = response.body().getResult();
-                    if (assemblyResults != null && !assemblyResults.isEmpty()) {
-                        initAsseblySpinner();
-                    } else
-                        hideProgresDialog();
+//                    if (assemblyResults != null && !assemblyResults.isEmpty()) {
+                    hideProgresDialog();
                 }
+
+                selectedAssembly = 0;
+                selectedUnion = 0;
+                selectedPanchayat = 0;
+                selectedVillage = 0;
+                initAsseblySpinner();
             }
 
             @Override
@@ -183,6 +204,19 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         final ArrayAdapter<Assembly> assemblyArrayAdapter = new ArrayAdapter<Assembly>(this, R.layout.spinner_item, assemblyResults);
         assembly.setAdapter(assemblyArrayAdapter);
+        assemblyArrayAdapter.notifyDataSetChanged();
+
+        if(null == assemblyResults || assemblyResults.isEmpty()) {
+            unionResults.clear();;
+            panchayatResults.clear();;
+            villageResults.clear();;
+
+            initUnionSpinner();
+            initPanchayathSpinner();
+            initVillageSpinner();
+
+        }
+
 
         assembly.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -202,6 +236,8 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     public void loadUnion() {
 
+        unionResults.clear();;
+
         retrofitInterface.getUnions(selectedDistrict, selectedAssembly).enqueue(new Callback<UnionResult>() {
             @Override
             public void onResponse(Call<UnionResult> call, Response<UnionResult> response) {
@@ -210,15 +246,20 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     unionResults = new ArrayList<>();
                     if (response.body() != null) {
                         unionResults = response.body().getUnion();
-                        if (unionResults != null && !unionResults.isEmpty())
-                            initUnionSpinner();
-                        else
-                            hideProgresDialog();
+//                        if (unionResults != null && !unionResults.isEmpty())
+//                        else
+                        hideProgresDialog();
                     } else
                         hideProgresDialog();
 
                 } else
                     hideProgresDialog();
+
+                selectedUnion = 0;
+                selectedPanchayat = 0;
+                selectedVillage = 0;
+
+                initUnionSpinner();
             }
 
             @Override
@@ -233,13 +274,25 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         final ArrayAdapter<Union> unionArrayAdapter = new ArrayAdapter<Union>(this, R.layout.spinner_item, unionResults);
         union.setAdapter(unionArrayAdapter);
+        unionArrayAdapter.notifyDataSetChanged();
+
+        if(null == unionResults || unionResults.isEmpty()) {
+            panchayatResults.clear();;
+            villageResults.clear();;
+
+            initPanchayathSpinner();
+            initVillageSpinner();
+
+        }
 
         union.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, unionArrayAdapter.getItem(pos).getUnionId() + "-" + unionArrayAdapter.getItem(pos).getUnionName(), Toast.LENGTH_SHORT).show();
-                selectedUnion = unionArrayAdapter.getItem(pos).getAssemblyId();
+                selectedUnion = unionArrayAdapter.getItem(pos).getUnionId();
                 showProgresDialog();
+                selectedPanchayat = 0;
+                selectedVillage = 0;
                 loadPanchayath();
             }
 
@@ -251,7 +304,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void loadPanchayath() {
-
+        panchayatResults.clear();;
         retrofitInterface.getPanchayaths(selectedDistrict, selectedAssembly, selectedUnion).enqueue(new Callback<PanchayathResult>() {
             @Override
             public void onResponse(Call<PanchayathResult> call, Response<PanchayathResult> response) {
@@ -260,14 +313,17 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     panchayatResults = new ArrayList<>();
                     if (response.body() != null) {
                         panchayatResults = response.body().getPanchayaths();
-                        if (panchayatResults != null && !panchayatResults.isEmpty())
-                            initPanchayathSpinner();
-                        else
-                            hideProgresDialog();
+//                        if (panchayatResults != null && !panchayatResults.isEmpty())
+
+//                        else
+                        hideProgresDialog();
                     } else
                         hideProgresDialog();
                 } else
                     hideProgresDialog();
+                selectedPanchayat = 0;
+                selectedVillage = 0;
+                initPanchayathSpinner();
             }
 
             @Override
@@ -282,6 +338,14 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         final ArrayAdapter<Panchayath> panchayathArrayAdapter = new ArrayAdapter<Panchayath>(this, R.layout.spinner_item, panchayatResults);
         panchayat.setAdapter(panchayathArrayAdapter);
+        panchayathArrayAdapter.notifyDataSetChanged();
+
+        if(null == panchayatResults || panchayatResults.isEmpty()) {
+            villageResults.clear();;
+
+            initVillageSpinner();
+
+        }
 
         panchayat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -300,7 +364,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void loadVillages() {
-
+        villageResults.clear();;
         retrofitInterface.getVillage(selectedDistrict, selectedAssembly, selectedUnion, selectedPanchayat).enqueue(new Callback<VillageResult>() {
             @Override
             public void onResponse(Call<VillageResult> call, Response<VillageResult> response) {
@@ -309,14 +373,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     villageResults = new ArrayList<>();
                     if (response.body() != null) {
                         villageResults = response.body().getResult();
-                        if (villageResults != null && !villageResults.isEmpty())
-                            initVillageSpinner();
-                        else
-                            hideProgresDialog();
+//                        if (villageResults != null && !villageResults.isEmpty())
+//                        else
+                        hideProgresDialog();
                     } else
                         hideProgresDialog();
                 } else
                     hideProgresDialog();
+
+                initVillageSpinner();
             }
 
             @Override
@@ -331,7 +396,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         final ArrayAdapter<Village> villageArrayAdapter = new ArrayAdapter<Village>(this, R.layout.spinner_item, villageResults);
         village.setAdapter(villageArrayAdapter);
-
+        villageArrayAdapter.notifyDataSetChanged();
         village.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -382,5 +447,4 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         i.putExtra(Constants.CURRENT_USER, userName);
         startActivity(i);
     }
-
 }
