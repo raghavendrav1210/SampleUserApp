@@ -45,6 +45,9 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.UserSearchActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -56,7 +59,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
+        <activity android:name=".activities.UserSearchResults"></activity>
     </application>
 
 </manifest>

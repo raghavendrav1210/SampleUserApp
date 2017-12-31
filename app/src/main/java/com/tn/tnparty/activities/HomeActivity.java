@@ -75,6 +75,9 @@ public class HomeActivity extends AppCompatActivity
                 if ("Add User".equals(button.getText())) {
                     navigateToAddUser();
                     return;
+                } else if ("Search User".equals(button.getText())) {
+                    navigateToSearchUser();
+                    return;
                 }
             }
         };
@@ -139,6 +142,13 @@ public class HomeActivity extends AppCompatActivity
 
     private void navigateToAddUser() {
         Intent i = new Intent(this, AddUserActivity.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        startActivity(i);
+    }
+
+    private void navigateToSearchUser() {
+        Intent i = new Intent(this, UserSearchActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
         startActivity(i);

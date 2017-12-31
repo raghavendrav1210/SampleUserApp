@@ -4,6 +4,7 @@ import com.tn.tnparty.model.AssemblyResult;
 import com.tn.tnparty.model.DistrictResult;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.Member;
+import com.tn.tnparty.model.MemberDetailResult;
 import com.tn.tnparty.model.PanchayathResult;
 import com.tn.tnparty.model.UnionResult;
 import com.tn.tnparty.model.VillageResult;
@@ -69,4 +70,7 @@ public interface ApiInterface {
 
     @GET(Constants.VILLAGE)
     Call<VillageResult> getVillage(@Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId);
+
+    @GET(Constants.SEARCH_MEMBER)
+    Call<MemberDetailResult> searchMembers(@Query("name") String memberName, @Query("UserId") long userId);
 }
