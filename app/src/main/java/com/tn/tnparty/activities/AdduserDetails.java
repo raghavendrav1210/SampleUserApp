@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +62,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,8 +72,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private EditText userName, fatherName, address, phone, voterId;
     private TextView dob;
     private Spinner gender;
-    private FloatingActionButton addUser;
-    private ImageView userPhoto;
+    private Button addUser;
+    private CircleImageView userPhoto;
 
     private int year, day, month;
     private ApiInterface retrofitInterface;
@@ -121,10 +123,13 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private void initViews() {
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Add Member - Provide user details");
+            getSupportActionBar().setTitle(getString(R.string.enterUserDetails));
         }
 
-        userPhoto = (ImageView) findViewById(R.id.userPhoto);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        userPhoto = (CircleImageView) findViewById(R.id.userPhoto);
         dobIcon = (ImageView) findViewById(R.id.dobIcon);
         userName = (EditText) findViewById(R.id.userName);
         fatherName = (EditText) findViewById(R.id.fatherName);
@@ -135,7 +140,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
         gender = (Spinner) findViewById(R.id.gender);
 
-        addUser = (FloatingActionButton) findViewById(R.id.addUser);
+        addUser = (Button) findViewById(R.id.addUser);
 
         userPhoto.setOnClickListener(this);
         dob.setOnClickListener(this);
@@ -173,7 +178,12 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         }
 
         initGender();
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initGender() {
@@ -197,7 +207,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        if (view == dobIcon) {//view == dob ||
+        if (view == dobIcon || view.getId() == R.id.dob) {//view == dob ||
             showDatePicker();
         } else if (view == addUser) {
             readAndSave();

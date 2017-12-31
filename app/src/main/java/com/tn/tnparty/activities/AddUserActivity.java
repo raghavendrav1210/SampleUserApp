@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.Constants;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     //    private EditText userName, fatherName, address, phone;
 //    private TextView dob;
     private Spinner district, assembly, union, panchayat, village;
-    private FloatingActionButton acceptDetails;
+    private Button acceptDetails;
 //    private ImageView userPhoto;
 
     private int year, day, month;
@@ -68,11 +70,20 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.add_user));
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         retrofitInterface = ApiUtils.getAPIService();
 
         initViews();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initViews() {
@@ -83,7 +94,13 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         panchayat = (Spinner) findViewById(R.id.panchayat);
         village = (Spinner) findViewById(R.id.village);
 
-        acceptDetails = (FloatingActionButton) findViewById(R.id.next);
+        setSpinnerHeight(district);
+        setSpinnerHeight(assembly);
+        setSpinnerHeight(union);
+        setSpinnerHeight(panchayat);
+        setSpinnerHeight(village);
+
+        acceptDetails = (Button) findViewById(R.id.next);
         acceptDetails.setOnClickListener(this);
 
         loadDistrict();
@@ -446,5 +463,20 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         i.putExtra(Constants.SELECTED_VILLAGE_ID, selectedVillage);
         i.putExtra(Constants.CURRENT_USER, userName);
         startActivity(i);
+    }
+
+    private void setSpinnerHeight(Spinner spinner) {
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(800);
+        } catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
     }
 }
