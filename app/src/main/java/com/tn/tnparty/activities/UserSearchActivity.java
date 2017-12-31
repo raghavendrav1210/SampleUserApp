@@ -66,6 +66,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void searchMember() {
+        showProgresDialog();
 
         retrofitInterface.searchMembers(memberName.getText().toString(), userId).enqueue(new Callback<MemberDetailResult>() {
             @Override
@@ -107,7 +108,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
         }
 
         pDialog = new ProgressDialog(UserSearchActivity.this);
-        pDialog.setMessage("Loading. Please wait...");
+        pDialog.setMessage("Searching. Please wait...");
         pDialog.setCancelable(false);
         if (!isFinishing())
             pDialog.show();

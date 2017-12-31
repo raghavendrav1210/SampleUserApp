@@ -74,7 +74,7 @@ public class MemberDetail {
     private Object qualification;
     @SerializedName("phoneNumber")
     @Expose
-    private Integer phoneNumber;
+    private Long phoneNumber;
     @SerializedName("gender")
     @Expose
     private String gender;
@@ -286,11 +286,11 @@ public class MemberDetail {
         this.qualification = qualification;
     }
 
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

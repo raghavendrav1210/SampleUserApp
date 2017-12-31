@@ -3,6 +3,7 @@ package com.tn.tnparty.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ public class UserSearchResults extends AppCompatActivity {
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
         memberSearchAdapter = new MemberSearchAdapter(membersList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        searchResultsView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         searchResultsView.setLayoutManager(mLayoutManager);
         searchResultsView.setItemAnimator(new DefaultItemAnimator());
         searchResultsView.setAdapter(memberSearchAdapter);

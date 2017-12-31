@@ -24,7 +24,7 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
 
         public MyViewHolder(View view) {
             super(view);
-            memberName = (TextView) view.findViewById(R.id.title);
+            memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
             dob = (TextView) view.findViewById(R.id.dob);
         }
@@ -46,9 +46,11 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MemberDetail memberDetail = moviesList.get(position);
-        holder.memberName.setText(memberDetail.getName());
-        holder.fatherName.setText(memberDetail.getFatherName());
-        holder.dob.setText(memberDetail.getDob());
+        if (memberDetail != null) {
+            holder.memberName.setText(memberDetail.getName());
+            holder.fatherName.setText(memberDetail.getFatherName());
+            holder.dob.setText(memberDetail.getDob());
+        }
     }
 
     @Override
