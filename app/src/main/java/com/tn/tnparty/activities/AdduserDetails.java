@@ -312,12 +312,15 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     };
 
     private String getImageAsBase64() {
+
         Bitmap bitmap = BitmapFactory.decodeFile(editedImgPath);
         if (bitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] b = baos.toByteArray();
-            return Base64.encodeToString(b, Base64.DEFAULT);
+            String encode1 =  Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+            //server expecting 2 times base64
+            return Base64.encodeToString(encode1.getBytes(),Base64.DEFAULT);
         }
         return null;
     }
