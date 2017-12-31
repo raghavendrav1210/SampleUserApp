@@ -59,8 +59,11 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
 
         if (view == searchMember) {
-
-            searchMember();
+            if (memberName.getText() != null && !memberName.getText().toString().trim().equals("")) {
+                memberName.setError(null);
+                searchMember();
+            } else
+                memberName.setError("Please provide member name to search");
         }
 
     }
@@ -72,18 +75,18 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onResponse(Call<MemberDetailResult> call, Response<MemberDetailResult> response) {
 
-                if (response.isSuccessful()) {
-
+                if (response.isSuccessful())
                     membersList = response.body().getMembersList();
 
-                } else
-                    hideProgresDialog();
+                hideProgresDialog();
 
                 if (membersList != null && !membersList.isEmpty()) {
                     navigateToUserSearchResults();
                 } else {
                     Toast.makeText(UserSearchActivity.this, "No members found for search criteria", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
 
             @Override
@@ -95,7 +98,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void navigateToUserSearchResults() {
-
+        hideProgresDialog();
         Intent intent = new Intent(UserSearchActivity.this, UserSearchResults.class);
         startActivity(intent);
 

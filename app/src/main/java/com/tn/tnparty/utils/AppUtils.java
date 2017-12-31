@@ -34,6 +34,19 @@ public class AppUtils {
         return simpleDateFormat.format(date);
     }
 
+    public static String getFormattedDateString(String inputDate, String inFormat, String reqFormat) {
+        SimpleDateFormat fromUser = new SimpleDateFormat(inFormat);
+        SimpleDateFormat myFormat = new SimpleDateFormat(reqFormat);
+
+        try {
+
+            return myFormat.format(fromUser.parse(inputDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

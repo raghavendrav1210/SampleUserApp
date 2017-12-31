@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.MemberDetail;
+import com.tn.tnparty.utils.AppUtils;
+import com.tn.tnparty.utils.Constants;
 
 import java.util.List;
 
@@ -49,7 +51,8 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
         if (memberDetail != null) {
             holder.memberName.setText(memberDetail.getName());
             holder.fatherName.setText(memberDetail.getFatherName());
-            holder.dob.setText(memberDetail.getDob());
+            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+            holder.dob.setText("DOB: " + formatDate);
         }
     }
 

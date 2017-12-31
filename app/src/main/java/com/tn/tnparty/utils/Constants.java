@@ -31,5 +31,7 @@ public class Constants {
     public static final String SELECTED_VILLAGE_ID = "SELECTED_VILLAGE_ID";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.zzz";
+    public static final String DOB_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss";
+    public static final String DATE_READ_FORMAT = "dd-MMM-yyyy";
 
 }
