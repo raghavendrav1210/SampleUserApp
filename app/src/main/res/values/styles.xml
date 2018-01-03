@@ -13,7 +13,10 @@
         <item name="android:background">@color/colorAccent</item>
     </style>
 
-    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
