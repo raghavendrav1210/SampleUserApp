@@ -7,6 +7,7 @@ import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberDetailResult;
 import com.tn.tnparty.model.PanchayathResult;
 import com.tn.tnparty.model.UnionResult;
+import com.tn.tnparty.model.UserDetailsResult;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.utils.Constants;
 
@@ -73,4 +74,7 @@ public interface ApiInterface {
 
     @GET(Constants.SEARCH_MEMBER)
     Call<MemberDetailResult> searchMembers(@Query("name") String memberName, @Query("UserId") long userId);
+
+    @POST(Constants.SEARCH_DETAILS)
+    Call<UserDetailsResult> searchUserDetails(@Query("UserId") long userId);
 }

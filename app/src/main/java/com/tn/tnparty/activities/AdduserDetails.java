@@ -79,7 +79,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private ApiInterface retrofitInterface;
 
     private List<String> genderList;
-    private ImageView dobIcon;
+    private TextView dobIcon;
 
     private long currentUser;
     private String currentUserName;
@@ -130,7 +130,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         userPhoto = (CircleImageView) findViewById(R.id.userPhoto);
-        dobIcon = (ImageView) findViewById(R.id.dobIcon);
+        dobIcon = (TextView) findViewById(R.id.dobIcon);
         userName = (EditText) findViewById(R.id.userName);
         fatherName = (EditText) findViewById(R.id.fatherName);
         address = (EditText) findViewById(R.id.address);
@@ -375,7 +375,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             m.setLastUpdated(AppUtils.getFormattedDate(new Date(), Constants.DATE_FORMAT));
             m.setLastUpdatedBy(currentUser);
             m.setUserId(currentUser);
-            m.setVoterId(voterId.getText().toString());
+            m.setVoterId(voterId.getText() != null ? voterId.getText().toString() : "");
             m.setIsActive(true);
             m.setLive(true);
             m.setStatus(1);
@@ -491,15 +491,19 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             phone.setError(getString(R.string.error_field_required));
         }*/
 
-        if (voterId.getText() == null || voterId.getText().toString().trim().equals("")) {
+        /*if (voterId.getText() == null || voterId.getText().toString().trim().equals("")) {
             valid = false;
             voterId.setError(getString(R.string.error_field_required));
-        }
+        }*/
 
         if (dob.getText() == null || dob.getText().toString().trim().equals("")) {
             valid = false;
         }
 
+        if(null == editedImgPath || editedImgPath.trim().equals("")) {
+            Toast.makeText(this, "Please provide photo", Toast.LENGTH_LONG).show();
+            valid = false;
+        }
 
         return valid;
     }

@@ -109,14 +109,22 @@
                             android:singleLine="true"
                             android:textColor="@color/black" />
 
-                        <ImageView
+                        <!--                        <ImageView
+                                                    android:id="@+id/dobIcon"
+                                                    android:layout_width="24dp"
+                                                    android:layout_height="24dp"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:layout_marginEnd="10dp"
+                                                    android:src="@drawable/ic_date_range_black_24dp"
+                                                    android:tint="@color/colorPrimary" />-->
+                        <com.tn.tnparty.custom.FontAwesomeTextView
                             android:id="@+id/dobIcon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fa_calendar"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/ic_date_range_black_24dp"
-                            android:tint="@color/colorPrimary" />
+                            android:textColor="@color/grey"
+                            android:textSize="30sp" />
                     </RelativeLayout>
 
                     <TextView

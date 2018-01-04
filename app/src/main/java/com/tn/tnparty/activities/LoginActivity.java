@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Login;
+import com.tn.tnparty.model.LoginResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppUtils;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ApiInterface loginInterface;
     private Integer loginUserId = null;
+    private Integer loginUserRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +152,10 @@ public class LoginActivity extends AppCompatActivity {
         if (response != null) {
             if (response.body() != null) {
                 if (response.body().getLoginResult() != null) {
-                    loginUserId = response.body().getLoginResult().get(0).getUserId();
-                    Toast.makeText(LoginActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
+                    LoginResult result = response.body().getLoginResult().get(0);
+                    loginUserId = result.getUserId();
+                    loginUserRole = result.getRoleId();
+//                    Toast.makeText(LoginActivity.this, "Success" + response.body(), Toast.LENGTH_SHORT).show();
                     navigateToHome();
                 } else {
                     Toast.makeText(LoginActivity.this, "Authentication Failed - " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -202,6 +206,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomeActivity.class);
         i.putExtra(Constants.CURRENT_USER, mEmailView.getText().toString());
         i.putExtra(Constants.CURRENT_USER_ID, loginUserId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, loginUserRole);
         startActivity(i);
         finish();
     }

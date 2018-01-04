@@ -13,4 +13,5 @@
     <color name="hint_foreground_material_light">#00000000</color>
     <color name="hint_foreground_material_dark">#00000000</color>
     <color name="background_yellow">#faffbd</color>
+    <color name="grey">#696969</color>
 </resources>

@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity
 
     private String userName;
     private int userId;
-
+    private int userRole;
     private TextView userNameTextView;
     private TextView userIdTextView;
 
@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity
 
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
-
+        userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
         initializeViews();
 
         setInitialValues();
@@ -70,12 +70,13 @@ public class HomeActivity extends AppCompatActivity
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Button button = (Button) view;
+                TextView button = (TextView) view;
 
-                if ("Add User".equals(button.getText())) {
+                //"Add User"
+                if (getString(R.string.fa_user_plus).equals(button.getText())) {
                     navigateToAddUser();
                     return;
-                } else if ("Search User".equals(button.getText())) {
+                } else if (getString(R.string.fa_search_plus).equals(button.getText())) {
                     navigateToSearchUser();
                     return;
                 }
@@ -123,6 +124,7 @@ public class HomeActivity extends AppCompatActivity
         Intent i = new Intent(this, AddUserActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
         startActivity(i);
     }
 

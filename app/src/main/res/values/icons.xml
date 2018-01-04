@@ -3,6 +3,7 @@
     <string name="fa_address_card">&#xf2bb;</string>
     <string name="fa_user">&#xf007;</string>
     <string name="fa_lock">&#xf023;</string>
-
-
+    <string name="fa_user_plus">&#xf234;</string>
+    <string name="fa_search_plus">&#xf00e;</string>
+    <string name="fa_calendar">&#xf073;</string>
 </resources>
