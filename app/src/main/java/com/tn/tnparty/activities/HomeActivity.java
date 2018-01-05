@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity
         userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.userName);
         userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.userId);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        /*GridView gridview = (GridView) findViewById(R.id.gridview);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,12 +82,45 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         };
-        gridview.setAdapter(new GridButtonsAdapter(this, onClickListener));
+        gridview.setAdapter(new GridButtonsAdapter(this, onClickListener));*/
+
+        FloatingActionButton addUser = (FloatingActionButton) findViewById(R.id.addUser);
+        addUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToAddUser();
+            }
+        });
     }
 
     private void setInitialValues() {
         userNameTextView.setText(userName);
-        userIdTextView.setText(String.valueOf(userId));
+        String roleDesc = "";
+        switch(userRole) {
+            case 1:
+            case 2:
+                roleDesc = "Admin";
+                break;
+            case 3:
+                roleDesc = "District Head";
+                break;
+            case 4:
+                roleDesc = "Assembly Head";
+                break;
+            case 5:
+                roleDesc = "Union Head";
+                break;
+            case 6:
+                roleDesc = "Panchyath Head";
+                break;
+            case 7:
+                roleDesc = "Village Head";
+                break;
+            case 8:
+                roleDesc = "Member";
+                break;
+        }
+        userIdTextView.setText(roleDesc);
     }
 
     @Override

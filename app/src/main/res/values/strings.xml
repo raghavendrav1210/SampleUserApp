@@ -26,7 +26,7 @@
 
     <string name="enterUserDetails">User Details</string>
     <string name="addUser">Add User</string>
-    <string name="tapOnImage">Tap on image to add photo</string>
+    <string name="tapOnImage">Tap on image to add photo *</string>
     <string name="submit">Create User</string>
     <string name="search_user">Search Member</string>
     <string name="select_user">Select Member</string>

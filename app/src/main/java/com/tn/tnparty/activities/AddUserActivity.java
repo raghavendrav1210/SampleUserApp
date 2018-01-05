@@ -3,6 +3,7 @@ package com.tn.tnparty.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,7 +42,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     //    private EditText userName, fatherName, address, phone;
 //    private TextView dob;
     private Spinner district, assembly, union, panchayat, village;
-    private Button acceptDetails;
+    private FloatingActionButton acceptDetails;
 //    private ImageView userPhoto;
 
     private int year, day, month;
@@ -111,7 +112,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         setSpinnerHeight(panchayat);
         setSpinnerHeight(village);
 
-        acceptDetails = (Button) findViewById(R.id.next);
+        acceptDetails = (FloatingActionButton) findViewById(R.id.next);
         acceptDetails.setOnClickListener(this);
 
         searchUserDetails();

@@ -36,12 +36,14 @@ public class Constants {
     public static final String DOB_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss";
     public static final String DATE_READ_FORMAT = "dd-MMM-yyyy";
 
-    public static int ROLE_ADMIN = 2;
-    public static int ROLE_DISTRICT = 0;
-    public static int ROLE_ASSEMBLY = 0;
-    public static int ROLE_UNION = 5;
-    public static int ROLE_PANCHAYATH = 0;
-    public static int ROLE_VILLAGE = 0;
+//    public static String ROLE_ADMIN = "Admin";
+//    public static String ROLE_DISTRICT_HEAD = "Head";
+//    public static int ROLE_DISTRICT = 0;
+//    public static int ROLE_ASSEMBLY = 0;
+//    public static int ROLE_UNION = 5;
+//    public static int ROLE_PANCHAYATH = 0;
+//    public static int ROLE_VILLAGE = 0;
+
 
 
 }

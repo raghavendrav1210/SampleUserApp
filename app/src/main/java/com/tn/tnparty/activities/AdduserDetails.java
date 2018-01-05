@@ -363,9 +363,9 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             m.setName(userName.getText().toString());
             m.setFatherName(fatherName.getText().toString());
             m.setGender(selectedGender);
-            m.setAddress(address.getText().toString());
-            m.setPhoneNumber(Long.valueOf(phone.getText().toString()));
-            m.setDob(dob.getText().toString());
+            m.setAddress(address.getText() != null ? address.getText().toString() : "");
+            m.setPhoneNumber(phone.getText() != null && phone.getText().toString() != null && !phone.getText().toString().trim().equals("")? Long.valueOf(phone.getText().toString()) : Long.valueOf(0));
+            m.setDob(dob.getText() != null ? dob.getText().toString() : "");
             m.setImage(getImageAsBase64());//getImageAsBase64()
 
 
@@ -481,10 +481,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             fatherName.setError(getString(R.string.error_field_required));
         }
 
-        if (address.getText() == null || address.getText().toString().trim().equals("")) {
+       /* if (address.getText() == null || address.getText().toString().trim().equals("")) {
             valid = false;
             address.setError(getString(R.string.error_field_required));
-        }
+        }*/
 
         /*if (phone.getText() == null || phone.getText().toString().trim().equals("")) {
             valid = false;
@@ -496,12 +496,12 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             voterId.setError(getString(R.string.error_field_required));
         }*/
 
-        if (dob.getText() == null || dob.getText().toString().trim().equals("")) {
+        /*if (dob.getText() == null || dob.getText().toString().trim().equals("")) {
             valid = false;
-        }
+        }*/
 
         if(null == editedImgPath || editedImgPath.trim().equals("")) {
-            Toast.makeText(this, "Please provide photo", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please provide a photo", Toast.LENGTH_LONG).show();
             valid = false;
         }
 
