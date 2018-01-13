@@ -19,4 +19,22 @@
         </menu>
     </item>
 
+    <item android:title="Member List">
+        <menu>
+            <item
+                android:id="@+id/memberList"
+                android:icon="@drawable/ic_person_add"
+                android:title="Member List" />
+        </menu>
+    </item>
+
+    <item android:title="Access Form">
+        <menu>
+            <item
+                android:id="@+id/accessForm"
+                android:icon="@drawable/ic_account_circle_black_24dp"
+                android:title="Member Access" />
+        </menu>
+    </item>
+
 </menu>

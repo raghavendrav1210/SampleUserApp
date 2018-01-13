@@ -2,6 +2,7 @@ package com.tn.tnparty.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.tn.tnparty.R;
+import com.tn.tnparty.activities.member_access.MemberAccessForm;
+import com.tn.tnparty.activities.member_list.MemberListSearchForm;
 import com.tn.tnparty.adapter.GridButtonsAdapter;
 import com.tn.tnparty.utils.Constants;
 
@@ -26,6 +29,8 @@ public class HomeActivity extends AppCompatActivity
     private int userRole;
     private TextView userNameTextView;
     private TextView userIdTextView;
+    private TextView memberList;
+    private TextView memberAccess;
 
 
     @Override
@@ -149,6 +154,12 @@ public class HomeActivity extends AppCompatActivity
             finish();
         } else if (id == R.id.nav_share) {
 
+        } else if (id == R.id.memberList) {
+            Intent intent = new Intent(this, MemberListSearchForm.class);
+            startActivity(intent);
+        } else if (id == R.id.accessForm) {
+            Intent intent = new Intent(this, MemberAccessForm.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
