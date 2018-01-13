@@ -11,14 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.activities.member_access.MemberAccessForm;
 import com.tn.tnparty.activities.member_list.MemberListSearchForm;
-import com.tn.tnparty.adapter.GridButtonsAdapter;
 import com.tn.tnparty.utils.Constants;
 
 public class HomeActivity extends AppCompatActivity
@@ -155,11 +152,17 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.memberList) {
-            Intent intent = new Intent(this, MemberListSearchForm.class);
-            startActivity(intent);
+            Intent i = new Intent(this, MemberListSearchForm.class);
+            i.putExtra(Constants.CURRENT_USER, userName);
+            i.putExtra(Constants.CURRENT_USER_ID, userId);
+            i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+            startActivity(i);
         } else if (id == R.id.accessForm) {
-            Intent intent = new Intent(this, MemberAccessForm.class);
-            startActivity(intent);
+            Intent i = new Intent(this, MemberAccessForm.class);
+            i.putExtra(Constants.CURRENT_USER, userName);
+            i.putExtra(Constants.CURRENT_USER_ID, userId);
+            i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
