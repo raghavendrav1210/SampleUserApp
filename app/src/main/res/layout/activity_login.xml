@@ -70,7 +70,7 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="" />
+                        android:text="baskar" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -105,7 +105,7 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="" />
+                        android:text="Welcome123" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

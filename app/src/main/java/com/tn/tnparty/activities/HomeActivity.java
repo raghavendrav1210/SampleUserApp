@@ -91,6 +91,14 @@ public class HomeActivity extends AppCompatActivity
                 navigateToAddUser();
             }
         });
+
+        FloatingActionButton searchUser = (FloatingActionButton) findViewById(R.id.searchUser);
+        searchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToSearchUser();
+            }
+        });
     }
 
     private void setInitialValues() {

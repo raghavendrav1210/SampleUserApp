@@ -13,6 +13,8 @@ import com.tn.tnparty.utils.Constants;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by raghav on 12/31/2017.
  */
@@ -23,11 +25,13 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView memberName, fatherName, dob;
+        public CircleImageView userPhoto;
 
         public MyViewHolder(View view) {
             super(view);
             memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
+            userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
             dob = (TextView) view.findViewById(R.id.dob);
         }
     }
@@ -53,6 +57,8 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
             holder.fatherName.setText(memberDetail.getFatherName());
             String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
             holder.dob.setText("DOB: " + formatDate);
+            String img = memberDetail.getImage() != null ? (String) memberDetail.getImage() : "";
+            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
         }
     }
 

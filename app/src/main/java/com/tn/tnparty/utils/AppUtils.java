@@ -15,7 +15,9 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.BitmapCompat;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -88,13 +90,12 @@ public class AppUtils {
 
     public static Bitmap getResizedBitmapLessThan1MB(Bitmap image) {
 
-        int maxSize = 1024*1024;
+        int maxSize = 1024 * 1024;
         int width = image.getWidth();
         int height = image.getHeight();
 
 
-
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 0) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -107,7 +108,7 @@ public class AppUtils {
         return reduced_bitmap;
     }
 
-    public static File saveBitmapToFile(File file){
+    public static File saveBitmapToFile(File file) {
         try {
 
             // BitmapFactory options to downsize the image
@@ -122,11 +123,11 @@ public class AppUtils {
             inputStream.close();
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=75;
+            final int REQUIRED_SIZE = 75;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;
-            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
                     o.outHeight / scale / 2 >= REQUIRED_SIZE) {
                 scale *= 2;
             }
@@ -142,11 +143,22 @@ public class AppUtils {
             file.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
 
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             return file;
         } catch (Exception e) {
             return null;
         }
     }
+
+    public static Bitmap getImgFrmBase64(String base64) {
+
+        if(base64 !=null && !base64.trim().equals("")) {
+            byte[] finalDecodedString = Base64.decode(new String(Base64.decode(base64, Base64.DEFAULT)), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
+            return decodedByte;
+        }
+        return null;
+    }
+
 }
