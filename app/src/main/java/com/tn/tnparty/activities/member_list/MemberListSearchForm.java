@@ -660,6 +660,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         i.putExtra(Constants.SELECTED_PANCHAYATH_ID, selectedPanchayat);
         i.putExtra(Constants.SELECTED_VILLAGE_ID, selectedVillage);
         i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
         startActivity(i);
     }
 

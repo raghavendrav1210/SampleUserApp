@@ -32,5 +32,7 @@
     <string name="select_user">Select Member</string>
     <string name="title_activity_member_access_form">MemberAccessForm</string>
     <string name="title_activity_member_access_list">MemberAccessList</string>
+    <string name="edit_member">Edit Member</string>
+    <string name="edit_member_details">Edit Member Details</string>
 
 </resources>

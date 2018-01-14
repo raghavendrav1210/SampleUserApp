@@ -18,31 +18,31 @@ public class MemberList {
     private Integer districtId;
     @SerializedName("districtName")
     @Expose
-    private Object districtName;
+    private String districtName;
     @SerializedName("assemblyId")
     @Expose
     private Integer assemblyId;
     @SerializedName("assemblyName")
     @Expose
-    private Object assemblyName;
+    private String assemblyName;
     @SerializedName("unionId")
     @Expose
     private Integer unionId;
     @SerializedName("unionName")
     @Expose
-    private Object unionName;
+    private String unionName;
     @SerializedName("panchayatId")
     @Expose
     private Integer panchayatId;
     @SerializedName("panchayatName")
     @Expose
-    private Object panchayatName;
+    private String panchayatName;
     @SerializedName("villageId")
     @Expose
     private Integer villageId;
     @SerializedName("villageName")
     @Expose
-    private Object villageName;
+    private String villageName;
     @SerializedName("name")
     @Expose
     private String name;
@@ -57,16 +57,16 @@ public class MemberList {
     private String address;
     @SerializedName("qualification")
     @Expose
-    private Object qualification;
+    private String qualification;
     @SerializedName("phoneNumber")
     @Expose
-    private Object phoneNumber;
+    private Long phoneNumber;
     @SerializedName("gender")
     @Expose
-    private Object gender;
+    private String gender;
     @SerializedName("image")
     @Expose
-    private Object image;
+    private String image;
     @SerializedName("imageByte")
     @Expose
     private String imageByte;
@@ -108,7 +108,7 @@ public class MemberList {
     private String lastUpdated;
     @SerializedName("lastUpdatedBy")
     @Expose
-    private Object lastUpdatedBy;
+    private String lastUpdatedBy;
 
     public Integer getMemberId() {
         return memberId;
@@ -126,11 +126,11 @@ public class MemberList {
         this.districtId = districtId;
     }
 
-    public Object getDistrictName() {
+    public String getDistrictName() {
         return districtName;
     }
 
-    public void setDistrictName(Object districtName) {
+    public void setDistrictName(String districtName) {
         this.districtName = districtName;
     }
 
@@ -142,11 +142,11 @@ public class MemberList {
         this.assemblyId = assemblyId;
     }
 
-    public Object getAssemblyName() {
+    public String getAssemblyName() {
         return assemblyName;
     }
 
-    public void setAssemblyName(Object assemblyName) {
+    public void setAssemblyName(String assemblyName) {
         this.assemblyName = assemblyName;
     }
 
@@ -158,11 +158,11 @@ public class MemberList {
         this.unionId = unionId;
     }
 
-    public Object getUnionName() {
+    public String getUnionName() {
         return unionName;
     }
 
-    public void setUnionName(Object unionName) {
+    public void setUnionName(String unionName) {
         this.unionName = unionName;
     }
 
@@ -174,11 +174,11 @@ public class MemberList {
         this.panchayatId = panchayatId;
     }
 
-    public Object getPanchayatName() {
+    public String getPanchayatName() {
         return panchayatName;
     }
 
-    public void setPanchayatName(Object panchayatName) {
+    public void setPanchayatName(String panchayatName) {
         this.panchayatName = panchayatName;
     }
 
@@ -190,11 +190,11 @@ public class MemberList {
         this.villageId = villageId;
     }
 
-    public Object getVillageName() {
+    public String getVillageName() {
         return villageName;
     }
 
-    public void setVillageName(Object villageName) {
+    public void setVillageName(String villageName) {
         this.villageName = villageName;
     }
 
@@ -230,35 +230,35 @@ public class MemberList {
         this.address = address;
     }
 
-    public Object getQualification() {
+    public String getQualification() {
         return qualification;
     }
 
-    public void setQualification(Object qualification) {
+    public void setQualification(String qualification) {
         this.qualification = qualification;
     }
 
-    public Object getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Object phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public Object getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Object gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Object getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Object image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -366,11 +366,11 @@ public class MemberList {
         this.lastUpdated = lastUpdated;
     }
 
-    public Object getLastUpdatedBy() {
+    public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
-    public void setLastUpdatedBy(Object lastUpdatedBy) {
+    public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 

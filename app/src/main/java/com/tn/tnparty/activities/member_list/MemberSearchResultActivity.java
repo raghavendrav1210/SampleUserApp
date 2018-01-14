@@ -1,6 +1,7 @@
 package com.tn.tnparty.activities.member_list;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +16,7 @@ import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppContext;
 import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
@@ -30,7 +32,8 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     private MemberSearchResultAdapter memberSearchAdapter;
     private List<MemberList> membersList = null;
 
-    private long currentUser;
+    private int currentUser;
+    private int userRole;
     private String currentUserName;
     private int selectedDistrict;
     private int selectedAssembly;
@@ -55,6 +58,7 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     private void initViews() {
 
         if (getIntent().getExtras() != null) {
+            userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
             currentUser = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
             currentUserName = getIntent().getStringExtra(Constants.CURRENT_USER);
             selectedDistrict = getIntent().getIntExtra(Constants.SELECTED_DISTRICT_ID, 0);
@@ -69,13 +73,25 @@ public class MemberSearchResultActivity extends AppCompatActivity {
 
     private void loadMemberListView() {
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
-        memberSearchAdapter = new MemberSearchResultAdapter(membersList);
+        memberSearchAdapter = new MemberSearchResultAdapter(this, membersList, new MemberSearchResultAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MemberList selectedItem) {
+                AppContext.getInstance().add(Constants.CONTEXT_SELECTED_MEMBER, selectedItem);
+                navigateToMemberEdit();
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         searchResultsView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         searchResultsView.setLayoutManager(mLayoutManager);
         searchResultsView.setItemAnimator(new DefaultItemAnimator());
         searchResultsView.setAdapter(memberSearchAdapter);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AppContext.getInstance().remove(Constants.CONTEXT_SELECTED_MEMBER);
     }
 
     private void loadMemberLit() {
@@ -123,5 +139,16 @@ public class MemberSearchResultActivity extends AppCompatActivity {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    public void navigateToMemberEdit(){
+
+        Intent i = new Intent(this, AddUserActivity.class);
+        i.putExtra(Constants.EDIT_MEMBER, true);
+        i.putExtra(Constants.CURRENT_USER, currentUserName);
+        i.putExtra(Constants.CURRENT_USER_ID, currentUser);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+        startActivity(i);
+
     }
 }

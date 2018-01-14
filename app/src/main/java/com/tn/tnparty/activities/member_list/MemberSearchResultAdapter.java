@@ -1,5 +1,7 @@
 package com.tn.tnparty.activities.member_list;
 
+import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,29 +24,48 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearchResultAdapter.MyViewHolder> {
 
     private List<MemberList> moviesList;
+    private Context mContext;
+    private OnItemClickListener onItemClickListener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView memberName, fatherName, dob;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView memberName, fatherName, dob, createdBy, status, address;
         public CircleImageView userPhoto;
+        private CardView memberCard;
 
         public MyViewHolder(View view) {
             super(view);
+            memberCard = (CardView) view.findViewById(R.id.memberCard);
             memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
             userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
             dob = (TextView) view.findViewById(R.id.dob);
+            createdBy = (TextView) view.findViewById(R.id.createdBy);
+            status = (TextView) view.findViewById(R.id.status);
+            address =(TextView) view.findViewById(R.id.address);
+
+            memberCard.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(view == memberCard) {
+                onItemClickListener.onItemClick(moviesList.get(getAdapterPosition()));
+//                ((MemberSearchResultActivity)mContext).navigateToMemberEdit();
+            }
         }
     }
 
 
-    public MemberSearchResultAdapter(List<MemberList> moviesList) {
+    public MemberSearchResultAdapter(Context mContext, List<MemberList> moviesList, OnItemClickListener onItemClickListener) {
         this.moviesList = moviesList;
+        this.mContext = mContext;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.member_search_list_item, parent, false);
+                .inflate(R.layout.member_list_search_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -53,12 +74,17 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MemberList memberDetail = moviesList.get(position);
         if (memberDetail != null) {
-            holder.memberName.setText(memberDetail.getName());
-            holder.fatherName.setText(memberDetail.getFatherName());
-            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+            holder.memberName.setText("Name: " + memberDetail.getName());
+            holder.fatherName.setText("Father: " + memberDetail.getFatherName());
+            String formatDate = AppUtils.getFormattedDateString("DOB: " + memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
             holder.dob.setText("DOB: " + formatDate);
-            String img = memberDetail.getImage() != null ? (String) memberDetail.getImage() : "";
+            String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
             holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
+            holder.createdBy.setText("Created By: " + memberDetail.getCreatedByName()+"");
+            String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "Not Live";
+            holder.status.setText("Status: " + live);
+            String addr = memberDetail.getAddress() != null && !memberDetail.getAddress().trim().equals("")? memberDetail.getAddress() : "";
+            holder.address.setText("Address: " + addr);
         }
     }
 
@@ -66,4 +92,11 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     public int getItemCount() {
         return moviesList.size();
     }
+
+    public interface OnItemClickListener{
+
+        void onItemClick(MemberList selectedItem);
+    }
+
+
 }

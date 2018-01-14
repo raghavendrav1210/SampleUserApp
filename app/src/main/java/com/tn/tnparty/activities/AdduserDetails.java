@@ -5,24 +5,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.ImageViewCompat;
@@ -35,17 +29,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adobe.creativesdk.aviary.AdobeImageIntent;
-import com.adobe.creativesdk.aviary.internal.filters.ToolLoaderFactory;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Member;
+import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppContext;
 import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
@@ -111,6 +105,11 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private String editedImgPath = null;
     private Bitmap userBitmap = null;
 
+    //Edit
+    private boolean editMember;
+    private MemberList selectedItemToEdit;
+    private boolean imgSelectedInEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,10 +121,27 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     private void initViews() {
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.enterUserDetails));
+        if (getIntent().getExtras() != null) {
+            editMember = getIntent().getBooleanExtra(Constants.EDIT_MEMBER, false);
+            currentUser = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
+            currentUserName = getIntent().getStringExtra(Constants.CURRENT_USER);
+            selectedDistrict = getIntent().getIntExtra(Constants.SELECTED_DISTRICT_ID, 0);
+            selectedAssembly = getIntent().getIntExtra(Constants.SELECTED_ASSEMBLY_ID, 0);
+            selectedUnion = getIntent().getIntExtra(Constants.SELECTED_UNION_ID, 0);
+            selectedPanchayat = getIntent().getIntExtra(Constants.SELECTED_PANCHAYATH_ID, 0);
+            selectedVillage = getIntent().getIntExtra(Constants.SELECTED_VILLAGE_ID, 0);
+
         }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(editMember ? getString(R.string.edit_member_details) : getString(R.string.enterUserDetails));
+        }
+
+        Object obj = AppContext.getInstance().get(Constants.CONTEXT_SELECTED_MEMBER);
+
+        if (obj instanceof MemberList) {
+            selectedItemToEdit = (MemberList) obj;
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -145,22 +161,16 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         userPhoto.setOnClickListener(this);
         dob.setOnClickListener(this);
         dobIcon.setOnClickListener(this);
+
+        if (editMember)
+            addUser.setText("Update Member");
+
         addUser.setOnClickListener(this);
 
         genderList = new ArrayList<>();
         genderList.add("Male");
         genderList.add("Female");
 
-        if (getIntent().getExtras() != null) {
-            currentUser = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
-            currentUserName = getIntent().getStringExtra(Constants.CURRENT_USER);
-            selectedDistrict = getIntent().getIntExtra(Constants.SELECTED_DISTRICT_ID, 0);
-            selectedAssembly = getIntent().getIntExtra(Constants.SELECTED_ASSEMBLY_ID, 0);
-            selectedUnion = getIntent().getIntExtra(Constants.SELECTED_UNION_ID, 0);
-            selectedPanchayat = getIntent().getIntExtra(Constants.SELECTED_PANCHAYATH_ID, 0);
-            selectedVillage = getIntent().getIntExtra(Constants.SELECTED_VILLAGE_ID, 0);
-
-        }
 
         permissions.add(Manifest.permission.CAMERA);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -178,6 +188,36 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         }
 
         initGender();
+
+        if (editMember)
+            setValuesEditScenario();
+    }
+
+    private void setValuesEditScenario() {
+
+        if (selectedItemToEdit != null) {
+            String name = selectedItemToEdit.getName() != null ? selectedItemToEdit.getName() : "";
+            userName.setText(name);
+
+            String fName = selectedItemToEdit.getFatherName() != null ? selectedItemToEdit.getFatherName() : "";
+            fatherName.setText(fName);
+
+            String formatDate = AppUtils.getFormattedDateString(selectedItemToEdit.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+            dob.setText(formatDate);
+
+            String addr = selectedItemToEdit.getAddress() != null ? (String) selectedItemToEdit.getAddress() : "";
+            address.setText(addr);
+
+            String phon = selectedItemToEdit.getPhoneNumber() != null ? selectedItemToEdit.getPhoneNumber() +"": "";
+            phone.setText(phon);
+
+            String img = selectedItemToEdit.getImageByte() != null ? (String) selectedItemToEdit.getImageByte() : "";
+            Bitmap photo = AppUtils.getImgFrmBase64(img);
+            if (photo != null)
+                imgSelectedInEdit = true;
+
+            userPhoto.setImageBitmap(photo);
+        }
     }
 
     @Override
@@ -323,14 +363,21 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     private String getImageAsBase64() {
 
-        Bitmap bitmap = BitmapFactory.decodeFile(editedImgPath);
-        if (bitmap != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            String encode1 =  Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        if(editedImgPath != null && !editedImgPath.trim().equals("")) {
 
-            //server expecting 2 times base64
-            return Base64.encodeToString(encode1.getBytes(),Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeFile(editedImgPath);
+            if (bitmap != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                String encode1 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+                //server expecting 2 times base64
+                return Base64.encodeToString(encode1.getBytes(), Base64.DEFAULT);
+            }
+        } else if(editMember) {
+            if(selectedItemToEdit != null) {
+                return selectedItemToEdit.getImageByte();
+            }
         }
         return null;
     }
@@ -360,12 +407,12 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             m.setPanchayatId(selectedPanchayat);
             m.setVillageId(selectedVillage);
 
-            m.setName(userName.getText().toString());
-            m.setFatherName(fatherName.getText().toString());
+            m.setName(userName.getText().toString().trim());
+            m.setFatherName(fatherName.getText().toString().trim());
             m.setGender(selectedGender);
-            m.setAddress(address.getText() != null ? address.getText().toString() : "");
-            m.setPhoneNumber(phone.getText() != null && phone.getText().toString() != null && !phone.getText().toString().trim().equals("")? Long.valueOf(phone.getText().toString()) : Long.valueOf(0));
-            m.setDob(dob.getText() != null ? dob.getText().toString() : "");
+            m.setAddress(address.getText() != null ? address.getText().toString().trim() : "");
+            m.setPhoneNumber(phone.getText() != null && phone.getText().toString() != null && !phone.getText().toString().trim().equals("") ? Long.valueOf(phone.getText().toString()) : Long.valueOf(0));
+            m.setDob(dob.getText() != null ? dob.getText().toString().trim() : "");
             m.setImage(getImageAsBase64());//getImageAsBase64()
 
 
@@ -386,7 +433,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
                 public void onResponse(Call<Member> call, Response<Member> response) {
                     String msg = response.message();
                     if (response.isSuccessful()) {
-                        msg = "Member created Successfully";
+                        msg = editMember? "Member updated Successfully" : "Member created Successfully";
                         Toast.makeText(AdduserDetails.this, "Member creation Successful.", Toast.LENGTH_SHORT).show();
                         success = true;
                         deletTempImgs();
@@ -425,7 +472,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         protected void onPreExecute() {
             pDialog = new ProgressDialog(AdduserDetails.this);
             pDialog.setTitle("Please wait...");
-            pDialog.setMessage("Creating member.");
+            pDialog.setMessage(editMember ? "Updating member details..." : "Creating member...");
             pDialog.setCancelable(false);
             if (!isFinishing())
                 pDialog.show();
@@ -433,10 +480,11 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     private void deletTempImgs() {
-
-        File file = new File(mCameraImgPath);
-        if (file.exists())
-            file.delete();
+        if(mCameraImgPath != null) {
+            File file = new File(mCameraImgPath);
+            if (file.exists())
+                file.delete();
+        }
     }
 
     private void showResponse(boolean success, String msg) {
@@ -500,9 +548,12 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             valid = false;
         }*/
 
-        if(null == editedImgPath || editedImgPath.trim().equals("")) {
-            Toast.makeText(this, "Please provide a photo", Toast.LENGTH_LONG).show();
-            valid = false;
+        if (null == editedImgPath || editedImgPath.trim().equals("")) {
+
+            if(!imgSelectedInEdit) {
+                Toast.makeText(this, "Please provide a photo", Toast.LENGTH_LONG).show();
+                valid = false;
+            }
         }
 
         return valid;

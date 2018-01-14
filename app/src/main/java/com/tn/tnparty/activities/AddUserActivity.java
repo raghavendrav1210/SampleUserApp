@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,11 +38,8 @@ import retrofit2.Response;
 
 public class AddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //    private EditText userName, fatherName, address, phone;
-//    private TextView dob;
     private Spinner district, assembly, union, panchayat, village;
     private FloatingActionButton acceptDetails;
-//    private ImageView userPhoto;
 
     private int year, day, month;
 
@@ -72,20 +68,24 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private ProgressDialog pDialog = null;
     private int userRole;
 
+    private boolean editMember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
 
+        editMember = getIntent().getBooleanExtra(Constants.EDIT_MEMBER, false);
+        userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
+        userName = getIntent().getStringExtra(Constants.CURRENT_USER);
+        userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
+
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.add_user));
+            getSupportActionBar().setTitle(editMember ? getString(R.string.edit_member) : getString(R.string.add_user));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
-        userName = getIntent().getStringExtra(Constants.CURRENT_USER);
-        userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
 
         retrofitInterface = ApiUtils.getAPIService();
 
@@ -645,7 +645,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
 
         if (view == acceptDetails) {
-            if(checkAlltheFieldsSelected())
+            if (checkAlltheFieldsSelected())
                 gotoDetails();
             else
                 Toast.makeText(AddUserActivity.this, "Please select all the fields", Toast.LENGTH_LONG).show();
@@ -668,6 +668,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private void gotoDetails() {
         Intent i = new Intent(this, AdduserDetails.class);
+        i.putExtra(Constants.EDIT_MEMBER, editMember);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
         i.putExtra(Constants.SELECTED_DISTRICT_ID, selectedDistrict);
         i.putExtra(Constants.SELECTED_ASSEMBLY_ID, selectedAssembly);

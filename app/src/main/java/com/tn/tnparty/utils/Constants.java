@@ -23,6 +23,7 @@ public class Constants {
 
 //    public static final String USERS = "Users/Users";
 
+    public static final String EDIT_MEMBER = "EDIT_MEMBER";
     public static final String CURRENT_USER = "CURRENT_USER";
     public static final String CURRENT_USER_ID = "CURRENT_USER_ID";
     public static final String CURRENT_USER_ROLEID = "CURRENT_USER_ROLEID";
@@ -37,6 +38,8 @@ public class Constants {
     public static final String DOB_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss";
     public static final String DATE_READ_FORMAT = "dd-MMM-yyyy";
 
+
+    public static final String CONTEXT_SELECTED_MEMBER = "CONTEXT_SELECTED_MEMBER";
 //    public static String ROLE_ADMIN = "Admin";
 //    public static String ROLE_DISTRICT_HEAD = "Head";
 //    public static int ROLE_DISTRICT = 0;

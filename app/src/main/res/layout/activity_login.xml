@@ -70,7 +70,7 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="baskar" />
+                        android:text="union" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
