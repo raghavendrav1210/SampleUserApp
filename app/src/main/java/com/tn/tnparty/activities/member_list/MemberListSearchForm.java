@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tn.tnparty.R;
-import com.tn.tnparty.activities.AdduserDetails;
 import com.tn.tnparty.model.Assembly;
 import com.tn.tnparty.model.AssemblyResult;
 import com.tn.tnparty.model.District;
@@ -40,7 +39,7 @@ import retrofit2.Response;
 public class MemberListSearchForm extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner district, assembly, union, panchayat, village;
-    private FloatingActionButton acceptDetails;
+    private FloatingActionButton searchMembers;
     private ApiInterface retrofitInterface;
     private List<District> distrctResults = new ArrayList<>();
     private List<Assembly> assemblyResults = new ArrayList<>();
@@ -72,7 +71,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_member_list_search_form);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.add_user));
+            getSupportActionBar().setTitle(getString(R.string.search_user));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -106,8 +105,8 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         setSpinnerHeight(panchayat);
         setSpinnerHeight(village);
 
-        acceptDetails = (FloatingActionButton) findViewById(R.id.next);
-        acceptDetails.setOnClickListener(this);
+        searchMembers = (FloatingActionButton) findViewById(R.id.next);
+        searchMembers.setOnClickListener(this);
 
         searchUserDetails();
     }
@@ -638,9 +637,9 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
 
-        if (view == acceptDetails) {
+        if (view == searchMembers) {
             if (checkAlltheFieldsSelected())
-                gotoDetails();
+                searchMember();
             else
                 Toast.makeText(MemberListSearchForm.this, "Please select all the fields", Toast.LENGTH_LONG).show();
         }
@@ -652,8 +651,8 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         finish();
     }
 
-    private void gotoDetails() {
-        Intent i = new Intent(this, AdduserDetails.class);
+    private void searchMember() {
+        Intent i = new Intent(this, MemberSearchResultActivity.class);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
         i.putExtra(Constants.SELECTED_DISTRICT_ID, selectedDistrict);
         i.putExtra(Constants.SELECTED_ASSEMBLY_ID, selectedAssembly);

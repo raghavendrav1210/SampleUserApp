@@ -80,5 +80,6 @@ public interface ApiInterface {
     Call<UserDetailsResult> searchUserDetails(@Query("UserId") long userId);
 
     @POST(Constants.MEMBER_LIST)
-    Call<MemberListResult> gethMemberList(@Query("UserId") long userId, @Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId);
+    Call<MemberListResult> gethMemberList(@Query("UserId") long userId, @Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId,
+            @Query("villageId") int villageId);
 }

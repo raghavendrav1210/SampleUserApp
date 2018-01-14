@@ -69,7 +69,8 @@
             android:label="@string/title_activity_member_access_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.member_list.MemberListSearchForm" />
-        <activity android:name=".activities.member_list.MemberListEditActivity"></activity>
+        <activity android:name=".activities.member_list.MemberListEditActivity" />
+        <activity android:name=".activities.member_list.MemberSearchResultActivity"></activity>
     </application>
 
 </manifest>

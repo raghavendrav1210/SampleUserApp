@@ -138,5 +138,5 @@
         android:layout_gravity="bottom|right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_arrow_forward_white_24dp" />
+        app:srcCompat="@drawable/ic_search_white_24dp" />
 </FrameLayout>
