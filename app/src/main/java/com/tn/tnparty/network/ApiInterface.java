@@ -5,6 +5,7 @@ import com.tn.tnparty.model.DistrictResult;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberDetailResult;
+import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.model.PanchayathResult;
 import com.tn.tnparty.model.UnionResult;
 import com.tn.tnparty.model.UserDetailsResult;
@@ -77,4 +78,7 @@ public interface ApiInterface {
 
     @POST(Constants.SEARCH_DETAILS)
     Call<UserDetailsResult> searchUserDetails(@Query("UserId") long userId);
+
+    @POST(Constants.MEMBER_LIST)
+    Call<MemberListResult> gethMemberList(@Query("UserId") long userId, @Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId);
 }

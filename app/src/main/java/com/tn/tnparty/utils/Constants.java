@@ -19,6 +19,7 @@ public class Constants {
     public static final String VILLAGE = "/APIMaster/GetVillageListIds";
     public static final String SEARCH_MEMBER = "/Member/SearchMemberByName";
     public static final String SEARCH_DETAILS = "/Member/GetUserDetailsByUserId";
+    public static final String MEMBER_LIST = "/Member/GetMemberList";
 
 //    public static final String USERS = "Users/Users";
 
