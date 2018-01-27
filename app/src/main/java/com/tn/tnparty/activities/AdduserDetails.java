@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -121,6 +122,14 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     private void initViews() {
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         if (getIntent().getExtras() != null) {
             editMember = getIntent().getBooleanExtra(Constants.EDIT_MEMBER, false);
             currentUser = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
@@ -133,17 +142,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
         }
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(editMember ? getString(R.string.edit_member_details) : getString(R.string.enterUserDetails));
-        }
-
         Object obj = AppContext.getInstance().get(Constants.CONTEXT_SELECTED_MEMBER);
-
         if (obj instanceof MemberList) {
             selectedItemToEdit = (MemberList) obj;
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         userPhoto = (CircleImageView) findViewById(R.id.userPhoto);
         dobIcon = (TextView) findViewById(R.id.dobIcon);
@@ -208,7 +210,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             String addr = selectedItemToEdit.getAddress() != null ? (String) selectedItemToEdit.getAddress() : "";
             address.setText(addr);
 
-            String phon = selectedItemToEdit.getPhoneNumber() != null ? selectedItemToEdit.getPhoneNumber() +"": "";
+            String phon = selectedItemToEdit.getPhoneNumber() != null ? selectedItemToEdit.getPhoneNumber() + "" : "";
             phone.setText(phon);
 
             String img = selectedItemToEdit.getImageByte() != null ? (String) selectedItemToEdit.getImageByte() : "";
@@ -363,7 +365,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     private String getImageAsBase64() {
 
-        if(editedImgPath != null && !editedImgPath.trim().equals("")) {
+        if (editedImgPath != null && !editedImgPath.trim().equals("")) {
 
             Bitmap bitmap = BitmapFactory.decodeFile(editedImgPath);
             if (bitmap != null) {
@@ -374,8 +376,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
                 //server expecting 2 times base64
                 return Base64.encodeToString(encode1.getBytes(), Base64.DEFAULT);
             }
-        } else if(editMember) {
-            if(selectedItemToEdit != null) {
+        } else if (editMember) {
+            if (selectedItemToEdit != null) {
                 return selectedItemToEdit.getImageByte();
             }
         }
@@ -433,7 +435,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
                 public void onResponse(Call<Member> call, Response<Member> response) {
                     String msg = response.message();
                     if (response.isSuccessful()) {
-                        msg = editMember? "Member updated Successfully" : "Member created Successfully";
+                        msg = editMember ? "Member updated Successfully" : "Member created Successfully";
                         Toast.makeText(AdduserDetails.this, "Member creation Successful.", Toast.LENGTH_SHORT).show();
                         success = true;
                         deletTempImgs();
@@ -480,7 +482,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     private void deletTempImgs() {
-        if(mCameraImgPath != null) {
+        if (mCameraImgPath != null) {
             File file = new File(mCameraImgPath);
             if (file.exists())
                 file.delete();
@@ -550,7 +552,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
         if (null == editedImgPath || editedImgPath.trim().equals("")) {
 
-            if(!imgSelectedInEdit) {
+            if (!imgSelectedInEdit) {
                 Toast.makeText(this, "Please provide a photo", Toast.LENGTH_LONG).show();
                 valid = false;
             }

@@ -9,17 +9,6 @@
     tools:context="com.tn.tnparty.activities.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
-    <!--<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,22 +19,12 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/searchUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_search_white_24dp" />
-
-        <android.support.design.widget.FloatingActionButton
             android:id="@+id/addUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_weight="1"
             android:layout_gravity="center"
+            android:layout_weight="1"
+            android:clickable="true"
             app:srcCompat="@drawable/ic_create_white_24dp" />
 
     </LinearLayout>

@@ -2,13 +2,20 @@ package com.tn.tnparty.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tn.tnparty.R;
@@ -40,6 +47,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private Spinner district, assembly, union, panchayat, village;
     private FloatingActionButton acceptDetails;
+    private TextView toolbarTitle;
 
     private int year, day, month;
 
@@ -79,14 +87,6 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(editMember ? getString(R.string.edit_member) : getString(R.string.add_user));
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
         retrofitInterface = ApiUtils.getAPIService();
 
         initViews();
@@ -100,6 +100,14 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initViews() {
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         district = (Spinner) findViewById(R.id.district);
         assembly = (Spinner) findViewById(R.id.assembly);
         union = (Spinner) findViewById(R.id.union);
@@ -112,10 +120,27 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         setSpinnerHeight(panchayat);
         setSpinnerHeight(village);
 
-        acceptDetails = (FloatingActionButton) findViewById(R.id.next);
+        acceptDetails = findViewById(R.id.next);
         acceptDetails.setOnClickListener(this);
 
         searchUserDetails();
+    }
+
+    private void addStylesToToolbarText(Toolbar toolbar) {
+        TextView titleTextView = null;
+
+        try {
+            Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
+            f.setAccessible(true);
+            titleTextView = (TextView) f.get(toolbar);
+
+            Typeface font = ResourcesCompat.getFont(this, R.font.lato);
+            titleTextView.setTypeface(font);
+            titleTextView.setGravity(Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK);
+
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
+        }
     }
 
     private void showProgresDialog() {

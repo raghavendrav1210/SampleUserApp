@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Assembly;
@@ -70,11 +71,14 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_list_search_form);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.search_user));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setActionBar(toolbar);
+
+        if (getActionBar() != null) {
+            getActionBar().setTitle("");
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setDisplayShowHomeEnabled(true);
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
@@ -86,7 +90,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onNavigateUp() {
         onBackPressed();
         return true;
     }

@@ -1,5 +1,6 @@
 package com.tn.tnparty.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,18 +17,51 @@ import android.widget.TextView;
 import com.tn.tnparty.R;
 import com.tn.tnparty.activities.member_access.MemberAccessForm;
 import com.tn.tnparty.activities.member_list.MemberListSearchForm;
+import com.tn.tnparty.model.Assembly;
+import com.tn.tnparty.model.District;
+import com.tn.tnparty.model.Panchayath;
+import com.tn.tnparty.model.Union;
+import com.tn.tnparty.model.Village;
+import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private String userName;
-    private int userId;
-    private int userRole;
     private TextView userNameTextView;
     private TextView userIdTextView;
     private TextView memberList;
     private TextView memberAccess;
+
+    private int year, day, month;
+
+    private ApiInterface retrofitInterface;
+    private List<District> distrctResults = new ArrayList<>();
+    private List<Assembly> assemblyResults = new ArrayList<>();
+    private List<Union> unionResults = new ArrayList<>();
+    private List<Panchayath> panchayatResults = new ArrayList<>();
+    private List<Village> villageResults = new ArrayList<>();
+
+    private int userId;
+    private String userName;
+    private int selectedDistrict;
+    private int selectedAssembly;
+    private int selectedUnion;
+    private int selectedPanchayat;
+    private int selectedVillage;
+
+    private boolean districtSelected = false;
+    private boolean assemblySelected = false;
+    private boolean unionSelected = false;
+    private boolean panchayathSelected = false;
+    private boolean villageSelected = false;
+
+
+    private ProgressDialog pDialog = null;
+    private int userRole;
 
 
     @Override
@@ -47,9 +81,8 @@ public class HomeActivity extends AppCompatActivity
     private void initializeViews() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,24 +96,6 @@ public class HomeActivity extends AppCompatActivity
         userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.userName);
         userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.userId);
 
-        /*GridView gridview = (GridView) findViewById(R.id.gridview);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView button = (TextView) view;
-
-                //"Add User"
-                if (getString(R.string.fa_user_plus).equals(button.getText())) {
-                    navigateToAddUser();
-                    return;
-                } else if (getString(R.string.fa_search_plus).equals(button.getText())) {
-                    navigateToSearchUser();
-                    return;
-                }
-            }
-        };
-        gridview.setAdapter(new GridButtonsAdapter(this, onClickListener));*/
-
         FloatingActionButton addUser = (FloatingActionButton) findViewById(R.id.addUser);
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,20 +103,12 @@ public class HomeActivity extends AppCompatActivity
                 navigateToAddUser();
             }
         });
-
-        FloatingActionButton searchUser = (FloatingActionButton) findViewById(R.id.searchUser);
-        searchUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToSearchUser();
-            }
-        });
     }
 
     private void setInitialValues() {
         userNameTextView.setText(userName);
         String roleDesc = "";
-        switch(userRole) {
+        switch (userRole) {
             case 1:
             case 2:
                 roleDesc = "Admin";
@@ -144,30 +151,53 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_logout) {
-            // Handle the camera action
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.nav_share) {
+        switch (id) {
+            case R.id.memberLogout:
+                doLogout();
+                break;
 
-        } else if (id == R.id.memberList) {
-            Intent i = new Intent(this, MemberListSearchForm.class);
-            i.putExtra(Constants.CURRENT_USER, userName);
-            i.putExtra(Constants.CURRENT_USER_ID, userId);
-            i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
-            startActivity(i);
-        } else if (id == R.id.accessForm) {
-            Intent i = new Intent(this, MemberAccessForm.class);
-            i.putExtra(Constants.CURRENT_USER, userName);
-            i.putExtra(Constants.CURRENT_USER_ID, userId);
-            i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
-            startActivity(i);
+            case R.id.memberAccess:
+                navigateToMemberAccessForm();
+                break;
+
+            case R.id.memberCreate:
+                navigateToAddUser();
+                break;
+
+            case R.id.memberList:
+                navigateToMemberListFrom();
+                break;
+
+            case R.id.memberSearch:
+                navigateToSearchUser();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void doLogout() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void navigateToMemberAccessForm() {
+        Intent i = new Intent(this, MemberAccessForm.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+        startActivity(i);
+    }
+
+    private void navigateToMemberListFrom() {
+        Intent i = new Intent(this, MemberListSearchForm.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+        startActivity(i);
     }
 
     private void navigateToAddUser() {

@@ -4,6 +4,8 @@ import com.tn.tnparty.model.AssemblyResult;
 import com.tn.tnparty.model.DistrictResult;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.Member;
+import com.tn.tnparty.model.MemberAccessResponse;
+import com.tn.tnparty.model.MemberDetail;
 import com.tn.tnparty.model.MemberDetailResult;
 import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.model.PanchayathResult;
@@ -18,6 +20,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -28,32 +31,6 @@ public interface ApiInterface {
     @POST(Constants.LOGIN)
     @FormUrlEncoded
     Call<Login> login(@Field("userName") String userName, @Field("password") String password);
-
-   /* @POST(Constants.MEMBER)
-    @FormUrlEncoded
-    Call<Member> createMember(@Field("districtId") Integer districtId,
-                              @Field("assemblyId") Integer assemblyId,
-                              @Field("panchayatId") Integer panchayatId,
-                              @Field("unionId") Integer unionId,
-                              @Field("villageId") Integer villageId,
-
-                              @Field("name") String name,
-                              @Field("father_Name") String father_Name,
-                              @Field("gender") String gender,
-                              @Field("address") String address,
-                              @Field("phone_Number") Long phone_Number,
-                              @Field("dob") String dob,
-                              @Field("image") String img,
-
-                              @Field("created") String created,
-                              @Field("createdBy") String createdBy,
-                              @Field("lastUpdated") String lastUpdated,
-                              @Field("lastUpdatedBy") String lastUpdatedBy,
-
-                              @Field("live") boolean live,
-                              @Field("isActive") boolean isActive,
-                              @Field("status") int status,
-                              @Field("absoluteIndicator") boolean absoluteIndicator);*/
 
     @POST(Constants.MEMBER)
     Call<Member> createMember(@Body Member member);
@@ -81,5 +58,8 @@ public interface ApiInterface {
 
     @POST(Constants.MEMBER_LIST)
     Call<MemberListResult> gethMemberList(@Query("UserId") long userId, @Query("DistrictId") int districtId, @Query("AssemblyId") int assemblyId, @Query("UnionId") int unionId, @Query("PanchayatId") int panchayathId,
-            @Query("villageId") int villageId);
+                                          @Query("villageId") int villageId);
+
+    @POST(Constants.MEMBER_DETAILS)
+    Call<MemberAccessResponse> getMemberDetails(@Path("memberId") int memberId, @Query("UserId") long userId);
 }

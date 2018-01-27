@@ -20,6 +20,7 @@ public class Constants {
     public static final String SEARCH_MEMBER = "/Member/SearchMemberByName";
     public static final String SEARCH_DETAILS = "/Member/GetUserDetailsByUserId";
     public static final String MEMBER_LIST = "/Member/GetMemberList";
+    public static final String MEMBER_DETAILS = "/Member/Member/{memberId}";
 
 //    public static final String USERS = "Users/Users";
 
@@ -40,6 +41,7 @@ public class Constants {
 
 
     public static final String CONTEXT_SELECTED_MEMBER = "CONTEXT_SELECTED_MEMBER";
+    public static final String MEMBER_ACCESS_LIST = "MEMBER_ACCESS_LIST";
 //    public static String ROLE_ADMIN = "Admin";
 //    public static String ROLE_DISTRICT_HEAD = "Head";
 //    public static int ROLE_DISTRICT = 0;

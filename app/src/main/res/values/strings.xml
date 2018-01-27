@@ -35,4 +35,31 @@
     <string name="edit_member">Edit Member</string>
     <string name="edit_member_details">Edit Member Details</string>
 
+    <!--Labels-->
+    <string name="chooseDist">Choose District</string>
+    <string name="chooseUnion">Choose Union</string>
+    <string name="chooseAssembly">Choose Assembly</string>
+    <string name="choosePanchayat">Choose Panchayat</string>
+    <string name="chooseVillage">Choose Village</string>
+
+    <!--titles -->
+    <string name="createUser">Create User</string>
+    <string name="createUserDetails">Create User: Add Details</string>
+    <string name="memberAccessLbl">Member Access</string>
+    <string name="membersList">Members List</string>
+
+
+    <string name="memberCreate">Member Create</string>
+    <string name="memberAccess">Member Access</string>
+    <string name="memberList">Member List</string>
+    <string name="memberSearch">Member Search</string>
+    <string name="memberLogout">Logout</string>
+
+    <string name="phoneNumberLabel">Phone number</string>
+    <string name="role">Role</string>
+    <string name="memberCode">Member Code</string>
+    <string name="name">Name</string>
+
+    <string name="savelbl">Save</string>
+    <string name="cancellbl">Cancel</string>
 </resources>

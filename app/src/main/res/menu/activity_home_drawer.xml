@@ -3,38 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_logout"
+            android:id="@+id/memberCreate"
+            android:icon="@drawable/ic_create_white_24dp"
+            android:title="@string/memberCreate" />
+        <item
+            android:id="@+id/memberAccess"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="@string/memberAccess" />
+        <item
+            android:id="@+id/memberList"
+            android:icon="@drawable/ic_person_add"
+            android:title="@string/memberList" />
+        <item
+            android:id="@+id/memberSearch"
+            android:icon="@drawable/user_search"
+            android:title="@string/memberSearch" />
+        <item
+            android:id="@+id/memberLogout"
             android:icon="@drawable/logout_icon"
-            android:title="Logout" />
+            android:title="@string/memberLogout" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-        </menu>
-    </item>
-
-    <item android:title="Member List">
-        <menu>
-            <item
-                android:id="@+id/memberList"
-                android:icon="@drawable/ic_person_add"
-                android:title="Member List" />
-        </menu>
-    </item>
-
-    <item android:title="Access Form">
-        <menu>
-            <item
-                android:id="@+id/accessForm"
-                android:icon="@drawable/ic_account_circle_black_24dp"
-                android:title="Member Access" />
-        </menu>
-    </item>
 
 </menu>

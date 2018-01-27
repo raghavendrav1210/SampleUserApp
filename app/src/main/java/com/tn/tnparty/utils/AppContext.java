@@ -11,11 +11,11 @@ public class AppContext {
 
     private static final AppContext ourInstance = new AppContext();
 
-    private static HashMap<String, Object> mContext;// = new HashMap<>();
+    private static volatile HashMap<String, Object> mContext;// = new HashMap<>();
 
     public static AppContext getInstance() {
 
-        if(mContext == null)
+        if (mContext == null)
             mContext = new HashMap<>();
 
         return ourInstance;
@@ -47,7 +47,7 @@ public class AppContext {
         }
     }
 
-    public void clearContext(){
+    public void clearContext() {
 
         mContext = null;
     }
