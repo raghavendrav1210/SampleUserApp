@@ -48,6 +48,8 @@
     <string name="memberAccessLbl">Member Access</string>
     <string name="membersList">Members List</string>
 
+    <string name="updateUser">Update User</string>
+    <string name="updateUserDetails">Update User: Update Details</string>
 
     <string name="memberCreate">Member Create</string>
     <string name="memberAccess">Member Access</string>

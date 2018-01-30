@@ -306,7 +306,6 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 default:
                     loadDistrict(true);
                     break;
-
             }
         }
 

@@ -56,6 +56,9 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
             holder.address.setText(memberDetail.getAddress());
             holder.createdBy.setText(memberDetail.getCreatedByName());
 //          holder.status.setText(memberDetail.getStatus());
+
+            String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
+            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
         }
     }
 

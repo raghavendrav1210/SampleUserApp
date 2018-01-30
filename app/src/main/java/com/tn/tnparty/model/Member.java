@@ -68,10 +68,10 @@ public class Member {
     private String image;
     @SerializedName("memberCode")
     @Expose
-    private Object memberCode;
+    private String memberCode;
     @SerializedName("roleId")
     @Expose
-    private Object roleId;
+    private Long roleId;
     @SerializedName("comments")
     @Expose
     private Object comments;
@@ -270,19 +270,19 @@ public class Member {
         this.image = image;
     }
 
-    public Object getMemberCode() {
+    public String getMemberCode() {
         return memberCode;
     }
 
-    public void setMemberCode(Object memberCode) {
+    public void setMemberCode(String memberCode) {
         this.memberCode = memberCode;
     }
 
-    public Object getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Object roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 

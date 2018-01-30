@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -672,10 +671,10 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                         if (null != membersList && !membersList.isEmpty()) {
                             AppContext.getInstance().add(Constants.MEMBER_ACCESS_LIST, membersList);
                             navigateToMemberAccessList();
-                        }
+                        } else
+                            Toast.makeText(MemberAccessForm.this, "No user list available at this movement, please try after sometime.", Toast.LENGTH_LONG).show();
                     }
                 }
-                Toast.makeText(MemberAccessForm.this, "No user list available at this movement, please try after sometime.", Toast.LENGTH_LONG).show();
             }
 
             @Override

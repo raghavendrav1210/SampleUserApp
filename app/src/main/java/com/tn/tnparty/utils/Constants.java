@@ -10,6 +10,7 @@ public class Constants {
     public static final String LOGIN = "Users/Login";
     public static final String USERS = "Users/Users";
     public static final String MEMBER = "Member/CreateUpdate";
+    public static final String MEMBER_ACCESS_ROLE = "/Member/SaveAccessForm";
 
 
     public static final String DISTRICT = "/APIMaster/DistrictList";

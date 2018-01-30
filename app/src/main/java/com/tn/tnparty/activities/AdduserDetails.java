@@ -110,6 +110,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private boolean editMember;
     private MemberList selectedItemToEdit;
     private boolean imgSelectedInEdit;
+    private TextView homeToolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,14 +123,6 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
     private void initViews() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
         if (getIntent().getExtras() != null) {
             editMember = getIntent().getBooleanExtra(Constants.EDIT_MEMBER, false);
             currentUser = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
@@ -140,6 +133,17 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             selectedPanchayat = getIntent().getIntExtra(Constants.SELECTED_PANCHAYATH_ID, 0);
             selectedVillage = getIntent().getIntExtra(Constants.SELECTED_VILLAGE_ID, 0);
 
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            //check edit or create
+            homeToolBarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+            homeToolBarTitle.setText(editMember ? getString(R.string.updateUserDetails) : getString(R.string.createUserDetails));
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         Object obj = AppContext.getInstance().get(Constants.CONTEXT_SELECTED_MEMBER);
@@ -414,7 +418,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             m.setGender(selectedGender);
             m.setAddress(address.getText() != null ? address.getText().toString().trim() : "");
             m.setPhoneNumber(phone.getText() != null && phone.getText().toString() != null && !phone.getText().toString().trim().equals("") ? Long.valueOf(phone.getText().toString()) : Long.valueOf(0));
-            m.setDob(dob.getText() != null ? dob.getText().toString().trim() : "");
+
+            String dobStr = dob.getText() != null ? dob.getText().toString().trim() : "";
+            String formatDate = AppUtils.getFormattedDateString(dobStr, Constants.DATE_READ_FORMAT, Constants.DOB_DATE_FORMAT);
+            m.setDob(formatDate);
             m.setImage(getImageAsBase64());//getImageAsBase64()
 
 
@@ -464,9 +471,9 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
                 pDialog.dismiss();
 
             if (!success)
-                showialog("Member creation failed. Please Try again", !success);
+                showDialog("Member creation failed. Please Try again", !success);
             else
-                showialog("Member created successfully", success);*/
+                showDialog("Member created successfully", success);*/
         }
 
 
@@ -492,10 +499,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
     private void showResponse(boolean success, String msg) {
         if (pDialog != null && pDialog.isShowing())
             pDialog.dismiss();
-        showialog(msg, success);
+        showDialog(msg, success);
     }
 
-    private void showialog(String msg, final boolean success) {
+    private void showDialog(String msg, final boolean success) {
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         if (success)

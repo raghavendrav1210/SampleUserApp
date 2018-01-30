@@ -5,6 +5,7 @@ import com.tn.tnparty.model.DistrictResult;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberAccessResponse;
+import com.tn.tnparty.model.MemberAccessRoleUpdate;
 import com.tn.tnparty.model.MemberDetail;
 import com.tn.tnparty.model.MemberDetailResult;
 import com.tn.tnparty.model.MemberListResult;
@@ -62,4 +63,7 @@ public interface ApiInterface {
 
     @POST(Constants.MEMBER_DETAILS)
     Call<MemberAccessResponse> getMemberDetails(@Path("memberId") int memberId, @Query("UserId") long userId);
+
+    @POST(Constants.MEMBER_ACCESS_ROLE)
+    Call<MemberAccessRoleUpdate> updateMemberRole(@Body MemberAccessRoleUpdate member);
 }

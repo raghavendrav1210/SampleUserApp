@@ -77,6 +77,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private int userRole;
 
     private boolean editMember;
+    private TextView homeToolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+
+            homeToolBarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+            homeToolBarTitle.setText(editMember ? getString(R.string.updateUser) : getString(R.string.createUser));
+
             getSupportActionBar().setTitle("");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -1,5 +1,9 @@
 package com.tn.tnparty.activities.member_access;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +23,18 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tn.tnparty.R;
+import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberAccessResponse;
+import com.tn.tnparty.model.MemberAccessRoleUpdate;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.model.Role;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,6 +49,7 @@ public class MemberAccessList extends AppCompatActivity {
     private ApiInterface retrofitInterface;
     private long userId;
     private Role selectedRole;
+    private ProgressDialog pDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +126,7 @@ public class MemberAccessList extends AppCompatActivity {
         }
     }
 
-    private void createAndShowRoleChangeDialog(MemberAccessResponse memberAccessResponse) {
+    private void createAndShowRoleChangeDialog(final MemberAccessResponse memberAccessResponse) {
         selectedRole = null;
         boolean wrapInScrollView = true;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
@@ -160,12 +169,100 @@ public class MemberAccessList extends AppCompatActivity {
         builder.onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                saveMemberRole();
+                saveMemberRole(memberAccessResponse);
             }
         });
     }
 
-    private void saveMemberRole() {
+    private void saveMemberRole(MemberAccessResponse memberAccessResponse) {
+        new CreateMemberAsyntask(memberAccessResponse).execute();
+    }
 
+    private class CreateMemberAsyntask extends AsyncTask<Void, Boolean, Boolean> {
+
+        private boolean success = false;
+        private MemberAccessResponse memberAccessResponse;
+
+        public CreateMemberAsyntask(MemberAccessResponse memberAccessResponse){
+            this.memberAccessResponse = memberAccessResponse;
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            MemberAccessRoleUpdate m = new MemberAccessRoleUpdate();
+            m.setIsActive(memberAccessResponse.getMemberAccessItem().getMemberDetail().getIsActive());
+            m.setMemberId(memberAccessResponse.getMemberAccessItem().getMemberDetail().getMemberId());
+            m.setStatus(Integer.parseInt(selectedRole.getRoleId()));
+            m.setUserName(memberAccessResponse.getMemberAccessItem().getMemberDetail().getPhoneNumber().intValue());
+            m.setUserId(userId);
+            m.setPassword(memberAccessResponse.getMemberAccessItem().getMemberDetail().getPhoneNumber().intValue());
+
+
+            retrofitInterface.updateMemberRole(m).enqueue(new Callback<MemberAccessRoleUpdate>() {
+                @Override
+                public void onResponse(Call<MemberAccessRoleUpdate> call, Response<MemberAccessRoleUpdate> response) {
+                    String msg = response.message();
+                    if (response.isSuccessful()) {
+                        success = true;
+                        showResponse(success, "Member Role updated");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MemberAccessRoleUpdate> call, Throwable t) {
+                    success = false;
+                    showResponse(false, "Unable to update Member Role" + t.getMessage());
+                    Toast.makeText(MemberAccessList.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return success;
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(MemberAccessList.this);
+            pDialog.setTitle("Please wait...");
+            pDialog.setMessage("Updating Member Role...");
+            pDialog.setCancelable(false);
+            if (!isFinishing())
+                pDialog.show();
+        }
+    }
+
+    private void showResponse(boolean success, String msg) {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.dismiss();
+        showDialog(msg, success);
+    }
+
+    private void showDialog(String msg, final boolean success) {
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        if (success)
+            dialogBuilder.setTitle("Success");
+        else
+            dialogBuilder.setTitle("Error");
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setMessage(msg);
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                if (success)
+                    finish();
+            }
+        });
+
+        if (!isFinishing())
+            dialogBuilder.show();
     }
 }
