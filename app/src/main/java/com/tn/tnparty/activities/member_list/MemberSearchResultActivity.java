@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tn.tnparty.R;
@@ -19,6 +20,7 @@ import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class MemberSearchResultActivity extends AppCompatActivity {
 
     private ApiInterface retrofitInterface;
     private ProgressDialog pDialog = null;
+    private TextView homeToolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +80,23 @@ public class MemberSearchResultActivity extends AppCompatActivity {
             selectedVillage = getIntent().getIntExtra(Constants.SELECTED_VILLAGE_ID, 0);
         }
 
+        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+        searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
+
+//        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
         loadMemberLit();
     }
 
     private void loadMemberListView() {
-        searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
+        int size = membersList != null ? membersList.size(): 0;
+        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " (" + size + ")" );//- Logged in as " + AppUtils.getRoleDesc(userRole)
         memberSearchAdapter = new MemberSearchResultAdapter(this, membersList, new MemberSearchResultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MemberList selectedItem) {
-                AppContext.getInstance().add(Constants.CONTEXT_SELECTED_MEMBER, selectedItem);
-                navigateToMemberEdit();
+               /*
+               //Removed as per request
+               AppContext.getInstance().add(Constants.CONTEXT_SELECTED_MEMBER, selectedItem);
+                navigateToMemberEdit();*/
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

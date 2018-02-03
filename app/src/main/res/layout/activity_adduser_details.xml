@@ -51,64 +51,78 @@
                     android:layout_marginStart="12dp"
                     android:orientation="vertical">
 
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/userPhoto"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="24dp"
-                        android:src="@drawable/user"
-                        app:civ_border_color="#FF000000"
-                        app:civ_border_width="2dp" />
-
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="6dp"
-                        android:gravity="center"
-                        android:text="@string/tapOnImage" />
+                        android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:padding="4dp">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userPhoto"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="right"
+                            android:src="@drawable/user"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="2dp" />
 
-                        <EditText
-                            android:id="@+id/userName"
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Name *"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+                            android:id="@+id/userNameLayout"
+                            android:layout_marginTop="4dp"
+                            android:layout_toLeftOf="@+id/userPhoto"
+                            android:padding="4dp">
 
-                    </android.support.design.widget.TextInputLayout>
+                            <EditText
+                                android:id="@+id/userName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_toLeftOf="@+id/userPhoto"
+                                android:gravity="center_vertical"
+                                android:hint="Name *"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:padding="4dp">
+                        </android.support.design.widget.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/fatherName"
+                      <!--  <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/userPhoto"
+                            android:gravity="right"
+                            android:text="@string/tapOnImage" />-->
+
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Father Name *"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+                            android:layout_marginTop="4dp"
+                            android:layout_toLeftOf="@+id/userPhoto"
+                            android:layout_below="@+id/userNameLayout"
+                            android:padding="4dp">
 
-                    </android.support.design.widget.TextInputLayout>
+                            <EditText
+                                android:id="@+id/fatherName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Father Name *"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/dobLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:hint="Date of Birth"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -152,7 +166,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:hint="Gender"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -167,7 +181,7 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:padding="4dp">
 
                         <EditText
@@ -178,7 +192,7 @@
                             android:hint="Address"
                             android:inputType="textEmailAddress|textMultiLine"
                             android:lines="20"
-                            android:minLines="5"
+                            android:minLines="3"
                             android:scrollHorizontally="false"
                             android:scrollbars="vertical" />
 
@@ -187,7 +201,7 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:padding="4dp">
 
                         <EditText
@@ -205,7 +219,7 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:padding="4dp">
 
                         <EditText
@@ -228,7 +242,7 @@
                         android:layout_marginBottom="24dp"
                         android:layout_marginEnd="24dp"
                         android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/rounded_button_next"
                         android:text="@string/submit"
                         android:textColor="@color/white"

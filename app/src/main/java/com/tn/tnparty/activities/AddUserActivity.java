@@ -23,6 +23,7 @@ import com.tn.tnparty.model.Assembly;
 import com.tn.tnparty.model.AssemblyResult;
 import com.tn.tnparty.model.District;
 import com.tn.tnparty.model.DistrictResult;
+import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.model.Panchayath;
 import com.tn.tnparty.model.PanchayathResult;
 import com.tn.tnparty.model.Union;
@@ -33,6 +34,7 @@ import com.tn.tnparty.model.Village;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppContext;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -46,6 +48,7 @@ import retrofit2.Response;
 public class AddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner district, assembly, union, panchayat, village;
+    private TextView districtT, assemblyT, unionT, panchayatT, villageT;
     private FloatingActionButton acceptDetails;
     private TextView toolbarTitle;
 
@@ -72,7 +75,6 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private boolean panchayathSelected = false;
     private boolean villageSelected = false;
 
-
     private ProgressDialog pDialog = null;
     private int userRole;
 
@@ -82,7 +84,6 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_user);
 
         editMember = getIntent().getBooleanExtra(Constants.EDIT_MEMBER, false);
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
@@ -100,7 +101,29 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initViews() {
+        if (editMember) {
+            setContentView(R.layout.activity_add_user_update);
 
+            districtT = (TextView) findViewById(R.id.district);
+            assemblyT = (TextView) findViewById(R.id.assembly);
+            unionT = (TextView) findViewById(R.id.union);
+            panchayatT = (TextView) findViewById(R.id.panchayat);
+            villageT = (TextView) findViewById(R.id.village);
+
+        } else {
+            setContentView(R.layout.activity_add_user);
+            district = (Spinner) findViewById(R.id.district);
+            assembly = (Spinner) findViewById(R.id.assembly);
+            union = (Spinner) findViewById(R.id.union);
+            panchayat = (Spinner) findViewById(R.id.panchayat);
+            village = (Spinner) findViewById(R.id.village);
+
+            setSpinnerHeight(district);
+            setSpinnerHeight(assembly);
+            setSpinnerHeight(union);
+            setSpinnerHeight(panchayat);
+            setSpinnerHeight(village);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -113,17 +136,6 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        district = (Spinner) findViewById(R.id.district);
-        assembly = (Spinner) findViewById(R.id.assembly);
-        union = (Spinner) findViewById(R.id.union);
-        panchayat = (Spinner) findViewById(R.id.panchayat);
-        village = (Spinner) findViewById(R.id.village);
-
-        setSpinnerHeight(district);
-        setSpinnerHeight(assembly);
-        setSpinnerHeight(union);
-        setSpinnerHeight(panchayat);
-        setSpinnerHeight(village);
 
         acceptDetails = findViewById(R.id.next);
         acceptDetails.setOnClickListener(this);
@@ -145,6 +157,24 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
+        }
+    }
+
+    private void disableAllInDetailsMode(UserDetails userDetails) {
+        if (null != userDetails) {
+            Object obj = AppContext.getInstance().get(Constants.CONTEXT_SELECTED_MEMBER);
+            MemberList selectedItemToEdit = null;
+            if (obj instanceof MemberList) {
+                selectedItemToEdit = (MemberList) obj;
+            }
+
+            if (null != selectedItemToEdit) {
+                districtT.setText(selectedItemToEdit.getDistrictName());
+                assemblyT.setText(selectedItemToEdit.getAssemblyName());
+                unionT.setText(selectedItemToEdit.getUnionName());
+                panchayatT.setText(selectedItemToEdit.getPanchayatName());
+                villageT.setText(selectedItemToEdit.getVillageName());
+            }
         }
     }
 
@@ -196,150 +226,153 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private void loadData(UserDetails userDetails) {
 
         if (null != userDetails) {
+            if (editMember) {
+                disableAllInDetailsMode(userDetails);
+            } else {
+                switch (userRole) {
+                    case 1:
+                    case 2:
+                        loadDistrict(true);
+                        break;
 
-            switch (userRole) {
-                case 1:
-                case 2:
-                    loadDistrict(true);
+                    case 3: {
+                        //set District load others
+                        selectedDistrict = userDetails.getDistrictId();
+                        District district = new District();
+                        district.setDistrictId(userDetails.getDistrictId());
+                        district.setDistrictName(userDetails.getDistrictName());
+                        distrctResults = new ArrayList<>();
+                        distrctResults.add(district);
+                        initDistrctSpinner(false);
+                        loadAssembly(true);
+                    }
+                    break;
+                    case 4: {
+                        //set istrict load others
+                        selectedDistrict = userDetails.getDistrictId();
+                        District district = new District();
+                        district.setDistrictId(userDetails.getDistrictId());
+                        district.setDistrictName(userDetails.getDistrictName());
+                        distrctResults = new ArrayList<>();
+                        distrctResults.add(district);
+
+                        selectedAssembly = userDetails.getAssemblyId();
+                        Assembly assembly = new Assembly();
+                        assembly.setAssemblyId(userDetails.getAssemblyId());
+                        assembly.setAssemblyName(userDetails.getAssemblyName());
+                        assemblyResults.add(assembly);
+                        initDistrctSpinner(false);
+                        initAsseblySpinner(false);
+                        loadUnion(true);
+                    }
+                    break;
+                    case 5: {
+                        //set istrict load others
+                        selectedDistrict = userDetails.getDistrictId();
+                        District district = new District();
+                        district.setDistrictId(userDetails.getDistrictId());
+                        district.setDistrictName(userDetails.getDistrictName());
+                        distrctResults = new ArrayList<>();
+                        distrctResults.add(district);
+
+                        selectedAssembly = userDetails.getAssemblyId();
+                        Assembly assembly = new Assembly();
+                        assembly.setAssemblyId(userDetails.getAssemblyId());
+                        assembly.setAssemblyName(userDetails.getAssemblyName());
+                        assemblyResults.add(assembly);
+
+                        selectedUnion = userDetails.getUnionId();
+                        Union union = new Union();
+                        union.setUnionId(userDetails.getUnionId());
+                        union.setUnionName(userDetails.getUnionName());
+                        unionResults.add(union);
+
+                        initDistrctSpinner(false);
+                        initAsseblySpinner(false);
+                        initUnionSpinner(false);
+                        loadPanchayath(true);
+                    }
+                    break;
+                    case 6: {
+                        //set istrict load others
+                        selectedDistrict = userDetails.getDistrictId();
+                        District district = new District();
+                        district.setDistrictId(userDetails.getDistrictId());
+                        district.setDistrictName(userDetails.getDistrictName());
+                        distrctResults = new ArrayList<>();
+                        distrctResults.add(district);
+
+                        selectedAssembly = userDetails.getAssemblyId();
+                        Assembly assembly = new Assembly();
+                        assembly.setAssemblyId(userDetails.getAssemblyId());
+                        assembly.setAssemblyName(userDetails.getAssemblyName());
+                        assemblyResults.add(assembly);
+
+                        selectedUnion = userDetails.getUnionId();
+                        Union union = new Union();
+                        union.setUnionId(userDetails.getUnionId());
+                        union.setUnionName(userDetails.getUnionName());
+                        unionResults.add(union);
+
+                        selectedPanchayat = userDetails.getPanchayatId();
+                        Panchayath panchayath = new Panchayath();
+                        panchayath.setPanchayatId(userDetails.getPanchayatId());
+                        panchayath.setPanchayatName(userDetails.getPanchayatName());
+                        panchayatResults.add(panchayath);
+
+                        initDistrctSpinner(false);
+                        initAsseblySpinner(false);
+                        initUnionSpinner(false);
+                        initPanchayathSpinner(false);
+                        loadVillages(true);
+                    }
+                    break;
+                    case 7: {
+                        //set istrict load others
+                        selectedDistrict = userDetails.getDistrictId();
+                        District district = new District();
+                        district.setDistrictId(userDetails.getDistrictId());
+                        district.setDistrictName(userDetails.getDistrictName());
+                        distrctResults = new ArrayList<>();
+                        distrctResults.add(district);
+
+                        selectedAssembly = userDetails.getAssemblyId();
+                        Assembly assembly = new Assembly();
+                        assembly.setAssemblyId(userDetails.getAssemblyId());
+                        assembly.setAssemblyName(userDetails.getAssemblyName());
+                        assemblyResults.add(assembly);
+
+                        selectedUnion = userDetails.getUnionId();
+                        Union union = new Union();
+                        union.setUnionId(userDetails.getUnionId());
+                        union.setUnionName(userDetails.getUnionName());
+                        unionResults.add(union);
+
+                        selectedPanchayat = userDetails.getPanchayatId();
+                        Panchayath panchayath = new Panchayath();
+                        panchayath.setPanchayatId(userDetails.getPanchayatId());
+                        panchayath.setPanchayatName(userDetails.getPanchayatName());
+                        panchayatResults.add(panchayath);
+
+                        selectedVillage = userDetails.getVillageId();
+                        Village village = new Village();
+                        village.setVillageId(userDetails.getVillageId());
+                        village.setVillageName(userDetails.getVillageName());
+                        villageResults.add(village);
+
+                        initDistrctSpinner(false);
+                        initAsseblySpinner(false);
+                        initUnionSpinner(false);
+                        initPanchayathSpinner(false);
+                        initVillageSpinner(false);
+                    }
                     break;
 
-                case 3: {
-                    //set District load others
-                    selectedDistrict = userDetails.getDistrictId();
-                    District district = new District();
-                    district.setDistrictId(userDetails.getDistrictId());
-                    district.setDistrictName(userDetails.getDistrictName());
-                    distrctResults = new ArrayList<>();
-                    distrctResults.add(district);
-                    initDistrctSpinner(false);
-                    loadAssembly(true);
+                    default:
+                        loadDistrict(true);
+                        break;
+
                 }
-                break;
-                case 4: {
-                    //set istrict load others
-                    selectedDistrict = userDetails.getDistrictId();
-                    District district = new District();
-                    district.setDistrictId(userDetails.getDistrictId());
-                    district.setDistrictName(userDetails.getDistrictName());
-                    distrctResults = new ArrayList<>();
-                    distrctResults.add(district);
-
-                    selectedAssembly = userDetails.getAssemblyId();
-                    Assembly assembly = new Assembly();
-                    assembly.setAssemblyId(userDetails.getAssemblyId());
-                    assembly.setAssemblyName(userDetails.getAssemblyName());
-                    assemblyResults.add(assembly);
-                    initDistrctSpinner(false);
-                    initAsseblySpinner(false);
-                    loadUnion(true);
-                }
-                break;
-                case 5: {
-                    //set istrict load others
-                    selectedDistrict = userDetails.getDistrictId();
-                    District district = new District();
-                    district.setDistrictId(userDetails.getDistrictId());
-                    district.setDistrictName(userDetails.getDistrictName());
-                    distrctResults = new ArrayList<>();
-                    distrctResults.add(district);
-
-                    selectedAssembly = userDetails.getAssemblyId();
-                    Assembly assembly = new Assembly();
-                    assembly.setAssemblyId(userDetails.getAssemblyId());
-                    assembly.setAssemblyName(userDetails.getAssemblyName());
-                    assemblyResults.add(assembly);
-
-                    selectedUnion = userDetails.getUnionId();
-                    Union union = new Union();
-                    union.setUnionId(userDetails.getUnionId());
-                    union.setUnionName(userDetails.getUnionName());
-                    unionResults.add(union);
-
-                    initDistrctSpinner(false);
-                    initAsseblySpinner(false);
-                    initUnionSpinner(false);
-                    loadPanchayath(true);
-                }
-                break;
-                case 6: {
-                    //set istrict load others
-                    selectedDistrict = userDetails.getDistrictId();
-                    District district = new District();
-                    district.setDistrictId(userDetails.getDistrictId());
-                    district.setDistrictName(userDetails.getDistrictName());
-                    distrctResults = new ArrayList<>();
-                    distrctResults.add(district);
-
-                    selectedAssembly = userDetails.getAssemblyId();
-                    Assembly assembly = new Assembly();
-                    assembly.setAssemblyId(userDetails.getAssemblyId());
-                    assembly.setAssemblyName(userDetails.getAssemblyName());
-                    assemblyResults.add(assembly);
-
-                    selectedUnion = userDetails.getUnionId();
-                    Union union = new Union();
-                    union.setUnionId(userDetails.getUnionId());
-                    union.setUnionName(userDetails.getUnionName());
-                    unionResults.add(union);
-
-                    selectedPanchayat = userDetails.getPanchayatId();
-                    Panchayath panchayath = new Panchayath();
-                    panchayath.setPanchayatId(userDetails.getPanchayatId());
-                    panchayath.setPanchayatName(userDetails.getPanchayatName());
-                    panchayatResults.add(panchayath);
-
-                    initDistrctSpinner(false);
-                    initAsseblySpinner(false);
-                    initUnionSpinner(false);
-                    initPanchayathSpinner(false);
-                    loadVillages(true);
-                }
-                break;
-                case 7: {
-                    //set istrict load others
-                    selectedDistrict = userDetails.getDistrictId();
-                    District district = new District();
-                    district.setDistrictId(userDetails.getDistrictId());
-                    district.setDistrictName(userDetails.getDistrictName());
-                    distrctResults = new ArrayList<>();
-                    distrctResults.add(district);
-
-                    selectedAssembly = userDetails.getAssemblyId();
-                    Assembly assembly = new Assembly();
-                    assembly.setAssemblyId(userDetails.getAssemblyId());
-                    assembly.setAssemblyName(userDetails.getAssemblyName());
-                    assemblyResults.add(assembly);
-
-                    selectedUnion = userDetails.getUnionId();
-                    Union union = new Union();
-                    union.setUnionId(userDetails.getUnionId());
-                    union.setUnionName(userDetails.getUnionName());
-                    unionResults.add(union);
-
-                    selectedPanchayat = userDetails.getPanchayatId();
-                    Panchayath panchayath = new Panchayath();
-                    panchayath.setPanchayatId(userDetails.getPanchayatId());
-                    panchayath.setPanchayatName(userDetails.getPanchayatName());
-                    panchayatResults.add(panchayath);
-
-                    selectedVillage = userDetails.getVillageId();
-                    Village village = new Village();
-                    village.setVillageId(userDetails.getVillageId());
-                    village.setVillageName(userDetails.getVillageName());
-                    villageResults.add(village);
-
-                    initDistrctSpinner(false);
-                    initAsseblySpinner(false);
-                    initUnionSpinner(false);
-                    initPanchayathSpinner(false);
-                    initVillageSpinner(false);
-                }
-                break;
-
-                default:
-                    loadDistrict(true);
-                    break;
-
             }
         }
 
@@ -725,6 +758,9 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean checkAlltheFieldsSelected() {
+
+        if(editMember)
+            return true;
 
         districtSelected = (district.getSelectedItem() != null ? true : false);
         assemblySelected = (assembly.getSelectedItem() != null ? true : false);

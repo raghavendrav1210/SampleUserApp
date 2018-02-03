@@ -75,10 +75,10 @@ public class MemberList {
     private String memberCode;
     @SerializedName("roleId")
     @Expose
-    private Object roleId;
+    private Integer roleId;
     @SerializedName("comments")
     @Expose
-    private Object comments;
+    private String comments;
     @SerializedName("live")
     @Expose
     private Boolean live;
@@ -278,19 +278,19 @@ public class MemberList {
         this.memberCode = memberCode;
     }
 
-    public Object getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Object roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
-    public Object getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(Object comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 

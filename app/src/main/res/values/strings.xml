@@ -42,6 +42,12 @@
     <string name="choosePanchayat">Choose Panchayat</string>
     <string name="chooseVillage">Choose Village</string>
 
+    <string name="dist">District</string>
+    <string name="union">Union</string>
+    <string name="assembly">Assembly</string>
+    <string name="panchayat">Panchayat</string>
+    <string name="village">Village</string>
+
     <!--titles -->
     <string name="createUser">Create User</string>
     <string name="createUserDetails">Create User: Add Details</string>

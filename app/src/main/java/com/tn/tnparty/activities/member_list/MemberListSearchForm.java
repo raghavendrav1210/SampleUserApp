@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -27,6 +28,7 @@ import com.tn.tnparty.model.Village;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -65,6 +67,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
 
     private ProgressDialog pDialog = null;
     private int userRole;
+//    private TextView homeToolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,9 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         union = (Spinner) findViewById(R.id.union);
         panchayat = (Spinner) findViewById(R.id.panchayat);
         village = (Spinner) findViewById(R.id.village);
+//        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+
+//        homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
 
         setSpinnerHeight(district);
         setSpinnerHeight(assembly);

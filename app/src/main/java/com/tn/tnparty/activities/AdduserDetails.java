@@ -199,6 +199,27 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             setValuesEditScenario();
     }
 
+    private void disableAllInDetailsMode(){
+        userPhoto.setEnabled(false);
+        dobIcon.setEnabled(false);
+        userName.setEnabled(false);
+        fatherName.setEnabled(false);
+        address.setEnabled(false);
+        phone.setEnabled(false);
+        voterId.setEnabled(false);
+        dob.setEnabled(false);
+
+        gender.setEnabled(false);
+
+        addUser.setEnabled(false);
+        addUser.setVisibility(View.GONE);
+
+        userPhoto.setOnClickListener(null);
+        dob.setOnClickListener(null);
+        dobIcon.setOnClickListener(null);
+
+    }
+
     private void setValuesEditScenario() {
 
         if (selectedItemToEdit != null) {
@@ -224,6 +245,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
 
             userPhoto.setImageBitmap(photo);
         }
+
+        disableAllInDetailsMode();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     private OnItemClickListener onItemClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView memberName, fatherName, dob, createdBy, status, address;
+        public TextView memberName, fatherName, userRole, createdBy, status, address;
         public CircleImageView userPhoto;
         private CardView memberCard;
 
@@ -38,7 +38,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
             memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
             userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
-            dob = (TextView) view.findViewById(R.id.dob);
+            userRole = (TextView) view.findViewById(R.id.role);
             createdBy = (TextView) view.findViewById(R.id.createdBy);
             status = (TextView) view.findViewById(R.id.status);
             address =(TextView) view.findViewById(R.id.address);
@@ -74,17 +74,18 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MemberList memberDetail = moviesList.get(position);
         if (memberDetail != null) {
-            holder.memberName.setText("Name: " + memberDetail.getName());
-            holder.fatherName.setText("Father: " + memberDetail.getFatherName());
-            String formatDate = AppUtils.getFormattedDateString("DOB: " + memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
-            holder.dob.setText("DOB: " + formatDate);
+            holder.memberName.setText( memberDetail.getName());
+            holder.fatherName.setText(memberDetail.getFatherName());
+//            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+
+            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
             holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
-            holder.createdBy.setText("Created By: " + memberDetail.getCreatedByName()+"");
-            String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "Not Live";
-            holder.status.setText("Status: " + live);
+            holder.createdBy.setText(memberDetail.getCreatedByName()+"");
+            String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "";
+            holder.status.setText(live);
             String addr = memberDetail.getAddress() != null && !memberDetail.getAddress().trim().equals("")? memberDetail.getAddress() : "";
-            holder.address.setText("Address: " + addr);
+            holder.address.setText(addr);
         }
     }
 

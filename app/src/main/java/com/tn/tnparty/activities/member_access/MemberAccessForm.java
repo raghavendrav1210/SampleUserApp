@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -30,6 +31,7 @@ import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -69,6 +71,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
     private ProgressDialog pDialog = null;
     private int userRole;
     private FloatingActionButton floatingActionButtonNext;
+//    private TextView homeToolbarTitle;
 
 
     @Override
@@ -87,6 +90,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         setActionBar(toolbar);
         getActionBar().setTitle("");
 
+//        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
         district = (Spinner) findViewById(R.id.district);
         assembly = (Spinner) findViewById(R.id.assembly);
         union = (Spinner) findViewById(R.id.union);
@@ -108,6 +112,8 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
+
+//        homeToolbarTitle.setText(getResources().getString(R.string.memberAccessLbl) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
 
         retrofitInterface = ApiUtils.getAPIService();
 

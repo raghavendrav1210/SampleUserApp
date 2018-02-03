@@ -153,12 +153,46 @@ public class AppUtils {
 
     public static Bitmap getImgFrmBase64(String base64) {
 
-        if(base64 !=null && !base64.trim().equals("")) {
+        if (base64 != null && !base64.trim().equals("")) {
             byte[] finalDecodedString = Base64.decode(new String(Base64.decode(base64, Base64.DEFAULT)), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
             return decodedByte;
         }
         return null;
+    }
+
+    public static String getRoleDesc(int userRole) {
+        String roleDesc = "";
+        switch (userRole) {
+            case 1:
+            case 2:
+                roleDesc = "Admin";
+                break;
+            case 3:
+                roleDesc = "District Head";
+                break;
+            case 4:
+                roleDesc = "Assembly Head";
+                break;
+            case 5:
+                roleDesc = "Union Head";
+                break;
+            case 6:
+                roleDesc = "Panchyath Head";
+                break;
+            case 7:
+                roleDesc = "Village Head";
+                break;
+            case 8:
+                roleDesc = "Member";
+                break;
+
+            default:
+                roleDesc = "";
+                break;
+        }
+
+        return roleDesc;
     }
 
 }

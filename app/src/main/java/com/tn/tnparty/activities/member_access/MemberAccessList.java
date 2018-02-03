@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -50,6 +51,8 @@ public class MemberAccessList extends AppCompatActivity {
     private long userId;
     private Role selectedRole;
     private ProgressDialog pDialog = null;
+    private int userRole;
+//    private TextView homeToolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,7 @@ public class MemberAccessList extends AppCompatActivity {
         setContentView(R.layout.activity_member_access_list);
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
-
+        userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
         initViews();
 
         init();
@@ -73,6 +76,10 @@ public class MemberAccessList extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        /*homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+
+        homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));*/
 
         recyclerView = findViewById(R.id.membersList);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

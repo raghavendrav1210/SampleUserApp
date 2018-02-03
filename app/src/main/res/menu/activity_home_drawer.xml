@@ -10,6 +10,7 @@
             android:title="@string/memberCreate" />
         <item
             android:id="@+id/memberAccess"
+            android:visible="false"
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/memberAccess" />
         <item
