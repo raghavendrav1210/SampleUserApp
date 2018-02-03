@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.tn.tnparty.activities.AddUserActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="0dp"
-        app:theme="@style/ToolbarStyle"
-        app:title="">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/homeToolbarTitle"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/lato"
-            android:text="@string/createUser"
-            android:textColor="@color/colorPrimary" />
-    </android.support.v7.widget.Toolbar>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/white"
-        android:fillViewport="true">
-
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:orientation="vertical">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <TextView
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
+                app:title="">
+
+                <TextView
+                    android:id="@+id/homeToolbarTitle"
+                    style="@style/toolBarTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/lato"
+                    android:text="@string/createUser" />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@color/white"
+            android:fillViewport="true">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lato"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:text="@string/chooseDist"
-                android:textColor="@color/labelColor"
-                android:textSize="12sp" />
+                android:layout_margin="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:text="@string/chooseDist"
+                    android:textColor="@color/labelColor"
+                    android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/district"
@@ -63,16 +72,16 @@
                 android:layout_marginBottom="@dimen/formFieldistance"
                 android:background="@color/colorPrimary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:text="@string/chooseAssembly"
-                android:textColor="@color/labelColor"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:text="@string/chooseAssembly"
+                    android:textColor="@color/labelColor"
+                    android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/assembly"
@@ -88,16 +97,16 @@
                 android:layout_marginBottom="@dimen/formFieldistance"
                 android:background="@color/colorPrimary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:text="@string/chooseUnion"
-                android:textColor="@color/labelColor"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:text="@string/chooseUnion"
+                    android:textColor="@color/labelColor"
+                    android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/union"
@@ -113,16 +122,16 @@
                 android:layout_marginBottom="@dimen/formFieldistance"
                 android:background="@color/colorPrimary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:text="@string/choosePanchayat"
-                android:textColor="@color/labelColor"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:text="@string/choosePanchayat"
+                    android:textColor="@color/labelColor"
+                    android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/panchayat"
@@ -138,16 +147,16 @@
                 android:layout_marginBottom="@dimen/formFieldistance"
                 android:background="@color/colorPrimary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:text="@string/chooseVillage"
-                android:textColor="@color/labelColor"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:text="@string/chooseVillage"
+                    android:textColor="@color/labelColor"
+                    android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/village"
@@ -163,16 +172,17 @@
                 android:layout_marginBottom="@dimen/formFieldistance"
                 android:background="@color/colorPrimary" />
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_arrow_forward_white_24dp" />
-</FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_arrow_forward_white_24dp" />
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

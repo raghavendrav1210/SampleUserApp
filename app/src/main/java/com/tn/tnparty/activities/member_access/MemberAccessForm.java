@@ -6,13 +6,12 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Assembly;
@@ -32,7 +31,6 @@ import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
-import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -89,8 +87,11 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
     private void initViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
-        getActionBar().setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
 //        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
         districtView = findViewById(R.id.districtView);
@@ -168,6 +169,13 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             pDialog = null;
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private void loadData(UserDetails userDetails) {
 

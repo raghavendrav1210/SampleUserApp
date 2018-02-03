@@ -67,7 +67,6 @@
             android:name=".activities.member_access.MemberAccessList"
             android:label="@string/title_activity_member_access_list" />
         <activity android:name=".activities.member_list.MemberListSearchForm" />
-        <activity android:name=".activities.member_list.MemberListEditActivity" />
         <activity android:name=".activities.member_list.MemberSearchResultActivity"></activity>
 
         <meta-data

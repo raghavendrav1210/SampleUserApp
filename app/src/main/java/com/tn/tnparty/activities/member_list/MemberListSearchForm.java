@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Assembly;
@@ -28,7 +27,6 @@ import com.tn.tnparty.model.Village;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
-import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -77,12 +75,12 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_member_list_search_form);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
-        if (getActionBar() != null) {
-            getActionBar().setTitle("");
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
@@ -95,7 +93,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public boolean onNavigateUp() {
+    public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }

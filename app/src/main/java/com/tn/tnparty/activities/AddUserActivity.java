@@ -2,16 +2,12 @@ package com.tn.tnparty.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Typeface;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -144,28 +140,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
         acceptDetails = findViewById(R.id.next);
         acceptDetails.setOnClickListener(this);
 
         searchUserDetails();
-    }
-
-    private void addStylesToToolbarText(Toolbar toolbar) {
-        TextView titleTextView = null;
-
-        try {
-            Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
-            f.setAccessible(true);
-            titleTextView = (TextView) f.get(toolbar);
-
-            Typeface font = ResourcesCompat.getFont(this, R.font.lato);
-            titleTextView.setTypeface(font);
-            titleTextView.setGravity(Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK);
-
-        } catch (NoSuchFieldException e) {
-        } catch (IllegalAccessException e) {
-        }
     }
 
     private void disableAllInDetailsMode(UserDetails userDetails) {
@@ -414,6 +392,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private void initDistrctSpinner(boolean autoLoad) {
 
         district.setEnabled(autoLoad);
+
         final ArrayAdapter<District> districtArrayAdapter = new ArrayAdapter<District>(this, R.layout.spinner_item, distrctResults);
         district.setAdapter(districtArrayAdapter);
         districtArrayAdapter.notifyDataSetChanged();
@@ -786,7 +765,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean checkAlltheFieldsSelected() {
 
-        if(editMember)
+        if (editMember)
             return true;
 
         districtSelected = (district.getSelectedItem() != null ? true : false);
@@ -796,5 +775,12 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         villageSelected = (village.getSelectedItem() != null ? true : false);
 
         return districtSelected && assemblySelected && unionSelected && panchayathSelected && villageSelected;
+    }
+
+    private void setDisabledViewBackground(Spinner spinner, View view) {
+        int disabledColor = getResources().getColor(R.color.labelColor);
+        view.setBackgroundColor(disabledColor);
+        ((TextView) spinner.getSelectedView()).setTextColor(disabledColor);
+        spinner.getBackground().setColorFilter(disabledColor, PorterDuff.Mode.SRC_ATOP);
     }
 }

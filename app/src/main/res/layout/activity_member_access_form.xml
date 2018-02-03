@@ -6,26 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="0dp"
-        android:theme="@style/ToolbarStyle"
-        android:title="">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/homeToolbarTitle"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/lato"
-            android:gravity="left"
-            android:text="@string/memberAccessLbl"
-            android:textColor="@color/colorPrimary" />
-    </Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            android:title="">
+
+            <TextView
+                android:id="@+id/homeToolbarTitle"
+                style="@style/toolBarTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lato"
+                android:gravity="left"
+                android:text="@string/memberAccessLbl" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
