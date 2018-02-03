@@ -42,6 +42,8 @@ import retrofit2.Response;
 public class MemberListSearchForm extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner district, assembly, union, panchayat, village;
+    private View districtView, assemblyView, unionView, panchayatView, villageView;
+
     private FloatingActionButton searchMembers;
     private ApiInterface retrofitInterface;
     private List<District> distrctResults = new ArrayList<>();
@@ -105,6 +107,13 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         union = (Spinner) findViewById(R.id.union);
         panchayat = (Spinner) findViewById(R.id.panchayat);
         village = (Spinner) findViewById(R.id.village);
+
+        districtView = findViewById(R.id.districtView);
+        assemblyView = findViewById(R.id.assemblyView);
+        unionView = findViewById(R.id.unionView);
+        panchayatView = findViewById(R.id.panchayatView);
+        villageView = findViewById(R.id.villageView);
+
 //        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
 
 //        homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
@@ -362,6 +371,10 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
 
         }
 
+        if(!autoLoad){
+            districtView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -428,6 +441,9 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             initPanchayathSpinner(autoLoad);
             initVillageSpinner(autoLoad);
 
+        }
+        if(!autoLoad){
+            assemblyView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
 
@@ -503,6 +519,10 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
 
         }
 
+        if(!autoLoad){
+            unionView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         union.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -567,7 +587,10 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         if (null == panchayatResults || panchayatResults.isEmpty()) {
             villageResults.clear();
             initVillageSpinner(autoLoad);
+        }
 
+        if(!autoLoad){
+            panchayatView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
         panchayat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -620,8 +643,14 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     }
 
     private void initVillageSpinner(boolean autoLoad) {
+
         hideProgresDialog();
         village.setEnabled(autoLoad);
+
+        if(!autoLoad){
+            villageView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         final ArrayAdapter<Village> villageArrayAdapter = new ArrayAdapter<Village>(this, R.layout.spinner_item, villageResults);
         village.setAdapter(villageArrayAdapter);
         villageArrayAdapter.notifyDataSetChanged();

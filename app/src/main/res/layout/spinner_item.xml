@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     android:fontFamily="@font/lato"
     android:padding="6dp"
-    android:textColor="@color/colorPrimary"
+    android:textColor="@color/spinner_text_color"
     android:textSize="20sp" />

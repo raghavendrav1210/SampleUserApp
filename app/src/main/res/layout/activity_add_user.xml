@@ -53,9 +53,11 @@
                 android:id="@+id/district"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/districtView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/formFieldistance"
@@ -76,9 +78,11 @@
                 android:id="@+id/assembly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/assemblyView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/formFieldistance"
@@ -99,9 +103,11 @@
                 android:id="@+id/union"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/unionView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/formFieldistance"
@@ -122,9 +128,11 @@
                 android:id="@+id/panchayat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/panchayatView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/formFieldistance"
@@ -145,9 +153,11 @@
                 android:id="@+id/village"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/villageView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/formFieldistance"

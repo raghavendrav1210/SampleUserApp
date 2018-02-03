@@ -49,6 +49,8 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     private Spinner district, assembly, union, panchayat, village;
     private TextView districtT, assemblyT, unionT, panchayatT, villageT;
+    private View districtView, assemblyView, unionView, panchayatView, villageView;
+
     private FloatingActionButton acceptDetails;
     private TextView toolbarTitle;
 
@@ -117,6 +119,12 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             union = (Spinner) findViewById(R.id.union);
             panchayat = (Spinner) findViewById(R.id.panchayat);
             village = (Spinner) findViewById(R.id.village);
+
+            districtView = findViewById(R.id.districtView);
+            assemblyView = findViewById(R.id.assemblyView);
+            unionView = findViewById(R.id.unionView);
+            panchayatView = findViewById(R.id.panchayatView);
+            villageView = findViewById(R.id.villageView);
 
             setSpinnerHeight(district);
             setSpinnerHeight(assembly);
@@ -423,6 +431,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         }
 
+        if(!autoLoad){
+            districtView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -491,6 +503,9 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
         }
 
+        if(!autoLoad){
+            assemblyView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
 
         assembly.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -561,7 +576,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
             initPanchayathSpinner(autoLoad);
             initVillageSpinner(autoLoad);
+        }
 
+        if(!autoLoad){
+            unionView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
         union.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -628,7 +646,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         if (null == panchayatResults || panchayatResults.isEmpty()) {
             villageResults.clear();
             initVillageSpinner(autoLoad);
+        }
 
+        if(!autoLoad){
+            panchayatView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
         panchayat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -683,9 +704,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private void initVillageSpinner(boolean autoLoad) {
         hideProgresDialog();
         village.setEnabled(autoLoad);
+
         final ArrayAdapter<Village> villageArrayAdapter = new ArrayAdapter<Village>(this, R.layout.spinner_item, villageResults);
         village.setAdapter(villageArrayAdapter);
         villageArrayAdapter.notifyDataSetChanged();
+
+        if(!autoLoad){
+            villageView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         village.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {

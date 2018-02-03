@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Role: "
+                        android:text="Address: "
                         android:textColor="@color/labelColor" />
 
                     <TextView
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Address: "
+                        android:text="Created By: "
                         android:textColor="@color/labelColor" />
 
                 </LinearLayout>
@@ -123,16 +123,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/role"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:padding="2dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/address"
@@ -143,6 +133,16 @@
                         android:padding="2dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/createdBy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato"
+                        android:padding="2dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,13 +151,6 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
-                        android:text="Created By: "
-                        android:textColor="@color/labelColor" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -174,16 +167,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/createdBy"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/lato"
-                        android:padding="2dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/status"

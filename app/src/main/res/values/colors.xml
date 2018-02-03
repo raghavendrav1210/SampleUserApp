@@ -16,4 +16,7 @@
     <color name="grey">#696969</color>
     <color name="labelColor">#A0A0A5</color>
 
+    <color name="disableColor">#A0A0A5</color>
+    <color name="enableColor">@color/colorPrimary</color>
+
 </resources>

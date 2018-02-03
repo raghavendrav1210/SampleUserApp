@@ -51,7 +51,7 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
             holder.memberName.setText(memberDetail.getName());
             holder.fatherName.setText(memberDetail.getFatherName());
 //            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
-            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
+//            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
 
             holder.address.setText(memberDetail.getAddress());
             holder.createdBy.setText(memberDetail.getCreatedByName());
@@ -69,7 +69,7 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView memberName, fatherName, userRole, address, createdBy, status;
+        public TextView memberName, fatherName, address, createdBy, status;
         public CircleImageView userPhoto;
         public ImageButton editButton;
 
@@ -77,7 +77,6 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
             super(view);
             memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
-            userRole = (TextView) view.findViewById(R.id.role);
             address = (TextView) view.findViewById(R.id.address);
             createdBy = (TextView) view.findViewById(R.id.createdBy);
             status = (TextView) view.findViewById(R.id.status);

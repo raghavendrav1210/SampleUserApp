@@ -40,112 +40,128 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text="Choose District"
-                android:textColor="@color/black"
+                android:text="@string/chooseDist"
+                android:textColor="@color/labelColor"
                 android:textSize="12sp" />
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/district"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/districtView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="18dp"
-                android:background="#c0c0c0" />
+                android:layout_marginBottom="@dimen/formFieldistance"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text="Choose Assembly"
-                android:textColor="@color/black"
+                android:text="@string/chooseAssembly"
+                android:textColor="@color/labelColor"
                 android:textSize="12sp" />
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/assembly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/assemblyView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="18dp"
-                android:background="#c0c0c0" />
+                android:layout_marginBottom="@dimen/formFieldistance"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text="Choose Union"
-                android:textColor="@color/black"
+                android:text="@string/chooseUnion"
+                android:textColor="@color/labelColor"
                 android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/union"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/unionView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="18dp"
-                android:background="#c0c0c0" />
+                android:layout_marginBottom="@dimen/formFieldistance"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text="Choose Panchayat"
-                android:textColor="@color/black"
+                android:text="@string/choosePanchayat"
+                android:textColor="@color/labelColor"
                 android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/panchayat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/panchayatView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="18dp"
-                android:background="#c0c0c0" />
+                android:layout_marginBottom="@dimen/formFieldistance"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:padding="4dp"
                 android:singleLine="true"
-                android:text="Choose Village"
-                android:textColor="@color/black"
+                android:text="@string/chooseVillage"
+                android:textColor="@color/labelColor"
                 android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/village"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/spinner_text_color"
                 android:maxLines="1" />
 
             <View
+                android:id="@+id/villageView"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="18dp"
-                android:background="#c0c0c0" />
+                android:layout_marginBottom="@dimen/formFieldistance"
+                android:background="@color/colorPrimary" />
+
         </LinearLayout>
     </ScrollView>
 

@@ -2,6 +2,7 @@ package com.tn.tnparty.activities.member_access;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,7 @@ import retrofit2.Response;
 public class MemberAccessForm extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner district, assembly, union, panchayat, village;
+    private View districtView, assemblyView, unionView, panchayatView, villageView;
 
     private ApiInterface retrofitInterface;
     private List<District> distrctResults = new ArrayList<>();
@@ -91,6 +93,13 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         getActionBar().setTitle("");
 
 //        homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
+        districtView = findViewById(R.id.districtView);
+        assemblyView = findViewById(R.id.assemblyView);
+        unionView = findViewById(R.id.unionView);
+        panchayatView = findViewById(R.id.panchayatView);
+        villageView = findViewById(R.id.villageView);
+
+
         district = (Spinner) findViewById(R.id.district);
         assembly = (Spinner) findViewById(R.id.assembly);
         union = (Spinner) findViewById(R.id.union);
@@ -370,7 +379,9 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             initVillageSpinner(autoLoad);
 
         }
-
+        if(!autoLoad){
+            districtView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
         district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -439,6 +450,9 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
+        if(!autoLoad){
+            assemblyView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
 
         assembly.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -512,6 +526,10 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
+        if(!autoLoad){
+            unionView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         union.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -579,6 +597,10 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
+        if(!autoLoad){
+            panchayatView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         panchayat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -631,9 +653,15 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
     private void initVillageSpinner(boolean autoLoad) {
         hideProgresDialog();
         village.setEnabled(autoLoad);
+
         final ArrayAdapter<Village> villageArrayAdapter = new ArrayAdapter<Village>(this, R.layout.spinner_item, villageResults);
         village.setAdapter(villageArrayAdapter);
         villageArrayAdapter.notifyDataSetChanged();
+
+        if(!autoLoad){
+            villageView.setBackgroundColor(getResources().getColor(R.color.labelColor));
+        }
+
         village.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
