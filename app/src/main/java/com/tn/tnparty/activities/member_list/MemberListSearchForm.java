@@ -1,9 +1,11 @@
 package com.tn.tnparty.activities.member_list;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.tn.tnparty.model.Village;
 import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -148,7 +151,29 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         }
     }
 
+    public void showDialog(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
+    }
+
     private void searchUserDetails() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         retrofitInterface.searchUserDetails(userId).enqueue(new Callback<UserDetailsResult>() {
             @Override
@@ -174,6 +199,11 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     }
 
     private void loadData(UserDetails userDetails) {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         if (null != userDetails) {
 

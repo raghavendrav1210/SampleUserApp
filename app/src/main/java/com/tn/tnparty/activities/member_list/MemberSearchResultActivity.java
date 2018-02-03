@@ -1,8 +1,10 @@
 package com.tn.tnparty.activities.member_list;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -84,7 +86,30 @@ public class MemberSearchResultActivity extends AppCompatActivity {
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
 
 //        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         loadMemberLit();
+    }
+
+    public void showDialog(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
     }
 
     private void loadMemberListView() {

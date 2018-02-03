@@ -1,6 +1,7 @@
 package com.tn.tnparty.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import com.tn.tnparty.model.Panchayath;
 import com.tn.tnparty.model.Union;
 import com.tn.tnparty.model.Village;
 import com.tn.tnparty.network.ApiInterface;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
@@ -154,6 +157,7 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -190,7 +194,30 @@ public class HomeActivity extends AppCompatActivity
         finish();
     }
 
+    public void showDialog(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
+    }
+
     private void navigateToMemberAccessForm() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         Intent i = new Intent(this, MemberAccessForm.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
@@ -199,6 +226,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void navigateToMemberListFrom() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         Intent i = new Intent(this, MemberListSearchForm.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
@@ -207,6 +240,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void navigateToAddUser() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         Intent i = new Intent(this, AddUserActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
@@ -215,6 +254,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void navigateToSearchUser() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         Intent i = new Intent(this, UserSearchActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);

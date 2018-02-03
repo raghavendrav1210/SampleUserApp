@@ -1,10 +1,12 @@
 package com.tn.tnparty.activities.member_access;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -31,6 +33,7 @@ import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -117,7 +120,29 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         floatingActionButtonNext.setOnClickListener(this);
     }
 
+    public void showDialog(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
+    }
+
     private void initialLoad() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
@@ -178,6 +203,11 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
 
     private void loadData(UserDetails userDetails) {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         if (null != userDetails) {
 

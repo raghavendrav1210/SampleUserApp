@@ -411,7 +411,30 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
         return null;
     }
 
+    public void showDialog(String msg) {
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
+    }
+
     private void readAndSave() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
+
         if (doValidation())
             new CreateMemberAsyntask().execute();
     }

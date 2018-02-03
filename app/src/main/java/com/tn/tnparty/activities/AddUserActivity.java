@@ -1,6 +1,7 @@
 package com.tn.tnparty.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.tn.tnparty.model.VillageResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
+import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
 import java.lang.reflect.Field;
@@ -184,7 +186,29 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    public void showDialog(String msg) {
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.create();
+
+        if (!isFinishing())
+            builder.show();
+    }
+
     private void searchUserDetails() {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         retrofitInterface.searchUserDetails(userId).enqueue(new Callback<UserDetailsResult>() {
             @Override
@@ -210,6 +234,11 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void loadData(UserDetails userDetails) {
+
+        if (!AppUtils.checkNetworkConnectivity(this)) {
+            showDialog("Unable to connect to internet. Please enable data connection.");
+            return;
+        }
 
         if (null != userDetails) {
             if (editMember) {
