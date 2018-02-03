@@ -18,13 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tn.tnparty.R;
-import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberAccessResponse;
 import com.tn.tnparty.model.MemberAccessRoleUpdate;
 import com.tn.tnparty.model.MemberList;
@@ -32,10 +30,8 @@ import com.tn.tnparty.model.Role;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
 import com.tn.tnparty.utils.AppContext;
-import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -107,6 +103,7 @@ public class MemberAccessList extends AppCompatActivity {
         memberAccessListAdapter = new MemberAccessListAdapter(memberList, new MemberAccessListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                showProgresDialog();
                 showRoleChangeDialog(memberList.get(position));
             }
         });
@@ -121,19 +118,56 @@ public class MemberAccessList extends AppCompatActivity {
 
                     if (response.isSuccessful()) {
                         createAndShowRoleChangeDialog(response.body());
-                    }
+                    } else
+                        hideProgresDialog();
                 }
 
                 @Override
                 public void onFailure(Call<MemberAccessResponse> call, Throwable t) {
-
+                    hideProgresDialog();
                     Toast.makeText(MemberAccessList.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
 
+    private void showProgresDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+
+        pDialog = new ProgressDialog(MemberAccessList.this);
+        pDialog.setMessage("Loading. Please wait...");
+        pDialog.setCancelable(false);
+        if (!isFinishing())
+            pDialog.show();
+    }
+
+    private void hideProgresDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
+
+    public static void selectSpinnerItemByValue(Spinner spnr, int value) {
+        ArrayAdapter adapter = (ArrayAdapter) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if(adapter.getItem(position) != null) {
+                Role role = (Role) adapter.getItem(position);
+                String roleId = role.getRoleId();
+                if(roleId !=null && Integer.parseInt(roleId) == value) {
+                    spnr.setSelection(position);
+                    return;
+                }
+            }
+        }
+    }
+
     private void createAndShowRoleChangeDialog(final MemberAccessResponse memberAccessResponse) {
+
+        hideProgresDialog();
         selectedRole = null;
         boolean wrapInScrollView = true;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
@@ -156,6 +190,9 @@ public class MemberAccessList extends AppCompatActivity {
         //set member name
         final ArrayAdapter<Role> roleArrayAdapter = new ArrayAdapter<Role>(this, R.layout.spinner_item, roleList);
         spinner.setAdapter(roleArrayAdapter);
+
+        int currentRoleId = memberAccessResponse.getMemberAccessItem().getMemberDetail().getRoleId();
+        selectSpinnerItemByValue(spinner, currentRoleId);
 
         builder.title(R.string.edit_member_details)
                 .customView(dialogCustomView, wrapInScrollView)
