@@ -6,4 +6,6 @@
     <string name="fa_user_plus">&#xf234;</string>
     <string name="fa_search_plus">&#xf00e;</string>
     <string name="fa_calendar">&#xf073;</string>
+    <string name="fa_male">&#xf183;</string>
+    <string name="fa_female">&#xf182;</string>
 </resources>

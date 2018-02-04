@@ -2,16 +2,20 @@ package com.tn.tnparty.activities.member_access;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tn.tnparty.R;
+import com.tn.tnparty.custom.FontAwesomeTextView;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
@@ -66,21 +70,24 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
                     memberName = memberName + " D/o " + fatherName;
             }*/
 
-            String text = "<font color=#cc0029>S/o</font>";
-            holder.memberName.setText(Html.fromHtml(memberName + " " + text  + " " +  fatherName));
+            holder.memberName.setText(memberName);
+//            String text = "<font color=#cc0029>S/o</font>";
+//            holder.memberName.setText(Html.fromHtml(memberName + " " + text + " " + fatherName));
 //            holder.fatherName.setText(memberDetail.getFatherName());
-            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+//            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
 //            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
 
-            holder.memberCode.setText(memberDetail.getMemberCode());
-            holder.dob.setText(formatDate);
+            holder.phone.setText(String.valueOf(null == memberDetail.getPhoneNumber() ? "" : memberDetail.getPhoneNumber()));
 //            holder.status.setText(memberDetail.getLive()? "Live": "");
 
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
             Bitmap bitMap = AppUtils.getImgFrmBase64(img);
-            if(null != bitMap)
-                holder.userPhoto.setImageBitmap(bitMap);
 
+            if (null != bitMap) {
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(mContext.getResources(), bitMap);
+                roundedBitmapDrawable.setCornerRadius(4f);
+                holder.userPhoto.setImageDrawable(roundedBitmapDrawable);
+            }
         }
     }
 
@@ -90,8 +97,10 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView memberName, memberCode, dob, gender;
-        public CircleImageView userPhoto;
+        public TextView memberName, phone;
+        //                memberCode, dob,
+        public FontAwesomeTextView gender;
+        public ImageView userPhoto;
         public LinearLayout rootLayout;
         public CardView memberAccessCard;
 //        public ImageButton editButton;
@@ -99,13 +108,13 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
         public MyViewHolder(View view) {
             super(view);
             memberName = (TextView) view.findViewById(R.id.memberName);
-            memberCode = (TextView) view.findViewById(R.id.memberCode);
-            dob = (TextView) view.findViewById(R.id.dob);
-            gender = view.findViewById(R.id.gender);
+//            memberCode = (TextView) view.findViewById(R.id.memberCode);
+            phone = (TextView) view.findViewById(R.id.phone);
+            gender = (FontAwesomeTextView) view.findViewById(R.id.gender);
             memberAccessCard = view.findViewById(R.id.memberAccessCard);
 //            createdBy = (TextView) view.findViewById(R.id.createdBy);
 //            status = (TextView) view.findViewById(R.id.status);
-            userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
+            userPhoto = (ImageView) view.findViewById(R.id.userPhoto);
 //            editButton = view.findViewById(R.id.editButton);
             rootLayout = view.findViewById(R.id.rootLayout);
             rootLayout.setOnClickListener(new View.OnClickListener() {
