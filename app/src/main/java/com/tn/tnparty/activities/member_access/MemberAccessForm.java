@@ -3,15 +3,14 @@ package com.tn.tnparty.activities.member_access;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -73,7 +72,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
     private ProgressDialog pDialog = null;
     private int userRole;
-    private FloatingActionButton floatingActionButtonNext;
+    private Button floatingActionButtonNext;
 //    private TextView homeToolbarTitle;
 
 

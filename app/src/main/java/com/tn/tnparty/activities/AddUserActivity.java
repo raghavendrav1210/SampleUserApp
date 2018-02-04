@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private TextView districtT, assemblyT, unionT, panchayatT, villageT;
     private View districtView, assemblyView, unionView, panchayatView, villageView;
 
-    private FloatingActionButton acceptDetails;
+    private Button acceptDetails;
     private TextView toolbarTitle;
 
     private int year, day, month;

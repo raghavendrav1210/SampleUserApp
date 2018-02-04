@@ -15,8 +15,11 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.LoginResult;
@@ -38,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
+    private ImageView mProgressView;
     private View mLoginFormView;
 
     private ApiInterface loginInterface;
@@ -67,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        Glide.with(this).asGif().load(R.drawable.index_circle1).into(mProgressView);
     }
 
 

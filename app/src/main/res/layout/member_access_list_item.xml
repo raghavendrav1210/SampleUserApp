@@ -3,15 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rootLayout"
+    android:padding="1dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/memberAccessCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:elevation="2dp"
+        app:cardCornerRadius="2dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:padding="8dp">
+        android:layout_margin="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,10 +36,10 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:src="@drawable/user"
-                    app:civ_border_color="#FF000000"
+                    app:civ_border_color="@color/white"
                     app:civ_border_width="2dp" />
 
-                <ImageButton
+               <!-- <ImageButton
                     android:id="@+id/editButton"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
@@ -42,7 +47,7 @@
                     android:layout_margin="8dp"
                     android:background="@color/white"
                     android:src="@drawable/ic_create_white_24dp"
-                    android:tint="@color/black" />
+                    android:tint="@color/black" />-->
 
             </LinearLayout>
 
@@ -52,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -74,25 +79,30 @@
                         android:textColor="@color/labelColor" />
 
                 </LinearLayout>
-
+-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto"
+                        android:text="Name" />
                     <TextView
                         android:id="@+id/memberName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/lato"
                         android:padding="2dp"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/fatherName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -100,10 +110,10 @@
                         android:fontFamily="@font/lato"
                         android:padding="2dp"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="18sp" />-->
                 </LinearLayout>
 
-                <LinearLayout
+               <!-- <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -125,25 +135,31 @@
                         android:text="Created By: "
                         android:textColor="@color/labelColor" />
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
                     <TextView
-                        android:id="@+id/address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/roboto"
+                        android:text="Member Code"
+                        android:textColor="@color/labelColor" />
+                    <TextView
+                        android:id="@+id/memberCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.3"
                         android:fontFamily="@font/lato"
                         android:padding="2dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/createdBy"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -151,27 +167,45 @@
                         android:fontFamily="@font/lato"
                         android:padding="2dp"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp" />-->
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-
+                    android:orientation="horizontal">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.3"
                         android:fontFamily="@font/roboto"
-                        android:text="Status: "
+                        android:text="DOB"
                         android:textColor="@color/labelColor" />
+
+                    <TextView
+                        android:id="@+id/dob"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:fontFamily="@font/lato"
+                        android:padding="2dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"  />
+
+                    <TextView
+                        android:id="@+id/gender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:text="M"
+                        android:fontFamily="@font/lato"
+                        android:padding="2dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -186,7 +220,7 @@
                         android:padding="2dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

@@ -70,4 +70,9 @@
 
     <string name="savelbl">Save</string>
     <string name="cancellbl">Cancel</string>
+
+    <string name="continue_lbl">Continue</string>
+    <string name="s_of"><![CDATA[<b><font color="#FF0000">S/o</font></b>]]></string>
+    <string name="d_of"><font color='red'>D/o</font></string>
+
 </resources>

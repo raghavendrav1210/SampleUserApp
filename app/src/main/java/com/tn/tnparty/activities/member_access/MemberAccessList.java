@@ -78,7 +78,7 @@ public class MemberAccessList extends AppCompatActivity {
         homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));*/
 
         recyclerView = findViewById(R.id.membersList);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -100,7 +100,7 @@ public class MemberAccessList extends AppCompatActivity {
 
     private void init() {
         memberList = (List) AppContext.getInstance().get(Constants.MEMBER_ACCESS_LIST);
-        memberAccessListAdapter = new MemberAccessListAdapter(memberList, new MemberAccessListAdapter.OnItemClickListener() {
+        memberAccessListAdapter = new MemberAccessListAdapter(this, memberList, new MemberAccessListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 showProgresDialog();

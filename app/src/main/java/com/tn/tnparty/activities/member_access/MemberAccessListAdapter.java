@@ -1,10 +1,14 @@
 package com.tn.tnparty.activities.member_access;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tn.tnparty.R;
@@ -24,15 +28,16 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
 
     private List<MemberList> memberList;
     private static OnItemClickListener onItemClickListener;
-
+    private Context mContext;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public MemberAccessListAdapter(List<MemberList> memberList, OnItemClickListener onItemClickListener) {
+    public MemberAccessListAdapter(Context mContext, List<MemberList> memberList, OnItemClickListener onItemClickListener) {
         this.memberList = memberList;
         this.onItemClickListener = onItemClickListener;
+        this.mContext = mContext;
     }
 
 
@@ -48,17 +53,33 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MemberList memberDetail = memberList.get(position);
         if (memberDetail != null) {
-            holder.memberName.setText(memberDetail.getName());
-            holder.fatherName.setText(memberDetail.getFatherName());
-//            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
+            String gender = memberDetail.getGender();
+            String memberName = memberDetail.getName();
+            String fatherName = memberDetail.getFatherName();
+
+            /*if(null != gender) {
+                holder.gender.setText(gender.toUpperCase().charAt(0));
+
+                if (gender.equalsIgnoreCase("Male")) {
+                    memberName = memberName + " S/o " + fatherName;
+                } else
+                    memberName = memberName + " D/o " + fatherName;
+            }*/
+
+            String text = "<font color=#cc0029>S/o</font>";
+            holder.memberName.setText(Html.fromHtml(memberName + " " + text  + " " +  fatherName));
+//            holder.fatherName.setText(memberDetail.getFatherName());
+            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
 //            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
 
-            holder.address.setText(memberDetail.getAddress());
-            holder.createdBy.setText(memberDetail.getCreatedByName());
-            holder.status.setText(memberDetail.getLive()? "Live": "");
+            holder.memberCode.setText(memberDetail.getMemberCode());
+            holder.dob.setText(formatDate);
+//            holder.status.setText(memberDetail.getLive()? "Live": "");
 
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
-            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
+            Bitmap bitMap = AppUtils.getImgFrmBase64(img);
+            if(null != bitMap)
+                holder.userPhoto.setImageBitmap(bitMap);
 
         }
     }
@@ -69,20 +90,31 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView memberName, fatherName, address, createdBy, status;
+        public TextView memberName, memberCode, dob, gender;
         public CircleImageView userPhoto;
-        public ImageButton editButton;
+        public LinearLayout rootLayout;
+        public CardView memberAccessCard;
+//        public ImageButton editButton;
 
         public MyViewHolder(View view) {
             super(view);
             memberName = (TextView) view.findViewById(R.id.memberName);
-            fatherName = (TextView) view.findViewById(R.id.fatherName);
-            address = (TextView) view.findViewById(R.id.address);
-            createdBy = (TextView) view.findViewById(R.id.createdBy);
-            status = (TextView) view.findViewById(R.id.status);
+            memberCode = (TextView) view.findViewById(R.id.memberCode);
+            dob = (TextView) view.findViewById(R.id.dob);
+            gender = view.findViewById(R.id.gender);
+            memberAccessCard = view.findViewById(R.id.memberAccessCard);
+//            createdBy = (TextView) view.findViewById(R.id.createdBy);
+//            status = (TextView) view.findViewById(R.id.status);
             userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
-            editButton = view.findViewById(R.id.editButton);
-            editButton.setOnClickListener(new View.OnClickListener() {
+//            editButton = view.findViewById(R.id.editButton);
+            rootLayout = view.findViewById(R.id.rootLayout);
+            rootLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(getAdapterPosition());
+                }
+            });
+            memberAccessCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(getAdapterPosition());
