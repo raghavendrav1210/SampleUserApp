@@ -70,7 +70,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        Glide.with(this).asGif().load(R.drawable.index_circle1).into(mProgressView);
+        Glide.with(this).load(R.raw.index_circle4).into(mProgressView);
+//        Glide.with(this).asGif()
+//                .load("https://loading.io/spinner/balls/-circle-slack-loading-icon")
+//                .into(mProgressView);
+//        Glide.with(this).asGif().load(R.drawable.index_circle1).into(mProgressView);
     }
 
 
@@ -176,6 +180,12 @@ public class LoginActivity extends AppCompatActivity {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
+
+/*        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -206,7 +216,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void navigateToHome() {
-
         Intent i = new Intent(this, HomeActivity.class);
         i.putExtra(Constants.CURRENT_USER, mEmailView.getText().toString());
         i.putExtra(Constants.CURRENT_USER_ID, loginUserId);
