@@ -161,6 +161,16 @@ public class AppUtils {
         return null;
     }
 
+    public static Bitmap getImgFrmBase64Once(String base64) {
+
+        if (base64 != null && !base64.trim().equals("")) {
+            byte[] finalDecodedString = Base64.decode(base64, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
+            return decodedByte;
+        }
+        return null;
+    }
+
     public static String getRoleDesc(int userRole) {
         String roleDesc = "";
         switch (userRole) {

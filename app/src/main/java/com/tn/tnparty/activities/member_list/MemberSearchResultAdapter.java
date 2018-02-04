@@ -1,20 +1,21 @@
 package com.tn.tnparty.activities.member_list;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.utils.AppUtils;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by raghav on 1/14/2018.
@@ -28,7 +29,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView memberName, fatherName, createdBy, status, address;
-        public CircleImageView userPhoto;
+        public ImageView userPhoto, barCode;
         private CardView memberCard;
 
         public MyViewHolder(View view) {
@@ -36,11 +37,11 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
             memberCard = (CardView) view.findViewById(R.id.memberCard);
             memberName = (TextView) view.findViewById(R.id.memberName);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
-            userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
+            userPhoto = (ImageView) view.findViewById(R.id.userPhoto);
             createdBy = (TextView) view.findViewById(R.id.createdBy);
             status = (TextView) view.findViewById(R.id.status);
             address =(TextView) view.findViewById(R.id.address);
-
+            barCode = (ImageView) view.findViewById(R.id.barCode);
             memberCard.setOnClickListener(this);
         }
 
@@ -78,7 +79,15 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
 //            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
-            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
+            Bitmap userImg = AppUtils.getImgFrmBase64(img);
+            if(null != userImg)
+                Glide.with(mContext).load(userImg).into(holder.userPhoto);
+//                holder.userPhoto.setImageBitmap(userImg);
+
+            String barCodeImg = memberDetail.getBarCode() != null ? (String) memberDetail.getBarCode() : "";
+            Glide.with(mContext).load(AppUtils.getImgFrmBase64Once(barCodeImg)).into(holder.barCode);
+//            holder.barCode.setImageBitmap(AppUtils.getImgFrmBase64(barCodeImg));
+
             holder.createdBy.setText(memberDetail.getCreatedByName()+"");
             String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "";
             holder.status.setText(live);

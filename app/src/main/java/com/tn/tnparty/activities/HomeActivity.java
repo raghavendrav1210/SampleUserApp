@@ -15,7 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tn.tnparty.R;
 import com.tn.tnparty.activities.member_access.MemberAccessForm;
@@ -24,6 +26,8 @@ import com.tn.tnparty.model.Assembly;
 import com.tn.tnparty.model.District;
 import com.tn.tnparty.model.Panchayath;
 import com.tn.tnparty.model.Union;
+import com.tn.tnparty.model.UserDetails;
+import com.tn.tnparty.model.UserDetailsResult;
 import com.tn.tnparty.model.Village;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.utils.AppUtils;
@@ -31,6 +35,10 @@ import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -66,6 +74,8 @@ public class HomeActivity extends AppCompatActivity
 
     private ProgressDialog pDialog = null;
     private int userRole;
+
+    private ImageView userImage;
 
 
     @Override
@@ -104,6 +114,7 @@ public class HomeActivity extends AppCompatActivity
 
         userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.userName);
         userIdTextView = navigationView.getHeaderView(0).findViewById(R.id.userId);
+        userImage = navigationView.getHeaderView(0).findViewById(R.id.userImage);
 
         FloatingActionButton addUser = (FloatingActionButton) findViewById(R.id.addUser);
         addUser.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +123,58 @@ public class HomeActivity extends AppCompatActivity
                 navigateToAddUser();
             }
         });
+
+//        downloadUserDetails();
+    }
+
+    /*private void downloadUserDetails(){
+        showProgresDialog();
+        retrofitInterface.searchUserDetails(userId).enqueue(new Callback<UserDetailsResult>() {
+            @Override
+            public void onResponse(Call<UserDetailsResult> call, Response<UserDetailsResult> response) {
+                List<UserDetails> userDetailsList = null;
+                if (response.isSuccessful()) {
+                    userDetailsList = response.body().getUserDetails();
+                } else
+                    hideProgresDialog();
+
+                if (null != userDetailsList && !userDetailsList.isEmpty()) {
+//                    userDetailsList.get(0).setRoleId(5);
+                    initialData(userDetailsList.get(0));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDetailsResult> call, Throwable t) {
+                hideProgresDialog();
+                Toast.makeText(HomeActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }*/
+
+    private void initialData(UserDetails userDetails) {
+        //show Image
+//        Bitmap userImg = AppUtils.getImgFrmBase64(userDetails.get)
+    }
+
+    private void showProgresDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+
+        pDialog = new ProgressDialog(HomeActivity.this);
+        pDialog.setMessage("Loading. Please wait...");
+        pDialog.setCancelable(false);
+        if (!isFinishing())
+            pDialog.show();
+    }
+
+    private void hideProgresDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
     }
 
     private void setInitialValues() {
