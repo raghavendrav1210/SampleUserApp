@@ -61,6 +61,12 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
     private int selectedPanchayat;
     private int selectedVillage;
 
+    private String selectedDistrictName;
+    private String selectedAssemblyName;
+    private String selectedUnionName;
+    private String selectedPanchayatName;
+    private String selectedVillageName;
+
     private boolean districtSelected = false;
     private boolean assemblySelected = false;
     private boolean unionSelected = false;
@@ -216,6 +222,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 case 3: {
                     //set District load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -228,6 +235,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 case 4: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -235,6 +243,8 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
+
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
@@ -247,6 +257,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 case 5: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -254,12 +265,14 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
@@ -274,6 +287,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 case 6: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -281,18 +295,21 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
                     unionResults.add(union);
 
                     selectedPanchayat = userDetails.getPanchayatId();
+                    selectedPanchayatName = userDetails.getPanchayatName();
                     Panchayath panchayath = new Panchayath();
                     panchayath.setPanchayatId(userDetails.getPanchayatId());
                     panchayath.setPanchayatName(userDetails.getPanchayatName());
@@ -308,6 +325,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 case 7: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -315,24 +333,28 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
                     unionResults.add(union);
 
                     selectedPanchayat = userDetails.getPanchayatId();
+                    selectedPanchayatName = userDetails.getPanchayatName();
                     Panchayath panchayath = new Panchayath();
                     panchayath.setPanchayatId(userDetails.getPanchayatId());
                     panchayath.setPanchayatName(userDetails.getPanchayatName());
                     panchayatResults.add(panchayath);
 
                     selectedVillage = userDetails.getVillageId();
+                    selectedVillageName = userDetails.getVillageName();
                     Village village = new Village();
                     village.setVillageId(userDetails.getVillageId());
                     village.setVillageName(userDetails.getVillageName());
@@ -399,7 +421,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
 
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             districtView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -409,6 +431,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
                 //Toast.makeText(MemberListSearchForm.this, districtArrayAdapter.getItem(pos).getDistrictName() + "-" + districtArrayAdapter.getItem(pos).getDistrictId(), Toast.LENGTH_SHORT).show();
                 selectedDistrict = districtArrayAdapter.getItem(pos).getDistrictId();
                 districtSelected = true;
+                selectedDistrictName = districtArrayAdapter.getItem(pos).getDistrictName();
 
                 if (autoLoad) {
                     loadAssembly(autoLoad);
@@ -470,7 +493,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             initVillageSpinner(autoLoad);
 
         }
-        if(!autoLoad){
+        if (!autoLoad) {
             assemblyView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -480,6 +503,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(MemberListSearchForm.this, assemblyArrayAdapter.getItem(pos).getAssemblyName() + "-" + assemblyArrayAdapter.getItem(pos).getAssemblyId(), Toast.LENGTH_SHORT).show();
                 selectedAssembly = assemblyArrayAdapter.getItem(pos).getAssemblyId();
+                selectedAssemblyName = assemblyArrayAdapter.getItem(pos).getAssemblyName();
                 assemblySelected = true;
 
                 if (autoLoad) {
@@ -547,7 +571,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
 
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             unionView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -556,6 +580,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(MemberListSearchForm.this, unionArrayAdapter.getItem(pos).getUnionId() + "-" + unionArrayAdapter.getItem(pos).getUnionName(), Toast.LENGTH_SHORT).show();
                 selectedUnion = unionArrayAdapter.getItem(pos).getUnionId();
+                selectedUnionName = unionArrayAdapter.getItem(pos).getUnionName();
                 unionSelected = true;
 
                 selectedPanchayat = 0;
@@ -617,7 +642,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             initVillageSpinner(autoLoad);
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             panchayatView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -626,6 +651,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(MemberListSearchForm.this, panchayathArrayAdapter.getItem(pos).getPanchayatId() + "-" + panchayathArrayAdapter.getItem(pos).getPanchayatName(), Toast.LENGTH_SHORT).show();
                 selectedPanchayat = panchayathArrayAdapter.getItem(pos).getPanchayatId();
+                selectedPanchayatName = panchayathArrayAdapter.getItem(pos).getPanchayatName();
                 panchayathSelected = true;
 
                 if (autoLoad) {
@@ -675,7 +701,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         hideProgresDialog();
         village.setEnabled(autoLoad);
 
-        if(!autoLoad){
+        if (!autoLoad) {
             villageView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -687,6 +713,7 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(MemberListSearchForm.this, villageArrayAdapter.getItem(pos).getPanchayatId() + "-" + villageArrayAdapter.getItem(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                 selectedVillage = villageArrayAdapter.getItem(pos).getVillageId();
+                selectedVillageName = villageArrayAdapter.getItem(pos).getVillageName();
                 villageSelected = true;
             }
 
@@ -727,6 +754,13 @@ public class MemberListSearchForm extends AppCompatActivity implements View.OnCl
         i.putExtra(Constants.SELECTED_VILLAGE_ID, selectedVillage);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+
+        i.putExtra(Constants.SELECTED_DISTRICT_NAME, selectedDistrictName);
+        i.putExtra(Constants.SELECTED_ASSEMBLY_NAME, selectedAssemblyName);
+        i.putExtra(Constants.SELECTED_UNION_NAME, selectedUnionName);
+        i.putExtra(Constants.SELECTED_PANCHAYATH_NAME, selectedPanchayatName);
+        i.putExtra(Constants.SELECTED_VILLAGE_NAME, selectedVillageName);
+
         startActivity(i);
     }
 

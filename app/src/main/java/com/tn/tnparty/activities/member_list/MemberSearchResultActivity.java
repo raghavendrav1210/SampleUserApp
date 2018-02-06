@@ -4,13 +4,17 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MemberSearchResultActivity extends AppCompatActivity {
+public class MemberSearchResultActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private RecyclerView searchResultsView;
     private MemberSearchResultAdapter memberSearchAdapter;
@@ -47,9 +51,16 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     private int selectedPanchayat;
     private int selectedVillage;
 
+    private String selectedDistrictName;
+    private String selectedAssemblyName;
+    private String selectedUnionName;
+    private String selectedPanchayatName;
+    private String selectedVillageName;
+
     private ApiInterface retrofitInterface;
     private ProgressDialog pDialog = null;
     private TextView homeToolbarTitle;
+    private TextView memberListHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +91,21 @@ public class MemberSearchResultActivity extends AppCompatActivity {
             selectedUnion = getIntent().getIntExtra(Constants.SELECTED_UNION_ID, 0);
             selectedPanchayat = getIntent().getIntExtra(Constants.SELECTED_PANCHAYATH_ID, 0);
             selectedVillage = getIntent().getIntExtra(Constants.SELECTED_VILLAGE_ID, 0);
+
+            selectedDistrictName = getIntent().getStringExtra(Constants.SELECTED_DISTRICT_NAME);
+            selectedAssemblyName = getIntent().getStringExtra(Constants.SELECTED_ASSEMBLY_NAME);
+            selectedUnionName = getIntent().getStringExtra(Constants.SELECTED_UNION_NAME);
+            selectedPanchayatName = getIntent().getStringExtra(Constants.SELECTED_PANCHAYATH_NAME);
+            selectedVillageName = getIntent().getStringExtra(Constants.SELECTED_VILLAGE_NAME);
+
         }
 
         homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
+        memberListHeader = findViewById(R.id.memberListHeader);
 
+        String input = "D: " + selectedDistrictName + " - A: " + selectedAssemblyName + " - \nU: " + selectedUnionName + " - P: " + selectedPanchayatName + " - \nV: " + selectedVillageName;
+        memberListHeader.setText(input);
 //        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
 
         if (!AppUtils.checkNetworkConnectivity(this)) {
@@ -113,8 +134,8 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     }
 
     private void loadMemberListView() {
-        int size = membersList != null ? membersList.size(): 0;
-        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " (" + size + ")" );//- Logged in as " + AppUtils.getRoleDesc(userRole)
+        int size = membersList != null ? membersList.size() : 0;
+        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " (" + size + ")");//- Logged in as " + AppUtils.getRoleDesc(userRole)
         memberSearchAdapter = new MemberSearchResultAdapter(this, membersList, new MemberSearchResultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MemberList selectedItem) {
@@ -125,7 +146,7 @@ public class MemberSearchResultActivity extends AppCompatActivity {
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        searchResultsView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//        searchResultsView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         searchResultsView.setLayoutManager(mLayoutManager);
         searchResultsView.setItemAnimator(new DefaultItemAnimator());
         searchResultsView.setAdapter(memberSearchAdapter);
@@ -141,7 +162,7 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     private void loadMemberLit() {
         showProgresDialog();
 
-        retrofitInterface.gethMemberList(currentUser, selectedDistrict, selectedAssembly, selectedUnion, selectedPanchayat,selectedVillage).enqueue(new Callback<MemberListResult>() {
+        retrofitInterface.gethMemberList(currentUser, selectedDistrict, selectedAssembly, selectedUnion, selectedPanchayat, selectedVillage).enqueue(new Callback<MemberListResult>() {
             @Override
             public void onResponse(Call<MemberListResult> call, Response<MemberListResult> response) {
 
@@ -185,7 +206,7 @@ public class MemberSearchResultActivity extends AppCompatActivity {
         }
     }
 
-    public void navigateToMemberEdit(){
+    public void navigateToMemberEdit() {
 
         Intent i = new Intent(this, AddUserActivity.class);
         i.putExtra(Constants.EDIT_MEMBER, true);
@@ -199,9 +220,62 @@ public class MemberSearchResultActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.member_list_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+// Do something when collapsed
+                        memberSearchAdapter.setFilter(membersList);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+// Do something when expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<MemberList> newMemberList = filter(membersList, newText);
+
+        memberSearchAdapter.setFilter(newMemberList);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private List<MemberList> filter(List<MemberList> models, String query) {
+        query = query.toLowerCase();
+        final List<MemberList> filteredModelList = new ArrayList<>();
+        for (MemberList model : models) {
+            final String text = model.getName().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
     }
 }

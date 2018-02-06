@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -50,6 +51,12 @@ public class MemberAccessList extends AppCompatActivity {
     private int userRole;
 //    private TextView homeToolbarTitle;
 
+    private String selectedDistrictName;
+    private String selectedAssemblyName;
+    private String selectedUnionName;
+    private String selectedPanchayatName;
+    private String selectedVillageName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +64,14 @@ public class MemberAccessList extends AppCompatActivity {
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
+
+        selectedDistrictName = getIntent().getStringExtra(Constants.SELECTED_DISTRICT_NAME);
+        selectedAssemblyName = getIntent().getStringExtra(Constants.SELECTED_ASSEMBLY_NAME);
+        selectedUnionName = getIntent().getStringExtra(Constants.SELECTED_UNION_NAME);
+        selectedPanchayatName = getIntent().getStringExtra(Constants.SELECTED_PANCHAYATH_NAME);
+        selectedVillageName = getIntent().getStringExtra(Constants.SELECTED_VILLAGE_NAME);
+
+
         initViews();
 
         init();
@@ -73,6 +88,9 @@ public class MemberAccessList extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        TextView memberListHeader = findViewById(R.id.memberListHeader);
+        String input = "D: " + selectedDistrictName + " - A: " + selectedAssemblyName + " - \nU: " + selectedUnionName + " - P: " + selectedPanchayatName + " - \nV: " + selectedVillageName;
+        memberListHeader.setText(input);
         /*homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
 
         homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));*/

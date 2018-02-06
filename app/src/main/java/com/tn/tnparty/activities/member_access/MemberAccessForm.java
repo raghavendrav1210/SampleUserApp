@@ -72,6 +72,13 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
     private ProgressDialog pDialog = null;
     private int userRole;
+
+    private String selectedDistrictName;
+    private String selectedAssemblyName;
+    private String selectedUnionName;
+    private String selectedPanchayatName;
+    private String selectedVillageName;
+
     private Button floatingActionButtonNext;
 //    private TextView homeToolbarTitle;
 
@@ -219,6 +226,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                 case 3: {
                     //set District load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -231,6 +239,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                 case 4: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -238,6 +247,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
@@ -250,6 +260,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                 case 5: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -257,12 +268,14 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
@@ -277,6 +290,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                 case 6: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -284,18 +298,21 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
                     unionResults.add(union);
 
                     selectedPanchayat = userDetails.getPanchayatId();
+                    selectedPanchayatName = userDetails.getPanchayatName();
                     Panchayath panchayath = new Panchayath();
                     panchayath.setPanchayatId(userDetails.getPanchayatId());
                     panchayath.setPanchayatName(userDetails.getPanchayatName());
@@ -311,6 +328,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                 case 7: {
                     //set istrict load others
                     selectedDistrict = userDetails.getDistrictId();
+                    selectedDistrictName = userDetails.getDistrictName();
                     District district = new District();
                     district.setDistrictId(userDetails.getDistrictId());
                     district.setDistrictName(userDetails.getDistrictName());
@@ -318,24 +336,28 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                     distrctResults.add(district);
 
                     selectedAssembly = userDetails.getAssemblyId();
+                    selectedAssemblyName = userDetails.getAssemblyName();
                     Assembly assembly = new Assembly();
                     assembly.setAssemblyId(userDetails.getAssemblyId());
                     assembly.setAssemblyName(userDetails.getAssemblyName());
                     assemblyResults.add(assembly);
 
                     selectedUnion = userDetails.getUnionId();
+                    selectedUnionName = userDetails.getUnionName();
                     Union union = new Union();
                     union.setUnionId(userDetails.getUnionId());
                     union.setUnionName(userDetails.getUnionName());
                     unionResults.add(union);
 
                     selectedPanchayat = userDetails.getPanchayatId();
+                    selectedPanchayatName = userDetails.getPanchayatName();
                     Panchayath panchayath = new Panchayath();
                     panchayath.setPanchayatId(userDetails.getPanchayatId());
                     panchayath.setPanchayatName(userDetails.getPanchayatName());
                     panchayatResults.add(panchayath);
 
                     selectedVillage = userDetails.getVillageId();
+                    selectedVillageName = userDetails.getVillageName();
                     Village village = new Village();
                     village.setVillageId(userDetails.getVillageId());
                     village.setVillageName(userDetails.getVillageName());
@@ -416,7 +438,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             initVillageSpinner(autoLoad);
 
         }
-        if(!autoLoad){
+        if (!autoLoad) {
             districtView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
         district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -424,6 +446,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, districtArrayAdapter.getItem(pos).getDistrictName() + "-" + districtArrayAdapter.getItem(pos).getDistrictId(), Toast.LENGTH_SHORT).show();
                 selectedDistrict = districtArrayAdapter.getItem(pos).getDistrictId();
+                selectedDistrictName = districtArrayAdapter.getItem(pos).getDistrictName();
                 districtSelected = true;
 
                 if (autoLoad) {
@@ -487,7 +510,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             assemblyView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -496,6 +519,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, assemblyArrayAdapter.getItem(pos).getAssemblyName() + "-" + assemblyArrayAdapter.getItem(pos).getAssemblyId(), Toast.LENGTH_SHORT).show();
                 selectedAssembly = assemblyArrayAdapter.getItem(pos).getAssemblyId();
+                selectedAssemblyName = assemblyArrayAdapter.getItem(pos).getAssemblyName();
                 assemblySelected = true;
 
                 if (autoLoad) {
@@ -563,7 +587,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             unionView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -572,6 +596,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, unionArrayAdapter.getItem(pos).getUnionId() + "-" + unionArrayAdapter.getItem(pos).getUnionName(), Toast.LENGTH_SHORT).show();
                 selectedUnion = unionArrayAdapter.getItem(pos).getUnionId();
+                selectedUnionName = unionArrayAdapter.getItem(pos).getUnionName();
                 unionSelected = true;
 
                 selectedPanchayat = 0;
@@ -634,7 +659,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
 
         }
 
-        if(!autoLoad){
+        if (!autoLoad) {
             panchayatView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -643,6 +668,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, panchayathArrayAdapter.getItem(pos).getPanchayatId() + "-" + panchayathArrayAdapter.getItem(pos).getPanchayatName(), Toast.LENGTH_SHORT).show();
                 selectedPanchayat = panchayathArrayAdapter.getItem(pos).getPanchayatId();
+                selectedPanchayatName = panchayathArrayAdapter.getItem(pos).getPanchayatName();
                 panchayathSelected = true;
 
                 if (autoLoad) {
@@ -695,7 +721,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         village.setAdapter(villageArrayAdapter);
         villageArrayAdapter.notifyDataSetChanged();
 
-        if(!autoLoad){
+        if (!autoLoad) {
             villageView.setBackgroundColor(getResources().getColor(R.color.labelColor));
         }
 
@@ -704,6 +730,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 //Toast.makeText(AddUserActivity.this, villageArrayAdapter.getItem(pos).getPanchayatId() + "-" + villageArrayAdapter.getItem(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                 selectedVillage = villageArrayAdapter.getItem(pos).getVillageId();
+                selectedVillageName = villageArrayAdapter.getItem(pos).getVillageName();
                 villageSelected = true;
             }
 
@@ -761,6 +788,12 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
         i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+
+        i.putExtra(Constants.SELECTED_DISTRICT_NAME, selectedDistrictName);
+        i.putExtra(Constants.SELECTED_ASSEMBLY_NAME, selectedAssemblyName);
+        i.putExtra(Constants.SELECTED_UNION_NAME, selectedUnionName);
+        i.putExtra(Constants.SELECTED_PANCHAYATH_NAME, selectedPanchayatName);
+        i.putExtra(Constants.SELECTED_VILLAGE_NAME, selectedVillageName);
         startActivity(i);
     }
 }

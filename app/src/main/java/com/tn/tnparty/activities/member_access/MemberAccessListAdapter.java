@@ -20,6 +20,7 @@ import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.utils.AppUtils;
 import com.tn.tnparty.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,6 +34,7 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
     private List<MemberList> memberList;
     private static OnItemClickListener onItemClickListener;
     private Context mContext;
+    private List<MemberList> filteredMemberList;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -131,4 +133,10 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
             });
         }
     }
+    public void setFilter(List<MemberList> countryModels) {
+        memberList = new ArrayList<>();
+        memberList.addAll(countryModels);
+        notifyDataSetChanged();
+    }
+
 }

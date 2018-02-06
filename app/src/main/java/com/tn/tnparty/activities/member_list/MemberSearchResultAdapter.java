@@ -15,6 +15,7 @@ import com.tn.tnparty.R;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +24,12 @@ import java.util.List;
 
 public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearchResultAdapter.MyViewHolder> {
 
-    private List<MemberList> moviesList;
+    private List<MemberList> memberList;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView memberName, fatherName, createdBy, status, address;
+        public TextView memberName, phone; //fatherName, createdBy, status, address;
         public ImageView userPhoto, barCode;
         private CardView memberCard;
 
@@ -36,19 +37,20 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
             super(view);
             memberCard = (CardView) view.findViewById(R.id.memberCard);
             memberName = (TextView) view.findViewById(R.id.memberName);
-            fatherName = (TextView) view.findViewById(R.id.fatherName);
             userPhoto = (ImageView) view.findViewById(R.id.userPhoto);
-            createdBy = (TextView) view.findViewById(R.id.createdBy);
-            status = (TextView) view.findViewById(R.id.status);
-            address =(TextView) view.findViewById(R.id.address);
+//            fatherName = (TextView) view.findViewById(R.id.fatherName);
+//            createdBy = (TextView) view.findViewById(R.id.createdBy);
+//            status = (TextView) view.findViewById(R.id.status);
+//            address =(TextView) view.findViewById(R.id.address);
             barCode = (ImageView) view.findViewById(R.id.barCode);
+            phone = view.findViewById(R.id.phone);
             memberCard.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             if(view == memberCard) {
-                onItemClickListener.onItemClick(moviesList.get(getAdapterPosition()));
+                onItemClickListener.onItemClick(memberList.get(getAdapterPosition()));
 //                ((MemberSearchResultActivity)mContext).navigateToMemberEdit();
             }
         }
@@ -56,7 +58,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
 
     public MemberSearchResultAdapter(Context mContext, List<MemberList> moviesList, OnItemClickListener onItemClickListener) {
-        this.moviesList = moviesList;
+        this.memberList = moviesList;
         this.mContext = mContext;
         this.onItemClickListener = onItemClickListener;
     }
@@ -71,10 +73,10 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MemberList memberDetail = moviesList.get(position);
+        MemberList memberDetail = memberList.get(position);
         if (memberDetail != null) {
             holder.memberName.setText( memberDetail.getName());
-            holder.fatherName.setText(memberDetail.getFatherName());
+//            holder.fatherName.setText(memberDetail.getFatherName());
 //            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
 
 //            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
@@ -88,22 +90,30 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
             Glide.with(mContext).load(AppUtils.getImgFrmBase64Once(barCodeImg)).into(holder.barCode);
 //            holder.barCode.setImageBitmap(AppUtils.getImgFrmBase64(barCodeImg));
 
-            holder.createdBy.setText(memberDetail.getCreatedByName()+"");
-            String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "";
-            holder.status.setText(live);
-            String addr = memberDetail.getAddress() != null && !memberDetail.getAddress().trim().equals("")? memberDetail.getAddress() : "";
-            holder.address.setText(addr);
+//            holder.createdBy.setText(memberDetail.getCreatedByName()+"");
+//            String live = memberDetail.getLive() != null && memberDetail.getLive().booleanValue()? "Live" : "";
+//            holder.status.setText(live);
+//            String addr = memberDetail.getAddress() != null && !memberDetail.getAddress().trim().equals("")? memberDetail.getAddress() : "";
+//            holder.address.setText(addr);
+
+            holder.phone.setText(String.valueOf(null == memberDetail.getPhoneNumber() ? "" : memberDetail.getPhoneNumber()));
         }
     }
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return memberList.size();
     }
 
     public interface OnItemClickListener{
 
         void onItemClick(MemberList selectedItem);
+    }
+
+    public void setFilter(List<MemberList> countryModels) {
+        memberList = new ArrayList<>();
+        memberList.addAll(countryModels);
+        notifyDataSetChanged();
     }
 
 
