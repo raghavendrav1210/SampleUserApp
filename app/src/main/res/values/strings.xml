@@ -53,6 +53,7 @@
     <string name="createUserDetails">Create User: Add Details</string>
     <string name="memberAccessLbl">Member Access</string>
     <string name="membersList">Members List</string>
+    <string name="changePassword">Change Password</string>
 
     <string name="updateUser">Update User</string>
     <string name="updateUserDetails">Update User: Update Details</string>
@@ -61,6 +62,7 @@
     <string name="memberAccess">Member Access</string>
     <string name="memberList">Member List</string>
     <string name="memberSearch">Member Search</string>
+    <string name="report">Report</string>
     <string name="memberLogout">Logout</string>
 
     <string name="phoneNumberLabel">Phone number</string>
@@ -76,4 +78,11 @@
     <string name="d_of"><font color='red'>D/o</font></string>
 
     <string name="action_search">Search</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="title_activity_report">ReportActivity</string>
+
+    <string name="villageName">Village Name:</string>
+    <string name="villageId">Village Id:</string>
+    <string name="memberCount">Member Count:</string>
+
 </resources>

@@ -19,9 +19,12 @@ public class Constants {
     public static final String PANCHAYATH = "/APIMaster/GetPanchayatListByIds";
     public static final String VILLAGE = "/APIMaster/GetVillageListIds";
     public static final String SEARCH_MEMBER = "/Member/SearchMemberByName";
+    public static final String SEARCH_MEMBER_BY_PHONE = "/Member/SearchMemberByPhoneNumber";
     public static final String SEARCH_DETAILS = "/Member/GetUserDetailsByUserId";
     public static final String MEMBER_LIST = "/Member/GetMemberList";
     public static final String MEMBER_DETAILS = "/Member/Member/{memberId}";
+    public static final String CHANGE_PASSWORD = "/Users/ChangePassword";
+    public static final String REPORT_VILLAGE_MEMBERS_COUNT = "/Member/GetUserCountByVillage";
 
 //    public static final String USERS = "Users/Users";
 
@@ -44,7 +47,7 @@ public class Constants {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.zzz";
     public static final String DOB_DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss";
-    public static final String DATE_READ_FORMAT = "dd-MMM-yyyy";
+    public static final String DATE_READ_FORMAT = "dd-MM-yyyy";
 
 
     public static final String CONTEXT_SELECTED_MEMBER = "CONTEXT_SELECTED_MEMBER";

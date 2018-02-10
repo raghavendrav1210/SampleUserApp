@@ -1,9 +1,10 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.user_search;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,9 +39,6 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.search_user));
-        }
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         retrofitInterface = ApiUtils.getAPIService();
@@ -50,9 +48,23 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
 
     private void initViews() {
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         memberName = (EditText) findViewById(R.id.memberName);
         searchMember = (Button) findViewById(R.id.searchMember);
         searchMember.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     @Override

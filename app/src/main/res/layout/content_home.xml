@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/com_adobe_image_color_light_gray2"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.tn.tnparty.activities.HomeActivity"
+    tools:context="com.tn.tnparty.activities.common.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
     <LinearLayout

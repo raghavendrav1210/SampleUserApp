@@ -1,11 +1,13 @@
 package com.tn.tnparty.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.MemberDetail;
 import com.tn.tnparty.utils.AppUtils;
@@ -22,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapter.MyViewHolder> {
 
     private List<MemberDetail> moviesList;
+    private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView memberName, fatherName, dob;
@@ -37,8 +40,9 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
     }
 
 
-    public MemberSearchAdapter(List<MemberDetail> moviesList) {
+    public MemberSearchAdapter(List<MemberDetail> moviesList, Context context) {
         this.moviesList = moviesList;
+        this.mContext = context;
     }
 
     @Override
@@ -58,7 +62,8 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
             String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
             holder.dob.setText("DOB: " + formatDate);
             String img = memberDetail.getImage() != null ? (String) memberDetail.getImage() : "";
-            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
+//            holder.userPhoto.setImageBitmap(AppUtils.getImgFrmBase64(img));
+            Glide.with(mContext).load(AppUtils.getImgFrmBase64(img)).into(holder.userPhoto);
         }
     }
 

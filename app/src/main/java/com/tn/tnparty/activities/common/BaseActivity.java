@@ -1,4 +1,4 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.common;
 
 import android.app.Activity;
 

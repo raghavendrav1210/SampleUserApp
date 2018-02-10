@@ -1,4 +1,4 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.common;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Login;
 import com.tn.tnparty.model.LoginResult;

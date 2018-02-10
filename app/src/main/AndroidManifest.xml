@@ -19,12 +19,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.common.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme">
@@ -35,18 +36,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddUserActivity"
+            android:name=".activities.add_user.AddUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AdduserDetails"
+            android:name=".activities.add_user.AdduserDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.common.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.UserSearchActivity"
+            android:name=".activities.user_search.UserSearchActivity"
             android:screenOrientation="portrait" />
 
         <provider
@@ -59,7 +60,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activities.UserSearchResults" />
+        <activity android:name=".activities.user_search.UserSearchResults" />
         <activity
             android:name=".activities.member_access.MemberAccessForm"
             android:label="@string/title_activity_member_access_form" />
@@ -67,11 +68,24 @@
             android:name=".activities.member_access.MemberAccessList"
             android:label="@string/title_activity_member_access_list" />
         <activity android:name=".activities.member_list.MemberListSearchForm" />
-        <activity android:name=".activities.member_list.MemberSearchResultActivity"></activity>
+        <activity android:name=".activities.member_list.MemberSearchResultActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".activities.common.ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.report.ReportActivity"
+            android:label="@string/title_activity_report"
+            android:theme="@style/AppTheme"></activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a10fb4ee9715c95b6c0ee2cc4d94a9b9de2ab9ac" />
     </application>
 
 </manifest>

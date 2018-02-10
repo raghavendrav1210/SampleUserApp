@@ -1,4 +1,4 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.add_user;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adobe.creativesdk.aviary.AdobeImageIntent;
+import com.bumptech.glide.Glide;
 import com.tn.tnparty.R;
 import com.tn.tnparty.model.Member;
 import com.tn.tnparty.model.MemberList;
@@ -199,7 +200,7 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             setValuesEditScenario();
     }
 
-    private void disableAllInDetailsMode(){
+    private void disableAllInDetailsMode() {
         userPhoto.setEnabled(false);
         dobIcon.setEnabled(false);
         userName.setEnabled(false);
@@ -239,11 +240,12 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             phone.setText(phon);
 
             String img = selectedItemToEdit.getImageByte() != null ? (String) selectedItemToEdit.getImageByte() : "";
-            Bitmap photo = AppUtils.getImgFrmBase64(img);
-            if (photo != null)
-                imgSelectedInEdit = true;
-
-            userPhoto.setImageBitmap(photo);
+//            Bitmap photo = AppUtils.getImgFrmBase64(img);
+//            if (photo != null)
+//                imgSelectedInEdit = true;
+//
+//            userPhoto.setImageBitmap(photo);
+            Glide.with(this).load(AppUtils.getImgFrmBase64(img)).into(userPhoto);
         }
 
         disableAllInDetailsMode();
@@ -383,8 +385,8 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             day = selectedDay;
 
             // Show selected date
-            dob.setText(new StringBuilder().append(month + 1)
-                    .append("-").append(day).append("-").append(year)
+            dob.setText(new StringBuilder().append(day)
+                    .append("-").append(month + 1).append("-").append(year)
                     .append(" "));
 
         }
@@ -398,10 +400,10 @@ public class AdduserDetails extends AppCompatActivity implements View.OnClickLis
             if (bitmap != null) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-                String encode1 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
                 //server expecting 2 times base64
-                return Base64.encodeToString(encode1.getBytes(), Base64.DEFAULT);
+//                return Base64.encodeToString(encode1.getBytes(), Base64.DEFAULT);
             }
         } else if (editMember) {
             if (selectedItemToEdit != null) {

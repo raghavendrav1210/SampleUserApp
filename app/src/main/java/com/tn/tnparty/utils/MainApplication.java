@@ -1,11 +1,12 @@
 package com.tn.tnparty.utils;
 
 import android.app.Application;
-import android.support.multidex.MultiDexApplication;
 
 import com.adobe.creativesdk.aviary.IAviaryClientCredentials;
 import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
-import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by raghav on 12/16/2017.
@@ -22,6 +23,7 @@ public class MainApplication extends  Application implements IAviaryClientCreden
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
     }
 

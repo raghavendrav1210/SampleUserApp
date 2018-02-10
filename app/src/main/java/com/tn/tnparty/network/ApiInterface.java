@@ -10,6 +10,7 @@ import com.tn.tnparty.model.MemberDetail;
 import com.tn.tnparty.model.MemberDetailResult;
 import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.model.PanchayathResult;
+import com.tn.tnparty.model.ReportVillageMembers;
 import com.tn.tnparty.model.UnionResult;
 import com.tn.tnparty.model.UserDetailsResult;
 import com.tn.tnparty.model.VillageResult;
@@ -54,6 +55,9 @@ public interface ApiInterface {
     @GET(Constants.SEARCH_MEMBER)
     Call<MemberDetailResult> searchMembers(@Query("name") String memberName, @Query("UserId") long userId);
 
+    @GET(Constants.SEARCH_MEMBER_BY_PHONE)
+    Call<MemberDetailResult> searchMembersByPhoneNumber(@Query("phoneNumber") String memberName, @Query("UserId") long userId);
+
     @POST(Constants.SEARCH_DETAILS)
     Call<UserDetailsResult> searchUserDetails(@Query("UserId") long userId);
 
@@ -66,4 +70,10 @@ public interface ApiInterface {
 
     @POST(Constants.MEMBER_ACCESS_ROLE)
     Call<MemberAccessRoleUpdate> updateMemberRole(@Body MemberAccessRoleUpdate member);
+
+    @POST(Constants.CHANGE_PASSWORD)
+    Call<Object> changePassword(@Query("UserId") long userId, @Query("OldPassword") String oldPassword, @Query("NewPassword") String newPassword);
+
+    @GET(Constants.REPORT_VILLAGE_MEMBERS_COUNT)
+    Call<ReportVillageMembers> reportVillageMembers(@Query("UserId") long userId);
 }

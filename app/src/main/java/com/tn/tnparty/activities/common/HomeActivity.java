@@ -1,4 +1,4 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.common;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,17 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tn.tnparty.R;
+import com.tn.tnparty.activities.add_user.AddUserActivity;
 import com.tn.tnparty.activities.member_access.MemberAccessForm;
 import com.tn.tnparty.activities.member_list.MemberListSearchForm;
+import com.tn.tnparty.activities.report.ReportActivity;
+import com.tn.tnparty.activities.user_search.UserSearchActivity;
 import com.tn.tnparty.model.Assembly;
 import com.tn.tnparty.model.District;
 import com.tn.tnparty.model.Panchayath;
 import com.tn.tnparty.model.Union;
 import com.tn.tnparty.model.UserDetails;
-import com.tn.tnparty.model.UserDetailsResult;
 import com.tn.tnparty.model.Village;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.utils.AppUtils;
@@ -35,10 +36,6 @@ import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -107,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Menu menu =navigationView.getMenu();
+        Menu menu = navigationView.getMenu();
 
         MenuItem memberAccess = menu.findItem(R.id.memberAccess);
         memberAccess.setVisible(userRole < 7);//It should visible only who have level as union admin above
@@ -244,6 +241,14 @@ public class HomeActivity extends AppCompatActivity
             case R.id.memberSearch:
                 navigateToSearchUser();
                 break;
+
+            case R.id.report:
+                navigateToReport();
+                break;
+
+            case R.id.changePassword:
+                navigateToChangePassword();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -324,6 +329,20 @@ public class HomeActivity extends AppCompatActivity
         }
 
         Intent i = new Intent(this, UserSearchActivity.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        startActivity(i);
+    }
+
+    private void navigateToChangePassword() {
+        Intent i = new Intent(this, ChangePasswordActivity.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        startActivity(i);
+    }
+
+    private void navigateToReport() {
+        Intent i = new Intent(this, ReportActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
         startActivity(i);

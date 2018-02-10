@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tn.tnparty.R;
 import com.tn.tnparty.custom.FontAwesomeTextView;
 import com.tn.tnparty.model.MemberList;
@@ -83,13 +84,15 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
 //            holder.status.setText(memberDetail.getLive()? "Live": "");
 
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
-            Bitmap bitMap = AppUtils.getImgFrmBase64(img);
+            Glide.with(mContext).load(AppUtils.getImgFrmBase64(img)).into(holder.userPhoto);
+//            Bitmap bitMap = AppUtils.getImgFrmBase64(img);
+//
+//            if (null != bitMap) {
+//                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(mContext.getResources(), bitMap);
+//                roundedBitmapDrawable.setCornerRadius(4f);
+//                holder.userPhoto.setImageDrawable(roundedBitmapDrawable);
+//            }
 
-            if (null != bitMap) {
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(mContext.getResources(), bitMap);
-                roundedBitmapDrawable.setCornerRadius(4f);
-                holder.userPhoto.setImageDrawable(roundedBitmapDrawable);
-            }
         }
     }
 

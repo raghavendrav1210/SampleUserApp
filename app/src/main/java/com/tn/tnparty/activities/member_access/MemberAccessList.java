@@ -89,8 +89,10 @@ public class MemberAccessList extends AppCompatActivity {
         }
 
         TextView memberListHeader = findViewById(R.id.memberListHeader);
-        String input = "D: " + selectedDistrictName + " - A: " + selectedAssemblyName + " - \nU: " + selectedUnionName + " - P: " + selectedPanchayatName + " - \nV: " + selectedVillageName;
-        memberListHeader.setText(input);
+        TextView memberListHeader1 = findViewById(R.id.memberListHeader1);
+
+        memberListHeader.setText(selectedUnionName);
+        memberListHeader1.setText(selectedVillageName);
         /*homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
 
         homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));*/
@@ -172,10 +174,10 @@ public class MemberAccessList extends AppCompatActivity {
     public static void selectSpinnerItemByValue(Spinner spnr, int value) {
         ArrayAdapter adapter = (ArrayAdapter) spnr.getAdapter();
         for (int position = 0; position < adapter.getCount(); position++) {
-            if(adapter.getItem(position) != null) {
+            if (adapter.getItem(position) != null) {
                 Role role = (Role) adapter.getItem(position);
                 String roleId = role.getRoleId();
-                if(roleId !=null && Integer.parseInt(roleId) == value) {
+                if (roleId != null && Integer.parseInt(roleId) == value) {
                     spnr.setSelection(position);
                     return;
                 }
@@ -245,7 +247,7 @@ public class MemberAccessList extends AppCompatActivity {
         private boolean success = false;
         private MemberAccessResponse memberAccessResponse;
 
-        public CreateMemberAsyntask(MemberAccessResponse memberAccessResponse){
+        public CreateMemberAsyntask(MemberAccessResponse memberAccessResponse) {
             this.memberAccessResponse = memberAccessResponse;
         }
 

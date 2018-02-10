@@ -30,6 +30,9 @@ import java.util.Date;
 
 public class AppUtils {
 
+    final static int IMG_WIDTH = 400;
+    final static int IMG_HEIGHT = 400;
+
     public static String getFormattedDate(Date date, String format) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
@@ -151,24 +154,53 @@ public class AppUtils {
         }
     }
 
-    public static Bitmap getImgFrmBase64(String base64) {
+    public static byte[] getImgFrmBase64(String base64) {
 
-        if (base64 != null && !base64.trim().equals("")) {
-            byte[] finalDecodedString = Base64.decode(new String(Base64.decode(base64, Base64.DEFAULT)), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
-            return decodedByte;
+        try {
+            if (base64 != null && !base64.trim().equals("")) {
+                return Base64.decode(resizeBase64Image(base64), Base64.DEFAULT);
+//                return Base64.decode(resizeBase64Image(new String(Base64.decode(base64, Base64.DEFAULT))), Base64.DEFAULT);
+//                Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
+//                return decodedByte;D
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static Bitmap getImgFrmBase64Once(String base64) {
+    public static byte[] getImgFrmBase64Once(String base64) {
 
-        if (base64 != null && !base64.trim().equals("")) {
-            byte[] finalDecodedString = Base64.decode(base64, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
-            return decodedByte;
+        try {
+            if (base64 != null && !base64.trim().equals("")) {
+//                byte[] finalDecodedString = Base64.decode(base64, Base64.DEFAULT);
+//                Bitmap decodedByte = BitmapFactory.decodeByteArray(finalDecodedString, 0, finalDecodedString.length);
+                return Base64.decode(resizeBase64Image(base64), Base64.DEFAULT);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
+    }
+
+    public static String resizeBase64Image(String base64image) {
+        byte[] encodeByte = Base64.decode(base64image.getBytes(), Base64.DEFAULT);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        Bitmap image = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length, options);
+
+
+        if (image.getHeight() <= 400 && image.getWidth() <= 400) {
+            return base64image;
+        }
+        image = Bitmap.createScaledBitmap(image, IMG_WIDTH, IMG_HEIGHT, false);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+        byte[] b = baos.toByteArray();
+        System.gc();
+        return Base64.encodeToString(b, Base64.NO_WRAP);
     }
 
     public static String getRoleDesc(int userRole) {

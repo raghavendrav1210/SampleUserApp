@@ -49,7 +49,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
         @Override
         public void onClick(View view) {
-            if(view == memberCard) {
+            if (view == memberCard) {
                 onItemClickListener.onItemClick(memberList.get(getAdapterPosition()));
 //                ((MemberSearchResultActivity)mContext).navigateToMemberEdit();
             }
@@ -75,15 +75,16 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MemberList memberDetail = memberList.get(position);
         if (memberDetail != null) {
-            holder.memberName.setText( memberDetail.getName());
+            holder.memberName.setText(memberDetail.getName());
 //            holder.fatherName.setText(memberDetail.getFatherName());
 //            String formatDate = AppUtils.getFormattedDateString(memberDetail.getDob(), Constants.DOB_DATE_FORMAT, Constants.DATE_READ_FORMAT);
 
 //            holder.userRole.setText(AppUtils.getRoleDesc(memberDetail.getRoleId() != null ? memberDetail.getRoleId(): 0));
             String img = memberDetail.getImageByte() != null ? (String) memberDetail.getImageByte() : "";
-            Bitmap userImg = AppUtils.getImgFrmBase64(img);
-            if(null != userImg)
-                Glide.with(mContext).load(userImg).into(holder.userPhoto);
+            Glide.with(mContext).load(AppUtils.getImgFrmBase64(img)).into(holder.userPhoto);
+//            Bitmap userImg = AppUtils.getImgFrmBase64(img);
+//            if (null != userImg)
+//                Glide.with(mContext).load(userImg).into(holder.userPhoto);
 //                holder.userPhoto.setImageBitmap(userImg);
 
             String barCodeImg = memberDetail.getBarCode() != null ? (String) memberDetail.getBarCode() : "";
@@ -105,7 +106,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
         return memberList.size();
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
 
         void onItemClick(MemberList selectedItem);
     }

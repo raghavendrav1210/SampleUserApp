@@ -8,7 +8,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tn.tnparty.R;
-import com.tn.tnparty.activities.AddUserActivity;
+import com.tn.tnparty.activities.add_user.AddUserActivity;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.network.ApiInterface;
@@ -60,7 +59,7 @@ public class MemberSearchResultActivity extends AppCompatActivity implements Sea
     private ApiInterface retrofitInterface;
     private ProgressDialog pDialog = null;
     private TextView homeToolbarTitle;
-    private TextView memberListHeader;
+    private TextView memberListHeader, memberListHeader1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +102,10 @@ public class MemberSearchResultActivity extends AppCompatActivity implements Sea
         homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
         memberListHeader = findViewById(R.id.memberListHeader);
+        memberListHeader1 = findViewById(R.id.memberListHeader1);
 
-        String input = "D: " + selectedDistrictName + " - A: " + selectedAssemblyName + " - \nU: " + selectedUnionName + " - P: " + selectedPanchayatName + " - \nV: " + selectedVillageName;
-        memberListHeader.setText(input);
+        memberListHeader.setText(selectedUnionName);
+        memberListHeader1.setText(selectedVillageName);
 //        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " - Logged in as " + AppUtils.getRoleDesc(userRole));
 
         if (!AppUtils.checkNetworkConnectivity(this)) {

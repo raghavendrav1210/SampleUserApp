@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tn.tnparty.activities.AdduserDetails">
+    tools:context="com.tn.tnparty.activities.add_user.AdduserDetails">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.tn.tnparty.activities.AdduserDetails">
+        tools:context="com.tn.tnparty.activities.add_user.AdduserDetails">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

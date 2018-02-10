@@ -1,4 +1,4 @@
-package com.tn.tnparty.activities;
+package com.tn.tnparty.activities.user_search;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class UserSearchResults extends AppCompatActivity {
 
         membersList = UserSearchActivity.membersList;
         searchResultsView = (RecyclerView) findViewById(R.id.membersListView);
-        memberSearchAdapter = new MemberSearchAdapter(membersList);
+        memberSearchAdapter = new MemberSearchAdapter(membersList,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         searchResultsView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         searchResultsView.setLayoutManager(mLayoutManager);
