@@ -1,12 +1,8 @@
 package com.tn.tnparty.activities.member_access;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +15,9 @@ import com.tn.tnparty.R;
 import com.tn.tnparty.custom.FontAwesomeTextView;
 import com.tn.tnparty.model.MemberList;
 import com.tn.tnparty.utils.AppUtils;
-import com.tn.tnparty.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by PH052323 on 1/14/2018.
@@ -112,7 +105,7 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
 
         public MyViewHolder(View view) {
             super(view);
-            memberName = (TextView) view.findViewById(R.id.memberName);
+            memberName = (TextView) view.findViewById(R.id.phoneNumber);
 //            memberCode = (TextView) view.findViewById(R.id.memberCode);
             phone = (TextView) view.findViewById(R.id.phone);
             gender = (FontAwesomeTextView) view.findViewById(R.id.gender);

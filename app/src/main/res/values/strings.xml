@@ -85,4 +85,9 @@
     <string name="villageId">Village Id:</string>
     <string name="memberCount">Member Count:</string>
 
+    <!--Dialog titles-->
+    <string name="okayTitle">Message</string>
+    <string name="okayButtonText">Ok</string>
+    <string name="cancelButtonText">Cancel</string>
+
 </resources>

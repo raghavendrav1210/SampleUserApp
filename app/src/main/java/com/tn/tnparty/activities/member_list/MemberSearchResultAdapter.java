@@ -1,7 +1,6 @@
 package com.tn.tnparty.activities.member_list;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
         public MyViewHolder(View view) {
             super(view);
             memberCard = (CardView) view.findViewById(R.id.memberCard);
-            memberName = (TextView) view.findViewById(R.id.memberName);
+            memberName = (TextView) view.findViewById(R.id.phoneNumber);
             userPhoto = (ImageView) view.findViewById(R.id.userPhoto);
 //            fatherName = (TextView) view.findViewById(R.id.fatherName);
 //            createdBy = (TextView) view.findViewById(R.id.createdBy);

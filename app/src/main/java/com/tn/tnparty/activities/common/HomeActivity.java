@@ -331,6 +331,7 @@ public class HomeActivity extends AppCompatActivity
         Intent i = new Intent(this, UserSearchActivity.class);
         i.putExtra(Constants.CURRENT_USER, userName);
         i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
         startActivity(i);
     }
 

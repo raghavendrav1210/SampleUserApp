@@ -56,7 +56,7 @@ public interface ApiInterface {
     Call<MemberDetailResult> searchMembers(@Query("name") String memberName, @Query("UserId") long userId);
 
     @GET(Constants.SEARCH_MEMBER_BY_PHONE)
-    Call<MemberDetailResult> searchMembersByPhoneNumber(@Query("phoneNumber") String memberName, @Query("UserId") long userId);
+    Call<MemberListResult> searchMembersByPhone(@Query("PhoneNumber") long phoneNumber, @Query("UserId") long userId);
 
     @POST(Constants.SEARCH_DETAILS)
     Call<UserDetailsResult> searchUserDetails(@Query("UserId") long userId);

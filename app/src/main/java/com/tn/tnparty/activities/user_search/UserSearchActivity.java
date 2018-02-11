@@ -11,10 +11,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tn.tnparty.R;
+import com.tn.tnparty.activities.member_access.MemberAccessList;
 import com.tn.tnparty.model.MemberDetail;
-import com.tn.tnparty.model.MemberDetailResult;
+import com.tn.tnparty.model.MemberList;
+import com.tn.tnparty.model.MemberListResult;
 import com.tn.tnparty.network.ApiInterface;
 import com.tn.tnparty.network.ApiUtils;
+import com.tn.tnparty.utils.AppContext;
 import com.tn.tnparty.utils.Constants;
 
 import java.util.List;
@@ -25,10 +28,11 @@ import retrofit2.Response;
 
 public class UserSearchActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText memberName;
+    private EditText phoneNumber;
     private Button searchMember;
     private long userId;
     private String userName;
+    private int userRole;
     private ApiInterface retrofitInterface;
 
     public static List<MemberDetail> membersList = null;
@@ -41,6 +45,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
+        userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
         retrofitInterface = ApiUtils.getAPIService();
 
         initViews();
@@ -56,7 +61,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        memberName = (EditText) findViewById(R.id.memberName);
+        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
         searchMember = (Button) findViewById(R.id.searchMember);
         searchMember.setOnClickListener(this);
     }
@@ -71,43 +76,42 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
 
         if (view == searchMember) {
-            if (memberName.getText() != null && !memberName.getText().toString().trim().equals("")) {
-                memberName.setError(null);
-                searchMember();
-            } else
-                memberName.setError("Please provide member name to search");
+            if (phoneNumber.getText() == null || phoneNumber.getText().toString().trim().equals("")) {
+                phoneNumber.setError(null);
+                phoneNumber.setError("Please provide member name to search");
+            } else {
+                searchMember(Long.parseLong(phoneNumber.getText().toString()));
+            }
         }
-
     }
 
-    private void searchMember() {
+    private void searchMember(long phoneNumber) {
         showProgresDialog();
 
-        retrofitInterface.searchMembers(memberName.getText().toString(), userId).enqueue(new Callback<MemberDetailResult>() {
+        retrofitInterface.searchMembersByPhone(phoneNumber, userId).enqueue(new Callback<MemberListResult>() {
             @Override
-            public void onResponse(Call<MemberDetailResult> call, Response<MemberDetailResult> response) {
-
-                if (response.isSuccessful())
-                    membersList = response.body().getMembersList();
-
+            public void onResponse(Call<MemberListResult> call, Response<MemberListResult> response) {
                 hideProgresDialog();
-
-                if (membersList != null && !membersList.isEmpty()) {
-                    navigateToUserSearchResults();
-                } else {
-                    Toast.makeText(UserSearchActivity.this, "No members found for search criteria", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<MemberList> membersList = response.body().getMemberList();
+                        if (null != membersList && !membersList.isEmpty()) {
+                            AppContext.getInstance().add(Constants.MEMBER_ACCESS_LIST, membersList);
+                            navigateToMemberAccessList();
+                        } else
+                            Toast.makeText(UserSearchActivity.this, "No user list available at this movement, please try after sometime.", Toast.LENGTH_LONG).show();
+                    }
                 }
-
-
             }
 
             @Override
-            public void onFailure(Call<MemberDetailResult> call, Throwable t) {
+            public void onFailure(Call<MemberListResult> call, Throwable t) {
                 hideProgresDialog();
                 Toast.makeText(UserSearchActivity.this, "Failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void navigateToUserSearchResults() {
         hideProgresDialog();
@@ -129,10 +133,20 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
             pDialog.show();
     }
 
+
     private void hideProgresDialog() {
         if (pDialog != null && pDialog.isShowing()) {
             pDialog.dismiss();
             pDialog = null;
         }
     }
+
+    private void navigateToMemberAccessList() {
+        Intent i = new Intent(this, MemberAccessList.class);
+        i.putExtra(Constants.CURRENT_USER, userName);
+        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+        startActivity(i);
+    }
+
 }

@@ -32,7 +32,7 @@ public class MemberSearchAdapter extends RecyclerView.Adapter<MemberSearchAdapte
 
         public MyViewHolder(View view) {
             super(view);
-            memberName = (TextView) view.findViewById(R.id.memberName);
+            memberName = (TextView) view.findViewById(R.id.phoneNumber);
             fatherName = (TextView) view.findViewById(R.id.fatherName);
             userPhoto = (CircleImageView) view.findViewById(R.id.userPhoto);
             dob = (TextView) view.findViewById(R.id.dob);
