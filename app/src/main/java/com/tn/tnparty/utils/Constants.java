@@ -60,6 +60,7 @@ public class Constants {
 //    public static int ROLE_PANCHAYATH = 0;
 //    public static int ROLE_VILLAGE = 0;
 
+    public static final String NAVIGATED_FRM_USER_SEARCH = "NAVIGATED_FRM_USER_SEARCH";
 
 
 }

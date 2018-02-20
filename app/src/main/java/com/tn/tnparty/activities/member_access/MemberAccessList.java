@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +59,8 @@ public class MemberAccessList extends AppCompatActivity {
     private String selectedPanchayatName;
     private String selectedVillageName;
 
+    private String fromUserSearch = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +68,13 @@ public class MemberAccessList extends AppCompatActivity {
 
         userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
+        fromUserSearch = getIntent().getStringExtra(Constants.NAVIGATED_FRM_USER_SEARCH);
 
         selectedDistrictName = getIntent().getStringExtra(Constants.SELECTED_DISTRICT_NAME);
         selectedAssemblyName = getIntent().getStringExtra(Constants.SELECTED_ASSEMBLY_NAME);
         selectedUnionName = getIntent().getStringExtra(Constants.SELECTED_UNION_NAME);
         selectedPanchayatName = getIntent().getStringExtra(Constants.SELECTED_PANCHAYATH_NAME);
         selectedVillageName = getIntent().getStringExtra(Constants.SELECTED_VILLAGE_NAME);
-
 
         initViews();
 
@@ -88,11 +92,18 @@ public class MemberAccessList extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        TextView memberListHeader = findViewById(R.id.memberListHeader);
-        TextView memberListHeader1 = findViewById(R.id.memberListHeader1);
+        //If from user search don't show this header
 
-        memberListHeader.setText(selectedUnionName);
-        memberListHeader1.setText(selectedVillageName);
+        CardView memberListHeadCard = findViewById(R.id.memberListHeadCard);
+        if(null != fromUserSearch && !fromUserSearch.trim().equals("")) {
+            memberListHeadCard.setVisibility(View.GONE);
+        } else {
+            memberListHeadCard.setVisibility(View.VISIBLE);
+            TextView memberListHeader = findViewById(R.id.memberListHeader);
+            String input = selectedDistrictName + " | " + selectedAssemblyName + " |\n" + selectedUnionName + " | " + selectedPanchayatName + " |\n" + selectedVillageName;
+            memberListHeader.setText(input);
+        }
+
         /*homeToolbarTitle = (TextView) findViewById(R.id.homeToolbarTitle);
 
         homeToolbarTitle.setText(getResources().getString(R.string.membersList) + " - Logged in as " + AppUtils.getRoleDesc(userRole));*/

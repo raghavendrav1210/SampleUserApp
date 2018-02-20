@@ -104,6 +104,8 @@ public class MemberSearchResultActivity extends AppCompatActivity implements Sea
         memberListHeader = findViewById(R.id.memberListHeader);
         memberListHeader1 = findViewById(R.id.memberListHeader1);
 
+        String input = selectedDistrictName + " | " + selectedAssemblyName + " |\n" + selectedUnionName + " | " + selectedPanchayatName + " |\n" + selectedVillageName;
+        memberListHeader.setText(input);
         memberListHeader.setText(selectedUnionName);
         memberListHeader1.setText(selectedVillageName);
 //        homeToolbarTitle.setText(getResources().getString(R.string.select_user) + " - Logged in as " + AppUtils.getRoleDesc(userRole));

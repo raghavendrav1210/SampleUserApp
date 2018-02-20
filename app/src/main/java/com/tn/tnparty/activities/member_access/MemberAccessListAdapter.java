@@ -57,16 +57,17 @@ public class MemberAccessListAdapter extends RecyclerView.Adapter<MemberAccessLi
             String memberName = memberDetail.getName();
             String fatherName = memberDetail.getFatherName();
 
-            /*if(null != gender) {
-                holder.gender.setText(gender.toUpperCase().charAt(0));
-
-                if (gender.equalsIgnoreCase("Male")) {
-                    memberName = memberName + " S/o " + fatherName;
-                } else
-                    memberName = memberName + " D/o " + fatherName;
-            }*/
-
             holder.memberName.setText(memberName);
+
+            holder.gender.setText(mContext.getString(R.string.fa_male));
+            if(null != gender) {
+                if (gender.equalsIgnoreCase("Male")) {
+                    holder.gender.setText(mContext.getString(R.string.fa_male));
+                } else
+                    holder.gender.setText(mContext.getString(R.string.fa_female));
+            }
+
+
 //            String text = "<font color=#cc0029>S/o</font>";
 //            holder.memberName.setText(Html.fromHtml(memberName + " " + text + " " + fatherName));
 //            holder.fatherName.setText(memberDetail.getFatherName());

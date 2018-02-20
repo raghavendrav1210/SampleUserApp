@@ -47,9 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:contentPadding="8dp"
+            android:visibility="gone"
             android:layout_below="@+id/toolbarLayout">
 
             <LinearLayout
+                android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

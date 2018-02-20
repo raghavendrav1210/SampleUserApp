@@ -30,7 +30,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
 
     private EditText phoneNumber;
     private Button searchMember;
-    private long userId;
+    private long userIdVal;
     private String userName;
     private int userRole;
     private ApiInterface retrofitInterface;
@@ -43,7 +43,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
 
-        userId = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
+        userIdVal = getIntent().getIntExtra(Constants.CURRENT_USER_ID, 0);
         userName = getIntent().getStringExtra(Constants.CURRENT_USER);
         userRole = getIntent().getIntExtra(Constants.CURRENT_USER_ROLEID, 0);
         retrofitInterface = ApiUtils.getAPIService();
@@ -88,7 +88,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     private void searchMember(long phoneNumber) {
         showProgresDialog();
 
-        retrofitInterface.searchMembersByPhone(phoneNumber, userId).enqueue(new Callback<MemberListResult>() {
+        retrofitInterface.searchMembersByPhone(phoneNumber, userIdVal).enqueue(new Callback<MemberListResult>() {
             @Override
             public void onResponse(Call<MemberListResult> call, Response<MemberListResult> response) {
                 hideProgresDialog();
@@ -144,8 +144,9 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     private void navigateToMemberAccessList() {
         Intent i = new Intent(this, MemberAccessList.class);
         i.putExtra(Constants.CURRENT_USER, userName);
-        i.putExtra(Constants.CURRENT_USER_ID, userId);
+        i.putExtra(Constants.CURRENT_USER_ID, (int) userIdVal);
         i.putExtra(Constants.CURRENT_USER_ROLEID, userRole);
+        i.putExtra(Constants.NAVIGATED_FRM_USER_SEARCH, Constants.NAVIGATED_FRM_USER_SEARCH);
         startActivity(i);
     }
 

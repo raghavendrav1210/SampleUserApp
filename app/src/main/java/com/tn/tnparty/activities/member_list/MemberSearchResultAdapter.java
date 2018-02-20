@@ -28,7 +28,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
     private OnItemClickListener onItemClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView memberName, phone; //fatherName, createdBy, status, address;
+        public TextView memberName, phone, gender; //fatherName, createdBy, status, address;
         public ImageView userPhoto, barCode;
         private CardView memberCard;
 
@@ -37,6 +37,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
             memberCard = (CardView) view.findViewById(R.id.memberCard);
             memberName = (TextView) view.findViewById(R.id.phoneNumber);
             userPhoto = (ImageView) view.findViewById(R.id.userPhoto);
+            gender = (TextView) view.findViewById(R.id.gender);
 //            fatherName = (TextView) view.findViewById(R.id.fatherName);
 //            createdBy = (TextView) view.findViewById(R.id.createdBy);
 //            status = (TextView) view.findViewById(R.id.status);
@@ -48,7 +49,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
 
         @Override
         public void onClick(View view) {
-            if (view == memberCard) {
+            if(view == memberCard) {
                 onItemClickListener.onItemClick(memberList.get(getAdapterPosition()));
 //                ((MemberSearchResultActivity)mContext).navigateToMemberEdit();
             }
@@ -105,7 +106,7 @@ public class MemberSearchResultAdapter extends RecyclerView.Adapter<MemberSearch
         return memberList.size();
     }
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener{
 
         void onItemClick(MemberList selectedItem);
     }
