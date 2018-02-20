@@ -99,7 +99,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
                             AppContext.getInstance().add(Constants.MEMBER_ACCESS_LIST, membersList);
                             navigateToMemberAccessList();
                         } else
-                            Toast.makeText(UserSearchActivity.this, "No user list available at this movement, please try after sometime.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(UserSearchActivity.this, "No user list available. Please try with different search criteria", Toast.LENGTH_LONG).show();
                     }
                 }
             }

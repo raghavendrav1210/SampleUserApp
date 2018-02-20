@@ -770,7 +770,7 @@ public class MemberAccessForm extends AppCompatActivity implements View.OnClickL
                             AppContext.getInstance().add(Constants.MEMBER_ACCESS_LIST, membersList);
                             navigateToMemberAccessList();
                         } else
-                            Toast.makeText(MemberAccessForm.this, "No user list available at this movement, please try after sometime.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MemberAccessForm.this, "No user list available at this moment, please try after sometime.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
